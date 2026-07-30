@@ -406,22 +406,18 @@ function parseData() {
 
     lines.forEach(l => {
         let trimmed = l.trim();
-        if (!trimmed || trimmed.toLowerCase().includes("range") || trimmed.toLowerCase().includes("lamix")) return;
+        if (!trimmed) return;
 
-        let cols = trimmed.split(/\t+|\s{2,}/);
-        let targetNumber = "";
-        let countryName = detectCountry(l);
+        // দেশের নাম চিহ্নিত করা
+        let countryName = detectCountry(trimmed);
 
-        if (cols.length >= 3) {
-            targetNumber = cols[2].replace(/\s+/g, '');
-        } else {
-            let matches = trimmed.match(/\d+/g);
-            if (matches) {
-                targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
-            }
-        }
+        // লাইনের মধ্যে থাকা যেকোনো ৮ থেকে ১৫ ডিজিটের নাম্বার ডিরেক্ট খুঁজে বের করা
+        let matches = trimmed.match(/\d{8,15}/g);
+        
+        if (matches && matches.length > 0) {
+            // যদি একাধিক নাম্বার টাইপের ডিজিট থাকে, সবচেয়ে বড় সাইজের সিকোয়েন্সটি ফোন নাম্বার হিসেবে নিবে
+            let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
 
-        if (targetNumber && targetNumber.length >= 8) {
             items.push({
                 number: targetNumber,
                 country: countryName,

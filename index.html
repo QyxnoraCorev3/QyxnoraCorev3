@@ -12,10 +12,7 @@
     --sidebar-bg: #090c15;
     --card-bg: #0f1422;
     --card-border: #1a233a;
-    --card-hover: #161e31;
     --accent-purple: #7C3AED;
-    --accent-purple-glow: rgba(124, 58, 237, 0.4);
-    --accent-blue: #2563EB;
     --accent-cyan: #0284C7;
     --accent-emerald: #059669;
     --accent-rose: #E11D48;
@@ -38,7 +35,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Toast System */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -65,7 +61,6 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
     width: 250px;
     background: var(--sidebar-bg);
@@ -119,26 +114,13 @@ body {
     transition: 0.15s;
     text-decoration: none;
 }
-.nav-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-    color: #fff;
-}
+.nav-item:hover { background: rgba(255, 255, 255, 0.04); color: #fff; }
 .nav-item.active {
     background: linear-gradient(90deg, rgba(124, 58, 237, 0.25), rgba(124, 58, 237, 0.05));
     border: 1px solid rgba(124, 58, 237, 0.4);
     color: #fff;
 }
 
-.upgrade-box {
-    margin-top: auto;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(37, 99, 235, 0.08));
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-}
-
-/* Main Content Area */
 .main-content {
     flex: 1;
     display: flex;
@@ -147,7 +129,6 @@ body {
     overflow-y: auto;
 }
 
-/* Top Navigation Bar */
 .top-header {
     height: 60px;
     border-bottom: 1px solid var(--card-border);
@@ -158,10 +139,7 @@ body {
     background: var(--sidebar-bg);
 }
 
-.search-box {
-    position: relative;
-    width: 340px;
-}
+.search-box { position: relative; width: 340px; }
 .search-box input {
     width: 100%;
     background: #080B13;
@@ -181,34 +159,7 @@ body {
     font-size: 13px;
 }
 
-.user-area {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.icon-btn {
-    position: relative;
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 15px;
-}
-.icon-btn .badge {
-    position: absolute;
-    top: -5px;
-    right: -6px;
-    background: var(--accent-purple);
-    color: #fff;
-    font-size: 9px;
-    padding: 1px 4px;
-    border-radius: 10px;
-    font-weight: 700;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+.user-area { display: flex; align-items: center; gap: 16px; }
 .avatar {
     width: 32px;
     height: 32px;
@@ -221,31 +172,9 @@ body {
     font-size: 13px;
 }
 
-/* Container Body */
-.container {
-    padding: 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
+.container { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
 
-/* Welcome Card Banner */
-.welcome-card {
-    background: linear-gradient(135deg, #111526 0%, #170d2c 100%);
-    border: 1px solid #231b3e;
-    border-radius: 14px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Stat Cards */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-}
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .stat-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -265,7 +194,6 @@ body {
     font-size: 14px;
 }
 
-/* Paste Textarea Area */
 .paste-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -275,10 +203,7 @@ body {
     flex-direction: column;
     gap: 12px;
 }
-.paste-layout {
-    display: flex;
-    gap: 12px;
-}
+.paste-layout { display: flex; gap: 12px; }
 .paste-box {
     flex: 1;
     background: #070912;
@@ -291,19 +216,8 @@ body {
     outline: none;
     resize: vertical;
 }
-.paste-side-actions {
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
 
-/* Saved Workspaces Horizontal Cards */
-.ws-list {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-}
+.ws-list { display: flex; gap: 10px; overflow-x: auto; }
 .ws-item {
     min-width: 180px;
     background: var(--card-bg);
@@ -315,37 +229,18 @@ body {
     justify-content: space-between;
     align-items: center;
 }
-.ws-item.active {
-    border-color: var(--accent-purple);
-    background: rgba(124, 58, 237, 0.1);
-}
+.ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.1); }
 
-/* Table Area */
 .table-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 14px;
     overflow: hidden;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 12px;
-}
-th {
-    background: #090c15;
-    padding: 10px 14px;
-    color: var(--text-muted);
-    font-weight: 600;
-    border-bottom: 1px solid var(--card-border);
-}
-td {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--card-border);
-}
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
-/* Buttons System */
 .btn {
     padding: 8px 14px;
     border: none;
@@ -363,26 +258,13 @@ td {
 .btn-cyan { background: var(--accent-cyan); }
 .btn-emerald { background: var(--accent-emerald); }
 .btn-rose { background: var(--accent-rose); }
-.btn-dark { background: #1a233a; }
 
-.badge-status {
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: 700;
-}
+.badge-status { padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; }
 .badge-copied { background: rgba(5, 150, 105, 0.15); color: #10B981; }
 .badge-pending { background: rgba(225, 29, 72, 0.15); color: #F43F5E; }
 
-/* Action Grid */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-
-@media(max-width: 1024px) {
-    .sidebar { display: none; }
-    .stats-grid { grid-template-columns: repeat(3, 1fr); }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
 </style>
 </head>
 
@@ -391,67 +273,33 @@ td {
 <div class="toast-container" id="toastBox"></div>
 
 <div class="app-layout">
-
-    <!-- Left Sidebar Navigation -->
     <div class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-gem" style="color: #8B5CF6;"></i>
             QyxnoraCore <span class="brand-badge">v3</span>
         </div>
-
         <div class="nav-group">
             <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-            
             <div class="nav-title">WORKSPACE</div>
-            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-cubes"></i> Workspaces</a>
-            <a class="nav-item" onclick="document.getElementById('prefixAdd').focus()"><i class="fa-solid fa-plus-minus"></i> Add Prefix</a>
-            <a class="nav-item" onclick="document.getElementById('prefixRemove').focus()"><i class="fa-solid fa-eraser"></i> Remove Prefix</a>
             <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
             <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
         </div>
-
-        <div class="upgrade-box">
-            <i class="fa-solid fa-gem" style="font-size: 20px; color: #8B5CF6; margin-bottom: 6px;"></i>
-            <div style="font-size: 12px; font-weight: 700;">Fast & Smooth Engine</div>
-            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Zero lag optimized dashboard</div>
-        </div>
     </div>
 
-    <!-- Main View -->
     <div class="main-content">
-
-        <!-- Top Header -->
         <div class="top-header">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
             </div>
             <div class="user-area">
-                <div class="icon-btn"><i class="fa-regular fa-bell"></i><span class="badge">3</span></div>
-                <div class="user-profile">
-                    <div class="avatar">A</div>
-                    <div>
-                        <div style="font-size: 12px; font-weight: 700;">Admin User</div>
-                        <div style="font-size: 10px; color: var(--text-muted);">Administrator</div>
-                    </div>
-                </div>
+                <div class="avatar">A</div>
             </div>
         </div>
 
-        <!-- Dashboard Content -->
         <div class="container">
-
-            <!-- Welcome Banner -->
-            <div class="welcome-card">
-                <div>
-                    <h2 style="font-size: 16px; font-weight: 800;">👋 Welcome back, Admin!</h2>
-                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">Manage your numbers, tools, and workflows in one place.</p>
-                </div>
-            </div>
-
-            <!-- Stats Bar -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #8B5CF6;"><i class="fa-solid fa-chart-simple"></i></div>
@@ -471,25 +319,22 @@ td {
                 </div>
             </div>
 
-            <!-- Paste Your Data -->
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
                 <div class="paste-layout">
-                    <textarea id="rawInput" class="paste-box" placeholder="Paste numbers or text below..." oninput="parseData()"></textarea>
-                    <div class="paste-side-actions">
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
+                    <div style="width:180px; display:flex; flex-direction:column; gap:8px;">
                         <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
                         <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Saved Workspaces -->
             <div>
                 <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
                 <div class="ws-list" id="projList"></div>
             </div>
 
-            <!-- Table View -->
             <div class="table-card">
                 <table>
                     <thead>
@@ -504,7 +349,6 @@ td {
                 </table>
             </div>
 
-            <!-- Controls Panel -->
             <div class="paste-card">
                 <div class="grid-2">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
@@ -521,7 +365,6 @@ td {
                     <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -532,9 +375,9 @@ let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
 
 const flags = {
-    "Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸","Sri Lanka":"🇱🇰",
-    "Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿","Myanmar":"🇲🇲",
-    "Tunisia":"🇹🇳"
+    "Tajikistan":"🇹🇯","Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸",
+    "Sri Lanka":"🇱🇰","Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿",
+    "Myanmar":"🇲🇲","Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Tunisia":"🇹🇳"
 };
 
 function showToast(msg) {
@@ -547,8 +390,12 @@ function showToast(msg) {
 }
 
 function detectCountry(str) {
-    for(let c in flags) { if(str.includes(c)) return c; }
-    return "Unknown";
+    if (!str) return "Unknown";
+    for (let c in flags) {
+        if (str.toLowerCase().includes(c.toLowerCase())) return c;
+    }
+    let match = str.trim().match(/^([A-Za-z]+)/);
+    return match ? match[1] : "Unknown";
 }
 
 function parseData() {
@@ -556,10 +403,33 @@ function parseData() {
     let txt = document.getElementById("rawInput").value;
     let lines = txt.split("\n");
     items = [];
+
     lines.forEach(l => {
-        let m = l.match(/\d{8,15}/);
-        if(m) items.push({ number: m[0], country: detectCountry(l), copied: false });
+        let trimmed = l.trim();
+        if (!trimmed || trimmed.toLowerCase().includes("range") || trimmed.toLowerCase().includes("lamix")) return;
+
+        let cols = trimmed.split(/\t+|\s{2,}/);
+        let targetNumber = "";
+        let countryName = detectCountry(l);
+
+        if (cols.length >= 3) {
+            targetNumber = cols[2].replace(/\s+/g, '');
+        } else {
+            let matches = trimmed.match(/\d+/g);
+            if (matches) {
+                targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
+            }
+        }
+
+        if (targetNumber && targetNumber.length >= 8) {
+            items.push({
+                number: targetNumber,
+                country: countryName,
+                copied: false
+            });
+        }
     });
+
     renderProjSidebar();
     render();
 }

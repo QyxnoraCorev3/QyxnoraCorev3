@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Exact Dashboard UI</title>
+<title>QyxnoraCore v3 - Advanced Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- Flag Icons CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css">
@@ -307,7 +307,7 @@ table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12p
 th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
 td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
-/* Country Flag Style */
+/* Country Flag Alignment */
 .country-cell {
     display: flex;
     align-items: center;
@@ -388,6 +388,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
         </div>
 
         <div class="container">
+            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #8B5CF6;"><i class="fa-solid fa-chart-simple"></i></div>
@@ -407,6 +408,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </div>
             </div>
 
+            <!-- Data Paste Input -->
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
                 <div class="paste-layout">
@@ -418,11 +420,13 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </div>
             </div>
 
+            <!-- Saved Workspaces -->
             <div>
                 <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
                 <div class="ws-list" id="projList"></div>
             </div>
 
+            <!-- Main Data Table -->
             <div class="table-card">
                 <div class="filter-bar">
                     <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
@@ -443,6 +447,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </table>
             </div>
 
+            <!-- Operations Controller -->
             <div class="paste-card">
                 <div class="grid-2">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
@@ -473,13 +478,14 @@ const validUsers = [
     "Mahmudsakib"
 ];
 
-const UNLOCK_DURATION = 2 * 60 * 60 * 1000; // 2 hours
+// 2 Hours Expiration Time in Milliseconds
+const UNLOCK_DURATION = 2 * 60 * 60 * 1000; 
 
 let activeUser = "";
 let db = [];
 let currentFilter = 'all';
 
-// Toast System
+// Toast Notification Engine
 function showToast(msg) {
     const box = document.getElementById('toastBox');
     const t = document.createElement('div');
@@ -489,7 +495,7 @@ function showToast(msg) {
     setTimeout(() => t.remove(), 2500);
 }
 
-// Auto Check Unlock Expiration on Load
+// Check 2-Hour Expiration on Page Load
 window.onload = function() {
     const savedUser = localStorage.getItem('activeUser');
     const unlockTime = localStorage.getItem('unlockTimestamp');
@@ -504,12 +510,12 @@ window.onload = function() {
         } else {
             localStorage.removeItem('activeUser');
             localStorage.removeItem('unlockTimestamp');
-            showToast("Unlock session expired (2 hours passed)");
+            showToast("Session expired (2 hours limit). Please unlock again.");
         }
     }
 }
 
-// Login
+// User Authentication
 function handleLogin() {
     const val = document.getElementById('loginUser').value.trim();
     if (validUsers.includes(val)) {
@@ -517,7 +523,7 @@ function handleLogin() {
         localStorage.setItem('activeUser', val);
         localStorage.setItem('unlockTimestamp', now.toString());
         loginSuccess(val);
-        showToast("Unlocked successfully! (Valid for 2 hours)");
+        showToast("Unlocked! Session valid for 2 hours.");
     } else {
         alert("Invalid Username!");
     }
@@ -537,19 +543,21 @@ function handleLogout() {
     location.reload();
 }
 
-// Detect Country with ISO Flag Code
+// Country Detection Engine
 function detectCountry(num) {
-    let clean = num.replace('+', '');
+    let clean = num.replace('+', '').trim();
     if (clean.startsWith('216')) return { code: 'tn', name: 'Tunisia' };
     if (clean.startsWith('213')) return { code: 'dz', name: 'Algeria' };
     if (clean.startsWith('212')) return { code: 'ma', name: 'Morocco' };
-    if (clean.startsWith('20')) return { code: 'eg', name: 'Egypt' };
+    if (clean.startsWith('20'))  return { code: 'eg', name: 'Egypt' };
     if (clean.startsWith('880')) return { code: 'bd', name: 'Bangladesh' };
-    if (clean.startsWith('1')) return { code: 'us', name: 'USA/Canada' };
+    if (clean.startsWith('1'))   return { code: 'us', name: 'USA/Canada' };
+    if (clean.startsWith('966')) return { code: 'sa', name: 'Saudi Arabia' };
+    if (clean.startsWith('971')) return { code: 'ae', name: 'UAE' };
     return { code: 'un', name: 'Other' };
 }
 
-// Parse Textarea
+// Parse Raw Text Input
 function parseData() {
     const raw = document.getElementById('rawInput').value;
     const lines = raw.split('\n');
@@ -569,6 +577,7 @@ function parseData() {
     render();
 }
 
+// Dynamic Country Re-calculation Function
 function updateCountryMeta() {
     db.forEach(x => {
         let info = detectCountry(x.number);
@@ -585,7 +594,7 @@ function setFilter(type) {
     render();
 }
 
-// Render Table & Stats
+// Render Data & Dashboard Interface
 function render() {
     const tbody = document.getElementById('dataTable');
     tbody.innerHTML = '';
@@ -600,7 +609,7 @@ function render() {
         return true;
     });
 
-    displayList.forEach((item, index) => {
+    displayList.forEach((item) => {
         let realIndex = db.indexOf(item);
         let tr = document.createElement('tr');
         
@@ -630,7 +639,7 @@ function render() {
         tbody.appendChild(tr);
     });
 
-    // Stats calculation
+    // Statistics Tracker
     document.getElementById('cntTotal').innerText = db.length;
     let copiedCnt = db.filter(x => x.copied).length;
     document.getElementById('cntCopied').innerText = copiedCnt;
@@ -639,7 +648,7 @@ function render() {
     document.getElementById('cntCountries').innerText = countries.length;
 }
 
-// Actions
+// Action Handlers
 function copySingle(index) {
     navigator.clipboard.writeText(db[index].number);
     db[index].copied = true;
@@ -716,7 +725,7 @@ function clearWorkspace() {
     showToast("Workspace Cleared");
 }
 
-// Saved Workspaces (LocalStorage)
+// Workspace Data Persistence Engine
 function saveProject() {
     let name = document.getElementById('projTitle').value.trim();
     if (!name) return alert("Enter Workspace Name");
@@ -749,7 +758,7 @@ function openWorkspace(key) {
     let data = localStorage.getItem(key);
     if (data) {
         db = JSON.parse(data);
-        updateCountryMeta(); // ওয়ার্কস্পেস লোড হলেও ফ্লাগ রি-চেক করবে
+        updateCountryMeta(); // Re-index flags and names correctly
         render();
         showToast("Workspace Loaded");
     }

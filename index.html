@@ -3,325 +3,408 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Ultra - Fast & Lite</title>
+<title>QyxnoraCore v3 Pro Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root {
-    --bg-main: #0a0d14;
-    --card-bg: #121824;
+    --bg-dark: #07090e;
+    --panel-bg: #0d111a;
+    --card-bg: #131926;
     --card-border: #1e293b;
-    --accent-cyan: #00f2fe;
-    --accent-purple: #9d4edd;
-    --accent-rose: #ff2a6d;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
+    --accent-purple: #8b5cf6;
+    --accent-purple-glow: #7c3aed;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-rose: #f43f5e;
+    --text-primary: #f8fafc;
+    --text-muted: #64748b;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background: var(--bg-main);
+    background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
 }
 
-/* Toast Notifications */
+/* Toast System */
 .toast-container {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 100000;
+    z-index: 999999;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
-
 .toast {
     background: #1e293b;
-    border-left: 4px solid var(--accent-cyan);
+    border-left: 4px solid var(--accent-purple);
     color: #fff;
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     font-size: 13px;
     font-weight: 600;
-    animation: fadeIn 0.2s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Login Screen */
-.login-screen {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-main);
+/* Layout */
+.app-layout {
     display: flex;
-    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
     align-items: center;
-    z-index: 99999;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+}
+.brand-badge {
+    background: var(--accent-purple);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-left: 4px;
 }
 
-.card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+.nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.nav-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin: 10px 0 6px 10px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    text-decoration: none;
+}
+.nav-item:hover, .nav-item.active {
+    background: rgba(139, 92, 246, 0.15);
+    color: #fff;
+}
+.nav-item.active {
+    border: 1px solid rgba(139, 92, 246, 0.4);
 }
 
-.login-box {
-    padding: 30px;
-    width: 340px;
+/* Upgrade Card */
+.upgrade-card {
+    margin-top: auto;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 14px;
+    padding: 16px;
     text-align: center;
 }
 
-.brand-title {
-    font-size: 24px;
-    font-weight: 900;
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
 }
 
-.brand-sub {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-bottom: 25px;
+/* Header */
+.top-header {
+    height: 65px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    background: var(--panel-bg);
 }
-
-.input-field {
+.search-header {
+    position: relative;
+    width: 320px;
+}
+.search-header input {
     width: 100%;
-    padding: 12px 14px;
-    background: #0b0f17;
+    background: #07090e;
     border: 1px solid var(--card-border);
+    padding: 8px 12px 8px 36px;
     border-radius: 10px;
     color: #fff;
     font-size: 13px;
     outline: none;
-    margin-bottom: 12px;
+}
+.search-header i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
 }
 
-.input-field:focus {
-    border-color: var(--accent-cyan);
+.user-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
-
-/* Smooth Buttons */
-.btn {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 12px;
-    cursor: pointer;
-    color: #fff;
-    background: var(--card-border);
-    transition: opacity 0.15s ease;
-    display: inline-flex;
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    font-weight: 700;
 }
 
-.btn:active { opacity: 0.8; }
-.btn-cyan { background: #0284c7; }
-.btn-purple { background: #7c3aed; }
-.btn-rose { background: #e11d48; }
-.btn-emerald { background: #059669; }
-
-/* Dashboard Layout */
-.app-container {
-    display: none;
-    min-height: 100vh;
+/* Content Container */
+.container {
+    padding: 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.sidebar {
-    width: 300px;
+/* Welcome Banner */
+.welcome-banner {
+    background: linear-gradient(90deg, #131926 0%, #1a102f 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+.stat-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.stat-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Paste Area */
+.paste-container {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    border-right: 1px solid var(--card-border);
-    background: #0f1420;
+    gap: 14px;
+}
+.paste-area {
+    display: flex;
+    gap: 15px;
+}
+.paste-textarea {
+    flex: 1;
+    background: #07090e;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px;
+    color: #fff;
+    font-size: 13px;
+    min-height: 120px;
+    outline: none;
+    resize: vertical;
+}
+.paste-actions {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.user-profile {
+/* Workspaces Horizontal */
+.workspaces-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ws-cards {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+.ws-card {
+    min-width: 200px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 12px 16px;
+    border-radius: 12px;
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
+}
+.ws-card.active {
+    border-color: var(--accent-purple);
+    background: rgba(139, 92, 246, 0.08);
 }
 
-.main-view {
-    flex: 1;
-    padding: 24px;
+/* Control Bar */
+.filter-bar {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    overflow-y: auto;
-}
-
-/* Stats Grid */
-.stats-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
-
-.stat-card {
-    padding: 16px;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 12px;
-}
-
-.stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: #1e293b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-
-.stat-val { font-size: 22px; font-weight: 800; }
-.stat-lbl { font-size: 10px; color: var(--text-secondary); font-weight: 700; }
-
-/* Controls */
-.controls-bar {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.search-box { flex: 1; }
-
-.filter-pills {
-    display: flex;
-    background: #0b0f17;
-    padding: 4px;
-    border-radius: 10px;
+    background: var(--panel-bg);
+    padding: 10px 16px;
+    border-radius: 12px;
     border: 1px solid var(--card-border);
 }
-
-.pill-btn {
+.pills {
+    display: flex;
+    gap: 4px;
+    background: #07090e;
+    padding: 4px;
+    border-radius: 8px;
+}
+.pill {
     padding: 6px 14px;
     border: none;
     background: transparent;
-    color: var(--text-secondary);
-    font-weight: 600;
+    color: var(--text-muted);
     font-size: 12px;
-    border-radius: 8px;
+    font-weight: 600;
+    border-radius: 6px;
     cursor: pointer;
 }
-
-.pill-btn.active {
+.pill.active {
     background: var(--card-border);
-    color: var(--accent-cyan);
+    color: #fff;
 }
 
-/* Data List */
-.data-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 400px;
-    overflow-y: auto;
+/* Data Table */
+.table-container {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
 }
-
-.data-row {
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
 }
-
-.data-row.copied-row {
-    border-color: rgba(225, 29, 72, 0.4);
-    background: rgba(225, 29, 72, 0.05);
-}
-
-.country-pill {
-    font-size: 12px;
+th {
+    background: #0d111a;
+    padding: 12px 16px;
+    color: var(--text-muted);
     font-weight: 600;
-    color: var(--accent-cyan);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    border-bottom: 1px solid var(--card-border);
+}
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--card-border);
+}
+tr:hover {
+    background: rgba(255,255,255,0.02);
 }
 
-.phone-val { font-size: 15px; font-weight: 700; }
+/* Buttons System */
+.btn {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
+    transition: opacity 0.15s;
+}
+.btn:active { opacity: 0.8; }
+.btn-purple { background: var(--accent-purple); }
+.btn-cyan { background: #0284c7; }
+.btn-green { background: var(--accent-green); }
+.btn-rose { background: var(--accent-rose); }
+.btn-outline { background: transparent; border: 1px solid var(--card-border); color: #fff; }
 
-/* Actions Grid */
-.actions-panel { padding: 20px; }
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.status-copied { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+.status-pending { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
 
-.input-grid {
+/* Grid Operations Panel */
+.grid-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 15px;
+    gap: 15px;
 }
-
-.button-grid {
+.grid-btn-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-}
-
-.paste-box {
-    width: 100%;
-    height: 120px;
-    resize: none;
-}
-
-.proj-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.proj-item {
-    padding: 10px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.proj-item.active-proj {
-    border-color: var(--accent-cyan);
-}
-
-.proj-del-btn {
-    background: transparent;
-    border: none;
-    color: var(--accent-rose);
-    font-size: 14px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.proj-del-btn:hover {
-    background: rgba(225, 29, 72, 0.2);
+    margin-top: 10px;
 }
 
 @media(max-width: 1024px) {
-    .app-container { flex-direction: column; }
-    .sidebar { width: 100%; }
-    .stats-container { grid-template-columns: repeat(2, 1fr); }
-    .button-grid { grid-template-columns: repeat(2, 1fr); }
+    .sidebar { display: none; }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .grid-btn-bar { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -330,141 +413,155 @@ body {
 
 <div class="toast-container" id="toastBox"></div>
 
-<!-- Login Overlay -->
-<div class="login-screen" id="loginScreen">
-    <div class="card login-box">
-        <div class="brand-title">QYXNORA CORE</div>
-        <div class="brand-sub">v3 Ultra • Lite Edition</div>
+<div class="app-layout">
 
-        <input type="text" id="userInput" class="input-field" placeholder="Username">
-        <input type="password" id="passInput" class="input-field" placeholder="Password" onkeypress="if(event.key==='Enter') login()">
-
-        <button class="btn btn-cyan" style="width: 100%; margin-top: 5px;" onclick="login()">Access System ⚡</button>
-    </div>
-</div>
-
-<!-- Main App -->
-<div class="app-container" id="appContainer">
-
-    <!-- Sidebar -->
+    <!-- Left Sidebar -->
     <div class="sidebar">
-        <div class="card user-profile">
-            <span style="font-size: 13px; font-weight: 700; color: var(--accent-cyan);">👤 <span id="activeUser">User</span></span>
-            <button class="btn btn-rose" style="padding: 4px 10px; font-size: 10px;" onclick="logout()">Lock 🔒</button>
+        <div class="brand">
+            <i class="fa-solid fa-gem" style="color: var(--accent-purple);"></i>
+            QyxnoraCore <span class="brand-badge">v3</span>
         </div>
 
-        <div class="card" style="padding: 16px;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--accent-purple); margin-bottom: 10px;">+ PASTE DATA</div>
-            <textarea id="rawInput" class="input-field paste-box" placeholder="Paste numbers or text..." oninput="parseData()"></textarea>
-            <input type="text" id="projTitle" class="input-field" placeholder="Project Name" style="margin-bottom: 10px;">
-            <button class="btn btn-purple" style="width: 100%;" onclick="saveProject()">💾 Save Workspace</button>
+        <div class="nav-section">
+            <div class="nav-title">WORKSPACE</div>
+            <a class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-paste"></i> Add Prefix</a>
+            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-scissors"></i> Remove Prefix</a>
+            <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
+            <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
+            <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
+            <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</a>
         </div>
 
-        <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">SAVED WORKSPACES</div>
-        <div class="proj-list" id="projList"></div>
+        <div class="upgrade-card">
+            <i class="fa-solid fa-bolt" style="font-size: 24px; color: var(--accent-purple); margin-bottom: 8px;"></i>
+            <div style="font-size: 13px; font-weight: 700;">Fast & Lite Engine</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Optimized for zero-lag performance</div>
+        </div>
     </div>
 
-    <!-- Main View -->
-    <div class="main-view">
-        <h1 style="font-size: 22px; font-weight: 800;">QyxnoraCore v3</h1>
+    <!-- Main Content Area -->
+    <div class="main-content">
 
-        <!-- Stats -->
-        <div class="stats-container">
-            <div class="card stat-card">
-                <div class="stat-icon" style="color: var(--accent-cyan);">📊</div>
-                <div><div class="stat-val" id="cntTotal">0</div><div class="stat-lbl">TOTAL</div></div>
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="search-header">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
             </div>
-            <div class="card stat-card">
-                <div class="stat-icon" style="color: #10b981;">✅</div>
-                <div><div class="stat-val" id="cntCopied">0</div><div class="stat-lbl">COPIED</div></div>
-            </div>
-            <div class="card stat-card">
-                <div class="stat-icon" style="color: var(--accent-purple);">⏳</div>
-                <div><div class="stat-val" id="cntPending">0</div><div class="stat-lbl">REMAINING</div></div>
-            </div>
-            <div class="card stat-card">
-                <div class="stat-icon" style="color: #3b82f6;">🌐</div>
-                <div><div class="stat-val" id="cntCountries">0</div><div class="stat-lbl">COUNTRIES</div></div>
+            <div class="user-nav">
+                <i class="fa-regular fa-bell" style="color: var(--text-muted); cursor: pointer;"></i>
+                <div class="avatar">A</div>
+                <div style="font-size: 13px; font-weight: 600;">Admin User</div>
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="controls-bar">
-            <div class="search-box">
-                <input type="text" id="searchKey" class="input-field" placeholder="Search number or country..." style="margin: 0;" oninput="render()">
-            </div>
-            <div class="filter-pills">
-                <button class="pill-btn active" onclick="setFilter('all', this)">All</button>
-                <button class="pill-btn" onclick="setFilter('pending', this)">Pending</button>
-                <button class="pill-btn" onclick="setFilter('copied', this)">Copied</button>
-            </div>
-            <button class="btn btn-emerald" onclick="exportTxt()">📥 Export TXT</button>
-        </div>
+        <!-- Dashboard Body -->
+        <div class="container">
 
-        <!-- Data List -->
-        <div class="data-list" id="dataList"></div>
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div>
+                    <h2 style="font-size: 18px; font-weight: 800;">👋 Welcome back, Admin!</h2>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Manage your numbers, tools, and workspaces effortlessly.</p>
+                </div>
+            </div>
 
-        <!-- Actions -->
-        <div class="card actions-panel">
-            <div class="input-grid">
-                <input id="prefixRemove" class="input-field" placeholder="Remove Prefix (e.g. 216)" style="margin: 0;">
-                <input id="prefixAdd" class="input-field" placeholder="Add Prefix (e.g. 216)" style="margin: 0;">
+            <!-- Stats Bar -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-icon-box" style="background: rgba(139, 92, 246, 0.2); color: var(--accent-purple);"><i class="fa-solid fa-list-ol"></i></div>
+                    <div><div style="font-size: 18px; font-weight: 800;" id="cntTotal">0</div><div style="font-size: 10px; color: var(--text-muted);">TOTAL</div></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon-box" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-green);"><i class="fa-solid fa-check"></i></div>
+                    <div><div style="font-size: 18px; font-weight: 800;" id="cntCopied">0</div><div style="font-size: 10px; color: var(--text-muted);">COPIED</div></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon-box" style="background: rgba(244, 63, 94, 0.2); color: var(--accent-rose);"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div><div style="font-size: 18px; font-weight: 800;" id="cntPending">0</div><div style="font-size: 10px; color: var(--text-muted);">PENDING</div></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon-box" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);"><i class="fa-solid fa-globe"></i></div>
+                    <div><div style="font-size: 18px; font-weight: 800;" id="cntCountries">0</div><div style="font-size: 10px; color: var(--text-muted);">COUNTRIES</div></div>
+                </div>
             </div>
-            <div class="button-grid">
-                <button class="btn btn-emerald" onclick="applyRemovePrefix()">Remove Prefix</button>
-                <button class="btn btn-cyan" onclick="applyAddPrefix()">Add Prefix</button>
-                <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
-                <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
-                <button class="btn btn-purple" onclick="deduplicate()">Remove Duplicate</button>
-                <button class="btn btn-purple" onclick="copyAllRemaining()">Copy All Pending</button>
-                <button class="btn btn-emerald" onclick="exportTxt()">Download TXT</button>
-                <button class="btn btn-rose" onclick="clearWorkspace()">Clear Workspace</button>
+
+            <!-- Data Input Area -->
+            <div class="paste-container">
+                <div style="font-size: 13px; font-weight: 700;">Paste Your Data</div>
+                <div class="paste-area">
+                    <textarea id="rawInput" class="paste-textarea" placeholder="Paste numbers or text here..." oninput="parseData()"></textarea>
+                    <div class="paste-actions">
+                        <input type="text" id="projTitle" class="search-header" style="width:100%; border-radius:8px; padding:10px; background:#07090e; border:1px solid var(--card-border); color:#fff; font-size:12px;" placeholder="Workspace Name">
+                        <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- Saved Workspaces Horizontal -->
+            <div class="workspaces-section">
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);">SAVED WORKSPACES</div>
+                <div class="ws-cards" id="projList"></div>
+            </div>
+
+            <!-- Controls & Filter -->
+            <div class="filter-bar">
+                <div class="pills">
+                    <button class="pill active" onclick="setFilter('all', this)">All</button>
+                    <button class="pill" onclick="setFilter('pending', this)">Pending</button>
+                    <button class="pill" onclick="setFilter('copied', this)">Copied</button>
+                </div>
+                <button class="btn btn-green" onclick="exportTxt()"><i class="fa-solid fa-download"></i> Export TXT</button>
+            </div>
+
+            <!-- Data Table View -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Number</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable"></tbody>
+                </table>
+            </div>
+
+            <!-- Prefix & Action Controls Grid -->
+            <div class="paste-container">
+                <div class="grid-actions">
+                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#07090e; border:1px solid var(--card-border); padding:10px; border-radius:8px; color:#fff; font-size:12px;">
+                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)" style="background:#07090e; border:1px solid var(--card-border); padding:10px; border-radius:8px; color:#fff; font-size:12px;">
+                </div>
+                <div class="grid-btn-bar">
+                    <button class="btn btn-green" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                    <button class="btn btn-cyan" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
+                    <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
+                    <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
+                    <button class="btn btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
+                    <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-copy"></i> Copy All Pending</button>
+                    <button class="btn btn-green" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
+                    <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script>
-// ================= USER DATABASE =================
-const USERS_DATABASE = [
-    { username: "admin", password: "785" },
-    { username: "rakib", password: "123" },
-    { username: "mizan", password: "456" },
-    { username: "tanvir", password: "101" },
-    { username: "shakil", password: "102" },
-    { username: "hasan", password: "103" },
-    { username: "arif", password: "104" },
-    { username: "faysal", password: "105" },
-    { username: "sumon", password: "106" },
-    { username: "imran", password: "107" },
-    { username: "nahid", password: "108" },
-    { username: "sabbir", password: "109" },
-    { username: "joy", password: "110" },
-    { username: "fahim", password: "111" },
-    { username: "alamin", password: "112" }
-];
-
 let items = [];
-let projects = JSON.parse(localStorage.getItem('qyx_v3_projects')) || [];
+let projects = JSON.parse(localStorage.getItem('qyx_pro_projects')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
 const flags = {
     "Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸","Sri Lanka":"🇱🇰",
     "Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿","Myanmar":"🇲🇲",
-    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Armenia":"🇦🇲",
-    "Azerbaijan":"🇦🇿","Belarus":"🇧🇾","Benin":"🇧🇯","Bhutan":"🇧🇹",
-    "Bolivia":"🇧🇴","Bulgaria":"🇧🇬","Burkina":"🇧🇫","Cameroon":"🇨🇲",
-    "Ecuador":"🇪🇨","Egypt":"🇪🇬","Ethiopia":"🇪🇹","Gabon":"🇬🇦",
-    "Georgia":"🇬🇪","Germany":"🇩🇪","Guinea":"🇬🇳","Indonesia":"🇮🇩",
-    "Iraq":"🇮🇶","Ivory Coast":"🇨🇮","Jordan":"🇯🇴","Kazakhstan":"🇰🇿",
-    "Kenya":"🇰🇪","Kosovo":"🇽🇰","Kuwait":"🇰🇼","Kyrgyzstan":"🇰🇬",
-    "Libya":"🇱🇾","Madagascar":"🇲🇬","Mauritania":"🇲🇷","Moldova":"🇲🇩",
-    "Morocco":"🇲🇦","Mozambique":"🇲🇿","Nepal":"🇳🇵","Niger":"🇳🇪",
-    "Nigeria":"🇳🇬","Oman":"🇴🇲","Pakistan":"🇵🇰","Russia":"🇷🇺",
-    "Saudi Arabia":"🇸🇦","Senegal":"🇸🇳","Sudan":"🇸🇩","Syria":"🇸🇾",
-    "Tajikistan":"🇹🇯","Tunisia":"🇹🇳","Uganda":"🇺🇬","Ukraine":"🇺🇦",
-    "UAE":"🇦🇪","Uzbekistan":"🇺🇿","Vietnam":"🇻🇳","Zimbabwe":"🇿🇼"
+    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Tunisia":"🇹🇳"
 };
 
 function showToast(msg) {
@@ -474,33 +571,6 @@ function showToast(msg) {
     t.innerText = msg;
     box.appendChild(t);
     setTimeout(() => t.remove(), 2000);
-}
-
-function login() {
-    let u = document.getElementById("userInput").value.trim().toLowerCase();
-    let p = document.getElementById("passInput").value.trim();
-    let found = USERS_DATABASE.find(x => x.username === u && x.password === p);
-
-    if(found) {
-        sessionStorage.setItem("qyx_session", found.username);
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("appContainer").style.display = "flex";
-        document.getElementById("activeUser").innerText = found.username.toUpperCase();
-        showToast("Logged in: " + found.username.toUpperCase());
-    } else {
-        showToast("Invalid Credentials!");
-    }
-}
-
-function logout() {
-    sessionStorage.removeItem("qyx_session");
-    location.reload();
-}
-
-if(sessionStorage.getItem("qyx_session")) {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("appContainer").style.display = "flex";
-    document.getElementById("activeUser").innerText = sessionStorage.getItem("qyx_session").toUpperCase();
 }
 
 function detectCountry(str) {
@@ -522,8 +592,8 @@ function parseData() {
 }
 
 function render() {
-    let list = document.getElementById("dataList");
-    list.innerHTML = "";
+    let tbody = document.getElementById("dataTable");
+    tbody.innerHTML = "";
     let q = document.getElementById("searchKey").value.toLowerCase();
     let countries = new Set();
     let copiedCnt = 0;
@@ -542,18 +612,22 @@ function render() {
 
     filtered.forEach(i => {
         let flag = flags[i.country] || "🌍";
-        let row = document.createElement("div");
-        row.className = `card data-row ${i.copied ? 'copied-row' : ''}`;
-        row.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="country-pill">${flag} ${i.country}</div>
-                <div class="phone-val">${i.number}</div>
-            </div>
-            <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding: 6px 12px; font-size: 11px;" onclick="copySingle('${i.number}')">
-                ${i.copied ? 'Copied ✓' : '📋 Copy'}
-            </button>
+        let tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td><span style="font-size:14px; margin-right:6px;">${flag}</span> ${i.country}</td>
+            <td style="font-weight:700;">${i.number}</td>
+            <td>
+                <span class="status-badge ${i.copied ? 'status-copied' : 'status-pending'}">
+                    ${i.copied ? 'Copied ✓' : 'Pending'}
+                </span>
+            </td>
+            <td style="text-align: right;">
+                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:4px 10px; font-size:11px;" onclick="copySingle('${i.number}')">
+                    ${i.copied ? 'Copied' : 'Copy'}
+                </button>
+            </td>
         `;
-        list.appendChild(row);
+        tbody.appendChild(tr);
     });
 
     document.getElementById("cntTotal").innerText = items.length;
@@ -569,7 +643,7 @@ function copySingle(num) {
         itm.copied = true;
         syncWorkspace();
         render();
-        showToast("Copied!");
+        showToast("Copied to clipboard!");
     }
 }
 
@@ -629,12 +703,12 @@ function clearWorkspace() {
     document.getElementById("rawInput").value = "";
     syncWorkspace();
     render();
-    showToast("Cleared!");
+    showToast("Workspace Cleared!");
 }
 
 function setFilter(f, btn) {
     currentFilter = f;
-    document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render();
 }
@@ -644,13 +718,13 @@ function saveProject() {
     if(items.length === 0) return showToast("No data to save!");
     projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
     activeProjIdx = projects.length - 1;
-    localStorage.setItem('qyx_v3_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
     renderProjSidebar();
-    showToast("Saved!");
+    showToast("Workspace Saved!");
 }
 
 function deleteProject(e, idx) {
-    e.stopPropagation(); // Stop opening the project on delete
+    e.stopPropagation();
     projects.splice(idx, 1);
     if(activeProjIdx === idx) {
         items = [];
@@ -659,16 +733,16 @@ function deleteProject(e, idx) {
     } else if(activeProjIdx > idx) {
         activeProjIdx--;
     }
-    localStorage.setItem('qyx_v3_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
     renderProjSidebar();
     render();
-    showToast("Project Deleted!");
+    showToast("Deleted!");
 }
 
 function syncWorkspace() {
     if(activeProjIdx >= 0 && projects[activeProjIdx]) {
         projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
-        localStorage.setItem('qyx_v3_projects', JSON.stringify(projects));
+        localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
         renderProjSidebar();
     }
 }
@@ -678,7 +752,7 @@ function renderProjSidebar() {
     box.innerHTML = "";
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
-        div.className = `card proj-item ${idx === activeProjIdx ? 'active-proj' : ''}`;
+        div.className = `ws-card ${idx === activeProjIdx ? 'active' : ''}`;
         div.onclick = () => {
             activeProjIdx = idx;
             items = JSON.parse(JSON.stringify(p.items));
@@ -686,11 +760,11 @@ function renderProjSidebar() {
             render();
         };
         div.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 11px; font-weight: 700;">📁 ${p.name}</span>
-                <span style="font-size: 10px; color: var(--text-secondary);">(${p.items.length})</span>
+            <div>
+                <div style="font-size: 12px; font-weight: 700;">📁 ${p.name}</div>
+                <div style="font-size: 10px; color: var(--text-muted);">${p.items.length} Numbers</div>
             </div>
-            <button class="proj-del-btn" title="Delete Project" onclick="deleteProject(event, ${idx})">🗑️</button>
+            <i class="fa-solid fa-trash" style="color: var(--accent-rose); font-size: 12px;" onclick="deleteProject(event, ${idx})"></i>
         `;
         box.appendChild(div);
     });

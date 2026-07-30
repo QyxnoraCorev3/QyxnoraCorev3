@@ -375,9 +375,70 @@ let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
 
 const flags = {
-    "Tajikistan":"🇹🇯","Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸",
-    "Sri Lanka":"🇱🇰","Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿",
-    "Myanmar":"🇲🇲","Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Tunisia":"🇹🇳"
+    "Comoros": "🇰🇲",
+    "Tanzania": "🇹🇿",
+    "Palestine": "🇵🇸",
+    "Sri Lanka": "🇱🇰",
+    "Cambodia": "🇰🇭",
+    "Malaysia": "🇲🇾",
+    "Algeria": "🇩🇿",
+    "Myanmar": "🇲🇲",
+    "Angola": "🇦🇴",
+    "Afghanistan": "🇦🇫",
+    "Argentina": "🇦🇷",
+    "Armenia Karabakh": "🇦🇲",
+    "Azerbaijan": "🇦🇿",
+    "Belarus": "🇧🇾",
+    "Benin": "🇧🇯",
+    "Bhutan": "🇧🇹",
+    "Bolivia": "🇧🇴",
+    "Bulgaria": "🇧🇬",
+    "Burkina Faso": "🇧🇫",
+    "Cameroon": "🇨🇲",
+    "Ecuador": "🇪🇨",
+    "Egypt": "🇪🇬",
+    "Ethiopia": "🇪🇹",
+    "Gabon": "🇬🇦",
+    "Georgia": "🇬🇪",
+    "Germany": "🇩🇪",
+    "Guinea": "🇬🇳",
+    "Indonesia": "🇮🇩",
+    "Iraq": "🇮🇶",
+    "Ivory Coast": "🇨🇮",
+    "Jordan": "🇯🇴",
+    "Kazakhstan": "🇰🇿",
+    "Kenya": "🇰🇪",
+    "Kosovo": "🇽🇰",
+    "Kuwait": "🇰🇼",
+    "Kyrgyzstan": "🇰🇬",
+    "Lesotho": "🇱🇸",
+    "Libya": "🇱🇾",
+    "Madagascar": "🇲🇬",
+    "Mauritania": "🇲🇷",
+    "Moldova": "🇲🇩",
+    "Mongolia": "🇲🇳",
+    "Morocco": "🇲🇦",
+    "Mozambique": "🇲🇿",
+    "Nepal": "🇳🇵",
+    "Niger": "🇳🇪",
+    "Nigeria": "🇳🇬",
+    "Oman": "🇴🇲",
+    "Pakistan": "🇵🇰",
+    "Russia": "🇷🇺",
+    "Saudi Arabia": "🇸🇦",
+    "Senegal": "🇸🇳",
+    "Slovenia": "🇸🇮",
+    "Sudan": "🇸🇩",
+    "Syria": "🇸🇾",
+    "Tajikistan": "🇹🇯",
+    "Tunisia": "🇹🇳",
+    "Uganda": "🇺🇬",
+    "Ukraine": "🇺🇦",
+    "United Arab Emirates": "🇦🇪",
+    "UAE": "🇦🇪",
+    "Uzbekistan": "🇺🇿",
+    "Vietnam": "🇻🇳",
+    "Zimbabwe": "🇿🇼"
 };
 
 function showToast(msg) {
@@ -411,11 +472,11 @@ function parseData() {
         // দেশের নাম চিহ্নিত করা
         let countryName = detectCountry(trimmed);
 
-        // লাইনের মধ্যে থাকা যেকোনো ৮ থেকে ১৫ ডিজিটের নাম্বার ডিরেক্ট খুঁজে বের করা
+        // লাইনের মধ্যে থাকা যেকোনো ৮ থেকে ১৫ ডিজিটের নাম্বার সরাসরি খুঁজে বের করা
         let matches = trimmed.match(/\d{8,15}/g);
         
         if (matches && matches.length > 0) {
-            // যদি একাধিক নাম্বার টাইপের ডিজিট থাকে, সবচেয়ে বড় সাইজের সিকোয়েন্সটি ফোন নাম্বার হিসেবে নিবে
+            // একাধিক নাম্বার সিকোয়েন্স থাকলে বড় ডিজিটের স্ট্রিংটি নাম্বার হিসেবে গ্রহণ করা
             let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
 
             items.push({

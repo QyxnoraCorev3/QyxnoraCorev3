@@ -292,14 +292,29 @@ body {
 
 .proj-item {
     padding: 10px 14px;
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
 .proj-item.active-proj {
     border-color: var(--accent-cyan);
+}
+
+.proj-del-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-rose);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.proj-del-btn:hover {
+    background: rgba(225, 29, 72, 0.2);
 }
 
 @media(max-width: 1024px) {
@@ -360,7 +375,7 @@ body {
                 <div><div class="stat-val" id="cntTotal">0</div><div class="stat-lbl">TOTAL</div></div>
             </div>
             <div class="card stat-card">
-                <div class="stat-icon" style="color: var(--accent-rose);">📋</div>
+                <div class="stat-icon" style="color: #10b981;">✅</div>
                 <div><div class="stat-val" id="cntCopied">0</div><div class="stat-lbl">COPIED</div></div>
             </div>
             <div class="card stat-card">
@@ -368,7 +383,7 @@ body {
                 <div><div class="stat-val" id="cntPending">0</div><div class="stat-lbl">REMAINING</div></div>
             </div>
             <div class="card stat-card">
-                <div class="stat-icon" style="color: #10b981;">🌐</div>
+                <div class="stat-icon" style="color: #3b82f6;">🌐</div>
                 <div><div class="stat-val" id="cntCountries">0</div><div class="stat-lbl">COUNTRIES</div></div>
             </div>
         </div>
@@ -634,6 +649,22 @@ function saveProject() {
     showToast("Saved!");
 }
 
+function deleteProject(e, idx) {
+    e.stopPropagation(); // Stop opening the project on delete
+    projects.splice(idx, 1);
+    if(activeProjIdx === idx) {
+        items = [];
+        activeProjIdx = -1;
+        document.getElementById("rawInput").value = "";
+    } else if(activeProjIdx > idx) {
+        activeProjIdx--;
+    }
+    localStorage.setItem('qyx_v3_projects', JSON.stringify(projects));
+    renderProjSidebar();
+    render();
+    showToast("Project Deleted!");
+}
+
 function syncWorkspace() {
     if(activeProjIdx >= 0 && projects[activeProjIdx]) {
         projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
@@ -655,8 +686,11 @@ function renderProjSidebar() {
             render();
         };
         div.innerHTML = `
-            <span style="font-size: 11px; font-weight: 700;">📁 ${p.name}</span>
-            <span style="font-size: 10px; color: var(--text-secondary);">${p.items.length} items</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 11px; font-weight: 700;">📁 ${p.name}</span>
+                <span style="font-size: 10px; color: var(--text-secondary);">(${p.items.length})</span>
+            </div>
+            <button class="proj-del-btn" title="Delete Project" onclick="deleteProject(event, ${idx})">🗑️</button>
         `;
         box.appendChild(div);
     });

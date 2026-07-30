@@ -55,8 +55,44 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-.app-layout {
+/* Lock / Login Screen */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-dark);
     display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+.login-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 30px;
+    border-radius: 16px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+.login-card h2 { font-size: 20px; text-align: center; color: #fff; }
+.login-card input {
+    width: 100%;
+    background: #070912;
+    border: 1px solid var(--card-border);
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.app-layout {
+    display: none; /* Login required to display */
     width: 100vw;
     min-height: 100vh;
 }
@@ -231,11 +267,30 @@ body {
 }
 .ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.1); }
 
+/* Filter Tabs */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+.filter-btn {
+    background: #090c15;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.filter-btn.active {
+    background: var(--accent-purple);
+    color: #fff;
+    border-color: var(--accent-purple);
+}
+
 .table-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 14px;
     overflow: hidden;
+    padding: 12px;
 }
 table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
 th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
@@ -272,7 +327,16 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <div class="toast-container" id="toastBox"></div>
 
-<div class="app-layout">
+<!-- Login Lock Overlay -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+        <h2><i class="fa-solid fa-lock" style="color:#8B5CF6;"></i> Username Unlock</h2>
+        <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
+        <button class="btn btn-purple" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
+    </div>
+</div>
+
+<div class="app-layout" id="appLayout">
     <div class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-gem" style="color: #8B5CF6;"></i>
@@ -285,6 +349,8 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
             <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
+            <div class="nav-title">ACCOUNT</div>
+            <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
         </div>
     </div>
 
@@ -295,7 +361,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
             </div>
             <div class="user-area">
-                <div class="avatar">A</div>
+                <div class="avatar" id="userAvatar">A</div>
             </div>
         </div>
 
@@ -336,6 +402,13 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
             </div>
 
             <div class="table-card">
+                <!-- Copied / Pending Filter Tabs -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
+                    <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">All Pending (সিরিয়াল)</button>
+                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">All Copied (সিরিয়াল)</button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -370,75 +443,34 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 </div>
 
 <script>
+const validUsers = [
+    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", "Mahmudsakib"
+];
+
+const UNLOCK_DURATION = 2 * 60 * 60 * 1000; // 2 hours in ms
+
 let items = [];
 let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
+let currentFilter = 'all';
 
 const flags = {
-    "Comoros": "🇰🇲",
-    "Tanzania": "🇹🇿",
-    "Palestine": "🇵🇸",
-    "Sri Lanka": "🇱🇰",
-    "Cambodia": "🇰🇭",
-    "Malaysia": "🇲🇾",
-    "Algeria": "🇩🇿",
-    "Myanmar": "🇲🇲",
-    "Angola": "🇦🇴",
-    "Afghanistan": "🇦🇫",
-    "Argentina": "🇦🇷",
-    "Armenia Karabakh": "🇦🇲",
-    "Azerbaijan": "🇦🇿",
-    "Belarus": "🇧🇾",
-    "Benin": "🇧🇯",
-    "Bhutan": "🇧🇹",
-    "Bolivia": "🇧🇴",
-    "Bulgaria": "🇧🇬",
-    "Burkina Faso": "🇧🇫",
-    "Cameroon": "🇨🇲",
-    "Ecuador": "🇪🇨",
-    "Egypt": "🇪🇬",
-    "Ethiopia": "🇪🇹",
-    "Gabon": "🇬🇦",
-    "Georgia": "🇬🇪",
-    "Germany": "🇩🇪",
-    "Guinea": "🇬🇳",
-    "Indonesia": "🇮🇩",
-    "Iraq": "🇮🇶",
-    "Ivory Coast": "🇨🇮",
-    "Jordan": "🇯🇴",
-    "Kazakhstan": "🇰🇿",
-    "Kenya": "🇰🇪",
-    "Kosovo": "🇽🇰",
-    "Kuwait": "🇰🇼",
-    "Kyrgyzstan": "🇰🇬",
-    "Lesotho": "🇱🇸",
-    "Libya": "🇱🇾",
-    "Madagascar": "🇲🇬",
-    "Mauritania": "🇲🇷",
-    "Moldova": "🇲🇩",
-    "Mongolia": "🇲🇳",
-    "Morocco": "🇲🇦",
-    "Mozambique": "🇲🇿",
-    "Nepal": "🇳🇵",
-    "Niger": "🇳🇪",
-    "Nigeria": "🇳🇬",
-    "Oman": "🇴🇲",
-    "Pakistan": "🇵🇰",
-    "Russia": "🇷🇺",
-    "Saudi Arabia": "🇸🇦",
-    "Senegal": "🇸🇳",
-    "Slovenia": "🇸🇮",
-    "Sudan": "🇸🇩",
-    "Syria": "🇸🇾",
-    "Tajikistan": "🇹🇯",
-    "Tunisia": "🇹🇳",
-    "Uganda": "🇺🇬",
-    "Ukraine": "🇺🇦",
-    "United Arab Emirates": "🇦🇪",
-    "UAE": "🇦🇪",
-    "Uzbekistan": "🇺🇿",
-    "Vietnam": "🇻🇳",
-    "Zimbabwe": "🇿🇼"
+    "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
+    "Cambodia": "🇰🇭", "Malaysia": "🇲🇾", "Algeria": "🇩🇿", "Myanmar": "🇲🇲",
+    "Angola": "🇦🇴", "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Armenia Karabakh": "🇦🇲",
+    "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
+    "Bolivia": "🇧🇴", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Cameroon": "🇨🇲",
+    "Ecuador": "🇪🇨", "Egypt": "🇪🇬", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦",
+    "Georgia": "🇬🇪", "Germany": "🇩🇪", "Guinea": "🇬🇳", "Indonesia": "🇮🇩",
+    "Iraq": "🇮🇶", "Ivory Coast": "🇨🇮", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿",
+    "Kenya": "🇰🇪", "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬",
+    "Lesotho": "🇱🇸", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Mauritania": "🇲🇷",
+    "Moldova": "🇲🇩", "Mongolia": "🇲🇳", "Morocco": "🇲🇦", "Mozambique": "🇲🇿",
+    "Nepal": "🇳🇵", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Oman": "🇴🇲",
+    "Pakistan": "🇵🇰", "Russia": "🇷🇺", "Saudi Arabia": "🇸🇦", "Senegal": "🇸🇳",
+    "Slovenia": "🇸🇮", "Sudan": "🇸🇩", "Syria": "🇸🇾", "Tajikistan": "🇹🇯",
+    "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪",
+    "UAE": "🇦🇪", "Uzbekistan": "🇺🇿", "Vietnam": "🇻🇳", "Zimbabwe": "🇿🇼"
 };
 
 function showToast(msg) {
@@ -448,6 +480,50 @@ function showToast(msg) {
     t.innerText = msg;
     box.appendChild(t);
     setTimeout(() => t.remove(), 2000);
+}
+
+// Lock / Login Logic
+window.onload = function() {
+    const savedUser = localStorage.getItem('activeUser');
+    const unlockTime = localStorage.getItem('unlockTimestamp');
+
+    if (savedUser && unlockTime) {
+        const now = new Date().getTime();
+        if ((now - parseInt(unlockTime)) < UNLOCK_DURATION) {
+            loginSuccess(savedUser);
+            return;
+        } else {
+            localStorage.removeItem('activeUser');
+            localStorage.removeItem('unlockTimestamp');
+            showToast("Session expired. Please unlock again.");
+        }
+    }
+}
+
+function handleLogin() {
+    const val = document.getElementById('loginUser').value.trim();
+    if (validUsers.includes(val)) {
+        localStorage.setItem('activeUser', val);
+        localStorage.setItem('unlockTimestamp', new Date().getTime().toString());
+        loginSuccess(val);
+        showToast("Unlocked successfully!");
+    } else {
+        alert("Invalid Username!");
+    }
+}
+
+function loginSuccess(user) {
+    document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('appLayout').style.display = 'flex';
+    renderProjSidebar();
+    render();
+}
+
+function handleLogout() {
+    localStorage.removeItem('activeUser');
+    localStorage.removeItem('unlockTimestamp');
+    location.reload();
 }
 
 function detectCountry(str) {
@@ -469,14 +545,10 @@ function parseData() {
         let trimmed = l.trim();
         if (!trimmed) return;
 
-        // দেশের নাম চিহ্নিত করা
         let countryName = detectCountry(trimmed);
-
-        // লাইনের মধ্যে থাকা যেকোনো ৮ থেকে ১৫ ডিজিটের নাম্বার সরাসরি খুঁজে বের করা
         let matches = trimmed.match(/\d{8,15}/g);
         
         if (matches && matches.length > 0) {
-            // একাধিক নাম্বার সিকোয়েন্স থাকলে বড় ডিজিটের স্ট্রিংটি নাম্বার হিসেবে গ্রহণ করা
             let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
 
             items.push({
@@ -488,6 +560,14 @@ function parseData() {
     });
 
     renderProjSidebar();
+    render();
+}
+
+function setFilter(type) {
+    currentFilter = type;
+    document.getElementById('filterAllBtn').classList.toggle('active', type === 'all');
+    document.getElementById('filterPendingBtn').classList.toggle('active', type === 'pending');
+    document.getElementById('filterCopiedBtn').classList.toggle('active', type === 'copied');
     render();
 }
 
@@ -503,7 +583,14 @@ function render() {
         countries.add(i.country);
     });
 
-    let filtered = items.filter(i => i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q));
+    let filtered = items.filter(i => {
+        let matchQuery = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);
+        if (!matchQuery) return false;
+
+        if (currentFilter === 'pending') return !i.copied;
+        if (currentFilter === 'copied') return i.copied;
+        return true;
+    });
 
     filtered.forEach(i => {
         let flag = flags[i.country] || "🌍";
@@ -666,9 +753,6 @@ function exportTxt() {
     a.download = `export.txt`;
     a.click();
 }
-
-renderProjSidebar();
-render();
 </script>
 
 </body>

@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 - Advanced Dashboard</title>
+<title>QyxnoraCore v3 Exact Dashboard UI</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Flag Icons CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css">
 
 <style>
 :root {
@@ -57,43 +55,8 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-.login-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: var(--bg-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-}
-.login-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    padding: 30px;
-    border-radius: 16px;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-}
-.login-card h2 { font-size: 20px; text-align: center; color: #fff; }
-.login-card input {
-    width: 100%;
-    background: #070912;
-    border: 1px solid var(--card-border);
-    padding: 10px 14px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 13px;
-    outline: none;
-}
-
 .app-layout {
-    display: none;
+    display: flex;
     width: 100vw;
     min-height: 100vh;
 }
@@ -125,7 +88,11 @@ body {
     border-radius: 6px;
 }
 
-.nav-group { display: flex; flex-direction: column; gap: 2px; }
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
 .nav-title {
     font-size: 10px;
     font-weight: 800;
@@ -264,36 +231,15 @@ body {
 }
 .ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.1); }
 
-.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; }
-.filter-btn {
-    background: #090c15;
-    border: 1px solid var(--card-border);
-    color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-.filter-btn.active {
-    background: var(--accent-purple);
-    color: #fff;
-    border-color: var(--accent-purple);
-}
-
 .table-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 14px;
     overflow: hidden;
-    padding: 12px;
 }
 table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
 th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
 td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
-
-.country-cell { display: flex; align-items: center; gap: 8px; }
-.fi { border-radius: 2px; font-size: 14px; }
 
 .btn {
     padding: 8px 14px;
@@ -326,15 +272,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <div class="toast-container" id="toastBox"></div>
 
-<div class="login-overlay" id="loginOverlay">
-    <div class="login-card">
-        <h2><i class="fa-solid fa-lock" style="color:#8B5CF6;"></i> Username Unlock</h2>
-        <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
-        <button class="btn btn-purple" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
-    </div>
-</div>
-
-<div class="app-layout" id="appLayout">
+<div class="app-layout">
     <div class="sidebar">
         <div class="brand">
             <i class="fa-solid fa-gem" style="color: #8B5CF6;"></i>
@@ -347,8 +285,6 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
             <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
-            <div class="nav-title">ACCOUNT</div>
-            <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
         </div>
     </div>
 
@@ -359,7 +295,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
             </div>
             <div class="user-area">
-                <div class="avatar" id="userAvatar">U</div>
+                <div class="avatar">A</div>
             </div>
         </div>
 
@@ -386,7 +322,7 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
                 <div class="paste-layout">
-                    <textarea id="rawInput" class="paste-box" placeholder="Paste text containing phone numbers here..." oninput="parseData()"></textarea>
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
                     <div style="width:180px; display:flex; flex-direction:column; gap:8px;">
                         <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
                         <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
@@ -400,12 +336,6 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
             </div>
 
             <div class="table-card">
-                <div class="filter-bar">
-                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
-                    <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">All Pending (সিরিয়াল)</button>
-                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">All Copied (সিরিয়াল)</button>
-                </div>
-
                 <table>
                     <thead>
                         <tr>
@@ -440,309 +370,306 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 </div>
 
 <script>
-const validUsers = [
-    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", "Mahmudsakib"
-];
+let items = [];
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
+let activeProjIdx = -1;
 
-const UNLOCK_DURATION = 2 * 60 * 60 * 1000; 
-
-let activeUser = "";
-let db = [];
-let currentFilter = 'all';
+const flags = {
+    "Comoros": "🇰🇲",
+    "Tanzania": "🇹🇿",
+    "Palestine": "🇵🇸",
+    "Sri Lanka": "🇱🇰",
+    "Cambodia": "🇰🇭",
+    "Malaysia": "🇲🇾",
+    "Algeria": "🇩🇿",
+    "Myanmar": "🇲🇲",
+    "Angola": "🇦🇴",
+    "Afghanistan": "🇦🇫",
+    "Argentina": "🇦🇷",
+    "Armenia Karabakh": "🇦🇲",
+    "Azerbaijan": "🇦🇿",
+    "Belarus": "🇧🇾",
+    "Benin": "🇧🇯",
+    "Bhutan": "🇧🇹",
+    "Bolivia": "🇧🇴",
+    "Bulgaria": "🇧🇬",
+    "Burkina Faso": "🇧🇫",
+    "Cameroon": "🇨🇲",
+    "Ecuador": "🇪🇨",
+    "Egypt": "🇪🇬",
+    "Ethiopia": "🇪🇹",
+    "Gabon": "🇬🇦",
+    "Georgia": "🇬🇪",
+    "Germany": "🇩🇪",
+    "Guinea": "🇬🇳",
+    "Indonesia": "🇮🇩",
+    "Iraq": "🇮🇶",
+    "Ivory Coast": "🇨🇮",
+    "Jordan": "🇯🇴",
+    "Kazakhstan": "🇰🇿",
+    "Kenya": "🇰🇪",
+    "Kosovo": "🇽🇰",
+    "Kuwait": "🇰🇼",
+    "Kyrgyzstan": "🇰🇬",
+    "Lesotho": "🇱🇸",
+    "Libya": "🇱🇾",
+    "Madagascar": "🇲🇬",
+    "Mauritania": "🇲🇷",
+    "Moldova": "🇲🇩",
+    "Mongolia": "🇲🇳",
+    "Morocco": "🇲🇦",
+    "Mozambique": "🇲🇿",
+    "Nepal": "🇳🇵",
+    "Niger": "🇳🇪",
+    "Nigeria": "🇳🇬",
+    "Oman": "🇴🇲",
+    "Pakistan": "🇵🇰",
+    "Russia": "🇷🇺",
+    "Saudi Arabia": "🇸🇦",
+    "Senegal": "🇸🇳",
+    "Slovenia": "🇸🇮",
+    "Sudan": "🇸🇩",
+    "Syria": "🇸🇾",
+    "Tajikistan": "🇹🇯",
+    "Tunisia": "🇹🇳",
+    "Uganda": "🇺🇬",
+    "Ukraine": "🇺🇦",
+    "United Arab Emirates": "🇦🇪",
+    "UAE": "🇦🇪",
+    "Uzbekistan": "🇺🇿",
+    "Vietnam": "🇻🇳",
+    "Zimbabwe": "🇿🇼"
+};
 
 function showToast(msg) {
-    const box = document.getElementById('toastBox');
-    const t = document.createElement('div');
-    t.className = 'toast';
+    const box = document.getElementById("toastBox");
+    const t = document.createElement("div");
+    t.className = "toast";
     t.innerText = msg;
     box.appendChild(t);
-    setTimeout(() => t.remove(), 2500);
+    setTimeout(() => t.remove(), 2000);
 }
 
-window.onload = function() {
-    const savedUser = localStorage.getItem('activeUser');
-    const unlockTime = localStorage.getItem('unlockTimestamp');
-
-    if (savedUser && unlockTime) {
-        const now = new Date().getTime();
-        if ((now - parseInt(unlockTime)) < UNLOCK_DURATION) {
-            loginSuccess(savedUser);
-            return;
-        } else {
-            localStorage.removeItem('activeUser');
-            localStorage.removeItem('unlockTimestamp');
-            showToast("Session expired (2 hours limit).");
-        }
+function detectCountry(str) {
+    if (!str) return "Unknown";
+    for (let c in flags) {
+        if (str.toLowerCase().includes(c.toLowerCase())) return c;
     }
+    let match = str.trim().match(/^([A-Za-z]+)/);
+    return match ? match[1] : "Unknown";
 }
 
-function handleLogin() {
-    const val = document.getElementById('loginUser').value.trim();
-    if (validUsers.includes(val)) {
-        localStorage.setItem('activeUser', val);
-        localStorage.setItem('unlockTimestamp', new Date().getTime().toString());
-        loginSuccess(val);
-        showToast("Unlocked successfully!");
-    } else {
-        alert("Invalid Username!");
-    }
-}
-
-function loginSuccess(user) {
-    activeUser = user;
-    document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
-    document.getElementById('loginOverlay').style.display = 'none';
-    document.getElementById('appLayout').style.display = 'flex';
-    loadWorkspaces();
-}
-
-function handleLogout() {
-    localStorage.removeItem('activeUser');
-    localStorage.removeItem('unlockTimestamp');
-    location.reload();
-}
-
-// 🌍 ALL MAJOR COUNTRY CODES LIST (Expanded)
-function detectCountry(num) {
-    let clean = num.replace('+', '').trim();
-    
-    if (clean.startsWith('60'))  return { code: 'my', name: 'Malaysia' };
-    if (clean.startsWith('216')) return { code: 'tn', name: 'Tunisia' };
-    if (clean.startsWith('213')) return { code: 'dz', name: 'Algeria' };
-    if (clean.startsWith('212')) return { code: 'ma', name: 'Morocco' };
-    if (clean.startsWith('20'))  return { code: 'eg', name: 'Egypt' };
-    if (clean.startsWith('880')) return { code: 'bd', name: 'Bangladesh' };
-    if (clean.startsWith('91'))  return { code: 'in', name: 'India' };
-    if (clean.startsWith('92'))  return { code: 'pk', name: 'Pakistan' };
-    if (clean.startsWith('966')) return { code: 'sa', name: 'Saudi Arabia' };
-    if (clean.startsWith('971')) return { code: 'ae', name: 'UAE' };
-    if (clean.startsWith('1'))   return { code: 'us', name: 'USA/Canada' };
-    if (clean.startsWith('44'))  return { code: 'gb', name: 'UK' };
-    if (clean.startsWith('62'))  return { code: 'id', name: 'Indonesia' };
-    if (clean.startsWith('63'))  return { code: 'ph', name: 'Philippines' };
-    if (clean.startsWith('84'))  return { code: 'vn', name: 'Vietnam' };
-    if (clean.startsWith('66'))  return { code: 'th', name: 'Thailand' };
-    if (clean.startsWith('234')) return { code: 'ng', name: 'Nigeria' };
-    if (clean.startsWith('254')) return { code: 'ke', name: 'Kenya' };
-    if (clean.startsWith('27'))  return { code: 'za', name: 'South Africa' };
-    if (clean.startsWith('90'))  return { code: 'tr', name: 'Turkey' };
-    if (clean.startsWith('7'))   return { code: 'ru', name: 'Russia' };
-    
-    return { code: 'un', name: 'Other' };
-}
-
-// 🎯 ULTIMATE CLEAN PARSER: Extract ONLY valid phone numbers line by line
 function parseData() {
-    const raw = document.getElementById('rawInput').value;
-    const lines = raw.split('\n');
-    db = [];
+    activeProjIdx = -1;
+    let txt = document.getElementById("rawInput").value;
+    let lines = txt.split("\n");
+    items = [];
 
-    lines.forEach(line => {
-        // Line-by-line regex match to extract phone numbers accurately
-        let matches = line.match(/\+?\d{8,15}/g);
-        if (matches) {
-            matches.forEach(num => {
-                let trimmed = num.trim();
-                let info = detectCountry(trimmed);
-                db.push({
-                    number: trimmed,
-                    country: info.name,
-                    code: info.code,
-                    copied: false
-                });
+    lines.forEach(l => {
+        let trimmed = l.trim();
+        if (!trimmed) return;
+
+        // দেশের নাম চিহ্নিত করা
+        let countryName = detectCountry(trimmed);
+
+        // লাইনের মধ্যে থাকা যেকোনো ৮ থেকে ১৫ ডিজিটের নাম্বার সরাসরি খুঁজে বের করা
+        let matches = trimmed.match(/\d{8,15}/g);
+        
+        if (matches && matches.length > 0) {
+            // একাধিক নাম্বার সিকোয়েন্স থাকলে বড় ডিজিটের স্ট্রিংটি নাম্বার হিসেবে গ্রহণ করা
+            let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
+
+            items.push({
+                number: targetNumber,
+                country: countryName,
+                copied: false
             });
         }
     });
-    render();
-}
 
-function updateCountryMeta() {
-    db.forEach(x => {
-        let info = detectCountry(x.number);
-        x.country = info.name;
-        x.code = info.code;
-    });
-}
-
-function setFilter(type) {
-    currentFilter = type;
-    document.getElementById('filterAllBtn').classList.toggle('active', type === 'all');
-    document.getElementById('filterPendingBtn').classList.toggle('active', type === 'pending');
-    document.getElementById('filterCopiedBtn').classList.toggle('active', type === 'copied');
+    renderProjSidebar();
     render();
 }
 
 function render() {
-    const tbody = document.getElementById('dataTable');
-    tbody.innerHTML = '';
-    const q = document.getElementById('searchKey').value.toLowerCase();
+    let tbody = document.getElementById("dataTable");
+    tbody.innerHTML = "";
+    let q = document.getElementById("searchKey").value.toLowerCase();
+    let countries = new Set();
+    let copiedCnt = 0;
 
-    let displayList = db.filter(item => {
-        let matchQuery = item.number.toLowerCase().includes(q) || item.country.toLowerCase().includes(q);
-        if (!matchQuery) return false;
-
-        if (currentFilter === 'pending') return !item.copied;
-        if (currentFilter === 'copied') return item.copied;
-        return true;
+    items.forEach(i => {
+        if(i.copied) copiedCnt++;
+        countries.add(i.country);
     });
 
-    displayList.forEach((item) => {
-        let realIndex = db.indexOf(item);
-        let tr = document.createElement('tr');
-        
-        let flagHTML = (item.code && item.code !== 'un') 
-            ? `<span class="fi fi-${item.code}"></span>` 
-            : `<i class="fa-solid fa-globe" style="color:var(--text-muted);"></i>`;
+    let filtered = items.filter(i => i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q));
 
+    filtered.forEach(i => {
+        let flag = flags[i.country] || "🌍";
+        let tr = document.createElement("tr");
         tr.innerHTML = `
+            <td><span style="font-size:13px; margin-right:4px;">${flag}</span> ${i.country}</td>
+            <td style="font-weight:700;">${i.number}</td>
             <td>
-                <div class="country-cell">
-                    ${flagHTML}
-                    <strong>${item.country}</strong>
-                </div>
-            </td>
-            <td style="font-family: monospace; font-size:13px; font-weight: 600; color: #38BDF8;">${item.number}</td>
-            <td>
-                <span class="badge-status ${item.copied ? 'badge-copied' : 'badge-pending'}">
-                    ${item.copied ? 'COPIED' : 'PENDING'}
+                <span class="badge-status ${i.copied ? 'badge-copied' : 'badge-pending'}">
+                    ${i.copied ? 'Copied ✓' : 'Pending'}
                 </span>
             </td>
             <td style="text-align: right;">
-                <button class="btn btn-purple" style="padding:4px 8px; font-size:10px;" onclick="copySingle(${realIndex})">
-                    <i class="fa-solid fa-copy"></i> Copy
+                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:3px 8px; font-size:10px;" onclick="copySingle('${i.number}')">
+                    ${i.copied ? 'Copied' : 'Copy'}
                 </button>
             </td>
         `;
         tbody.appendChild(tr);
     });
 
-    document.getElementById('cntTotal').innerText = db.length;
-    let copiedCnt = db.filter(x => x.copied).length;
-    document.getElementById('cntCopied').innerText = copiedCnt;
-    document.getElementById('cntPending').innerText = db.length - copiedCnt;
-    let countries = [...new Set(db.map(x => x.country))];
-    document.getElementById('cntCountries').innerText = countries.length;
+    document.getElementById("cntTotal").innerText = items.length;
+    document.getElementById("cntCopied").innerText = copiedCnt;
+    document.getElementById("cntPending").innerText = items.length - copiedCnt;
+    document.getElementById("cntCountries").innerText = countries.size;
 }
 
-function copySingle(index) {
-    navigator.clipboard.writeText(db[index].number);
-    db[index].copied = true;
-    showToast("Copied: " + db[index].number);
-    render();
+function copySingle(num) {
+    navigator.clipboard.writeText(num);
+    let itm = items.find(x => x.number === num);
+    if(itm) {
+        itm.copied = true;
+        syncWorkspace();
+        render();
+        showToast("Copied!");
+    }
 }
 
 function copyAllRemaining() {
-    let pending = db.filter(x => !x.copied).map(x => x.number);
-    if (pending.length === 0) {
-        showToast("No pending numbers!");
-        return;
-    }
-    navigator.clipboard.writeText(pending.join('\n'));
-    db.forEach(x => x.copied = true);
-    showToast("Copied " + pending.length + " pending numbers!");
+    let list = items.filter(x => !x.copied).map(x => x.number);
+    if(list.length === 0) return showToast("No pending numbers!");
+    navigator.clipboard.writeText(list.join("\n"));
+    items.forEach(x => x.copied = true);
+    syncWorkspace();
     render();
-}
-
-function deduplicate() {
-    let before = db.length;
-    let seen = new Set();
-    db = db.filter(item => {
-        let k = item.number;
-        return seen.has(k) ? false : seen.add(k);
-    });
-    showToast("Removed " + (before - db.length) + " duplicates");
-    render();
-}
-
-function applyPlus(add) {
-    db.forEach(x => {
-        if (add && !x.number.startsWith('+')) x.number = '+' + x.number;
-        if (!add && x.number.startsWith('+')) x.number = x.number.replace('+', '');
-    });
-    updateCountryMeta();
-    render();
+    showToast("Copied All!");
 }
 
 function applyRemovePrefix() {
-    let p = document.getElementById('prefixRemove').value.trim();
-    if (!p) return;
-    db.forEach(x => {
-        if (x.number.startsWith(p)) x.number = x.number.substring(p.length);
-        if (x.number.startsWith('+' + p)) x.number = '+' + x.number.substring(p.length + 1);
-    });
-    updateCountryMeta();
+    let p = document.getElementById("prefixRemove").value.trim();
+    if(!p) return;
+    items.forEach(i => { if(i.number.startsWith(p)) i.number = i.number.slice(p.length); });
+    syncWorkspace();
     render();
+    showToast("Prefix Removed!");
 }
 
 function applyAddPrefix() {
-    let p = document.getElementById('prefixAdd').value.trim();
-    if (!p) return;
-    db.forEach(x => {
-        x.number = p + x.number;
-    });
-    updateCountryMeta();
+    let p = document.getElementById("prefixAdd").value.trim();
+    if(!p) return;
+    items.forEach(i => { i.number = p + i.number; });
+    syncWorkspace();
     render();
+    showToast("Prefix Added!");
 }
 
-function exportTxt() {
-    let txt = db.map(x => x.number).join('\n');
-    let blob = new Blob([txt], { type: "text/plain" });
-    let a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = "numbers.txt";
-    a.click();
+function applyPlus(add) {
+    items.forEach(i => {
+        if(add && !i.number.startsWith("+")) i.number = "+" + i.number;
+        if(!add) i.number = i.number.replace(/^\+/, '');
+    });
+    syncWorkspace();
+    render();
+    showToast(add ? "Added '+'" : "Removed '+'");
+}
+
+function deduplicate() {
+    let before = items.length;
+    let seen = new Set();
+    items = items.filter(i => {
+        if(seen.has(i.number)) return false;
+        seen.add(i.number);
+        return true;
+    });
+    syncWorkspace();
+    render();
+    showToast(`Removed ${before - items.length} Duplicates`);
 }
 
 function clearWorkspace() {
-    db = [];
-    document.getElementById('rawInput').value = '';
+    items = [];
+    document.getElementById("rawInput").value = "";
+    syncWorkspace();
     render();
-    showToast("Workspace Cleared");
+    showToast("Cleared!");
 }
 
 function saveProject() {
-    let name = document.getElementById('projTitle').value.trim();
-    if (!name) return alert("Enter Workspace Name");
-    let key = "ws_" + activeUser + "_" + name;
-    localStorage.setItem(key, JSON.stringify(db));
-    showToast("Saved: " + name);
-    loadWorkspaces();
+    let title = document.getElementById("projTitle").value.trim() || "Workspace " + (projects.length + 1);
+    if(items.length === 0) return showToast("No data to save!");
+    projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
+    activeProjIdx = projects.length - 1;
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    renderProjSidebar();
+    showToast("Saved Workspace!");
 }
 
-function loadWorkspaces() {
-    let container = document.getElementById('projList');
-    container.innerHTML = '';
-    let prefix = "ws_" + activeUser + "_";
-    for (let i = 0; i < localStorage.length; i++) {
-        let k = localStorage.key(i);
-        if (k.startsWith(prefix)) {
-            let name = k.replace(prefix, '');
-            let div = document.createElement('div');
-            div.className = 'ws-item';
-            div.innerHTML = `
-                <span onclick="openWorkspace('${k}')">📁 ${name}</span>
-                <i class="fa-solid fa-xmark" style="color:#E11D48;" onclick="deleteWorkspace('${k}')"></i>
-            `;
-            container.appendChild(div);
-        }
+function deleteProject(e, idx) {
+    e.stopPropagation();
+    projects.splice(idx, 1);
+    if(activeProjIdx === idx) {
+        items = [];
+        activeProjIdx = -1;
+        document.getElementById("rawInput").value = "";
+    } else if(activeProjIdx > idx) {
+        activeProjIdx--;
+    }
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    renderProjSidebar();
+    render();
+    showToast("Deleted!");
+}
+
+function syncWorkspace() {
+    if(activeProjIdx >= 0 && projects[activeProjIdx]) {
+        projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
+        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+        renderProjSidebar();
     }
 }
 
-function openWorkspace(key) {
-    let data = localStorage.getItem(key);
-    if (data) {
-        db = JSON.parse(data);
-        updateCountryMeta();
-        render();
-        showToast("Workspace Loaded");
-    }
+function renderProjSidebar() {
+    let box = document.getElementById("projList");
+    box.innerHTML = "";
+    projects.forEach((p, idx) => {
+        let div = document.createElement("div");
+        div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''}`;
+        div.onclick = () => {
+            activeProjIdx = idx;
+            items = JSON.parse(JSON.stringify(p.items));
+            renderProjSidebar();
+            render();
+        };
+        div.innerHTML = `
+            <div>
+                <div style="font-size: 11px; font-weight: 700;">📁 ${p.name}</div>
+                <div style="font-size: 9px; color: var(--text-muted);">${p.items.length} Numbers</div>
+            </div>
+            <i class="fa-solid fa-trash" style="color: var(--accent-rose); font-size: 11px;" onclick="deleteProject(event, ${idx})"></i>
+        `;
+        box.appendChild(div);
+    });
 }
 
-function deleteWorkspace(key) {
-    localStorage.removeItem(key);
-    loadWorkspaces();
-    showToast("Deleted Workspace");
+function exportTxt() {
+    if(items.length === 0) return showToast("No data!");
+    let blob = new Blob([items.map(x => x.number).join("\n")], {type: "text/plain"});
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `export.txt`;
+    a.click();
 }
+
+renderProjSidebar();
+render();
 </script>
+
 </body>
 </html>

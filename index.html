@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Pro Dashboard</title>
+<title>QyxnoraCore v3 Exact Dashboard UI</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root {
-    --bg-dark: #07090e;
-    --panel-bg: #0d111a;
-    --card-bg: #131926;
-    --card-border: #1e293b;
-    --accent-purple: #8b5cf6;
-    --accent-purple-glow: #7c3aed;
-    --accent-cyan: #06b6d4;
-    --accent-green: #10b981;
-    --accent-rose: #f43f5e;
-    --text-primary: #f8fafc;
-    --text-muted: #64748b;
+    --bg-dark: #05070e;
+    --sidebar-bg: #090c15;
+    --card-bg: #0f1422;
+    --card-border: #1a233a;
+    --card-hover: #161e31;
+    --accent-purple: #7C3AED;
+    --accent-purple-glow: rgba(124, 58, 237, 0.4);
+    --accent-blue: #2563EB;
+    --accent-cyan: #0284C7;
+    --accent-emerald: #059669;
+    --accent-rose: #E11D48;
+    --text-primary: #F8FAFC;
+    --text-muted: #64748B;
 }
 
 * {
@@ -47,7 +49,7 @@ body {
     gap: 8px;
 }
 .toast {
-    background: #1e293b;
+    background: #182238;
     border-left: 4px solid var(--accent-purple);
     color: #fff;
     padding: 12px 18px;
@@ -57,7 +59,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-/* Layout */
 .app-layout {
     display: flex;
     width: 100vw;
@@ -66,13 +67,13 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 260px;
-    background: var(--panel-bg);
+    width: 250px;
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
-    padding: 20px 15px;
-    gap: 20px;
+    padding: 16px 12px;
+    gap: 15px;
     flex-shrink: 0;
 }
 
@@ -83,54 +84,56 @@ body {
     font-size: 18px;
     font-weight: 800;
     color: #fff;
+    padding: 8px 10px;
 }
 .brand-badge {
-    background: var(--accent-purple);
+    background: #8B5CF6;
     font-size: 10px;
     padding: 2px 6px;
     border-radius: 6px;
-    margin-left: 4px;
 }
 
-.nav-section {
+.nav-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 .nav-title {
     font-size: 10px;
     font-weight: 800;
     color: var(--text-muted);
     letter-spacing: 1px;
-    margin: 10px 0 6px 10px;
+    margin: 12px 0 6px 10px;
+    text-transform: uppercase;
 }
 .nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    color: #94a3b8;
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: #94A3B8;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.15s;
     text-decoration: none;
 }
-.nav-item:hover, .nav-item.active {
-    background: rgba(139, 92, 246, 0.15);
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.04);
     color: #fff;
 }
 .nav-item.active {
-    border: 1px solid rgba(139, 92, 246, 0.4);
+    background: linear-gradient(90deg, rgba(124, 58, 237, 0.25), rgba(124, 58, 237, 0.05));
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    color: #fff;
 }
 
-/* Upgrade Card */
-.upgrade-card {
+.upgrade-box {
     margin-top: auto;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.1));
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(37, 99, 235, 0.08));
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 12px;
     padding: 16px;
     text-align: center;
 }
@@ -144,117 +147,143 @@ body {
     overflow-y: auto;
 }
 
-/* Header */
+/* Top Navigation Bar */
 .top-header {
-    height: 65px;
+    height: 60px;
     border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
-    background: var(--panel-bg);
+    padding: 0 24px;
+    background: var(--sidebar-bg);
 }
-.search-header {
+
+.search-box {
     position: relative;
-    width: 320px;
+    width: 340px;
 }
-.search-header input {
+.search-box input {
     width: 100%;
-    background: #07090e;
+    background: #080B13;
     border: 1px solid var(--card-border);
     padding: 8px 12px 8px 36px;
-    border-radius: 10px;
+    border-radius: 8px;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     outline: none;
 }
-.search-header i {
+.search-box i {
     position: absolute;
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
+    font-size: 13px;
 }
 
-.user-nav {
+.user-area {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
+}
+.icon-btn {
+    position: relative;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 15px;
+}
+.icon-btn .badge {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    background: var(--accent-purple);
+    color: #fff;
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 .avatar {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--accent-purple);
+    background: linear-gradient(135deg, #7C3AED, #2563EB);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    font-size: 13px;
 }
 
-/* Content Container */
+/* Container Body */
 .container {
-    padding: 24px 30px;
+    padding: 20px 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
-/* Welcome Banner */
-.welcome-banner {
-    background: linear-gradient(90deg, #131926 0%, #1a102f 100%);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
+/* Welcome Card Banner */
+.welcome-card {
+    background: linear-gradient(135deg, #111526 0%, #170d2c 100%);
+    border: 1px solid #231b3e;
+    border-radius: 14px;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Stats Cards */
+/* Stat Cards */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
+    gap: 10px;
 }
-.stat-box {
+.stat-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 14px;
+    border-radius: 10px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
-.stat-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-/* Paste Area */
-.paste-container {
+/* Paste Textarea Area */
+.paste-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 14px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
 }
-.paste-area {
+.paste-layout {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
-.paste-textarea {
+.paste-box {
     flex: 1;
-    background: #07090e;
+    background: #070912;
     border: 1px solid var(--card-border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 12px;
     color: #fff;
     font-size: 13px;
@@ -262,104 +291,63 @@ body {
     outline: none;
     resize: vertical;
 }
-.paste-actions {
-    width: 200px;
+.paste-side-actions {
+    width: 180px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-/* Workspaces Horizontal */
-.workspaces-section {
+/* Saved Workspaces Horizontal Cards */
+.ws-list {
     display: flex;
-    flex-direction: column;
     gap: 10px;
-}
-.ws-cards {
-    display: flex;
-    gap: 12px;
     overflow-x: auto;
-    padding-bottom: 5px;
 }
-.ws-card {
-    min-width: 200px;
+.ws-item {
+    min-width: 180px;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    padding: 12px 16px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.ws-card.active {
+.ws-item.active {
     border-color: var(--accent-purple);
-    background: rgba(139, 92, 246, 0.08);
+    background: rgba(124, 58, 237, 0.1);
 }
 
-/* Control Bar */
-.filter-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--panel-bg);
-    padding: 10px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--card-border);
-}
-.pills {
-    display: flex;
-    gap: 4px;
-    background: #07090e;
-    padding: 4px;
-    border-radius: 8px;
-}
-.pill {
-    padding: 6px 14px;
-    border: none;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-}
-.pill.active {
-    background: var(--card-border);
-    color: #fff;
-}
-
-/* Data Table */
-.table-container {
+/* Table Area */
+.table-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
 }
 table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 13px;
+    font-size: 12px;
 }
 th {
-    background: #0d111a;
-    padding: 12px 16px;
+    background: #090c15;
+    padding: 10px 14px;
     color: var(--text-muted);
     font-weight: 600;
     border-bottom: 1px solid var(--card-border);
 }
 td {
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-bottom: 1px solid var(--card-border);
-}
-tr:hover {
-    background: rgba(255,255,255,0.02);
 }
 
 /* Buttons System */
 .btn {
-    padding: 9px 16px;
+    padding: 8px 14px;
     border: none;
     border-radius: 8px;
     font-size: 12px;
@@ -368,43 +356,32 @@ tr:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     color: #fff;
-    transition: opacity 0.15s;
 }
-.btn:active { opacity: 0.8; }
 .btn-purple { background: var(--accent-purple); }
-.btn-cyan { background: #0284c7; }
-.btn-green { background: var(--accent-green); }
+.btn-cyan { background: var(--accent-cyan); }
+.btn-emerald { background: var(--accent-emerald); }
 .btn-rose { background: var(--accent-rose); }
-.btn-outline { background: transparent; border: 1px solid var(--card-border); color: #fff; }
+.btn-dark { background: #1a233a; }
 
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
+.badge-status {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 10px;
     font-weight: 700;
 }
-.status-copied { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-.status-pending { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+.badge-copied { background: rgba(5, 150, 105, 0.15); color: #10B981; }
+.badge-pending { background: rgba(225, 29, 72, 0.15); color: #F43F5E; }
 
-/* Grid Operations Panel */
-.grid-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-.grid-btn-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-}
+/* Action Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
 
 @media(max-width: 1024px) {
     .sidebar { display: none; }
     .stats-grid { grid-template-columns: repeat(3, 1fr); }
-    .grid-btn-bar { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -415,108 +392,105 @@ tr:hover {
 
 <div class="app-layout">
 
-    <!-- Left Sidebar -->
+    <!-- Left Sidebar Navigation -->
     <div class="sidebar">
         <div class="brand">
-            <i class="fa-solid fa-gem" style="color: var(--accent-purple);"></i>
+            <i class="fa-solid fa-gem" style="color: #8B5CF6;"></i>
             QyxnoraCore <span class="brand-badge">v3</span>
         </div>
 
-        <div class="nav-section">
+        <div class="nav-group">
+            <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+            
             <div class="nav-title">WORKSPACE</div>
-            <a class="nav-item active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-paste"></i> Add Prefix</a>
-            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-scissors"></i> Remove Prefix</a>
+            <a class="nav-item" onclick="document.getElementById('rawInput').focus()"><i class="fa-solid fa-cubes"></i> Workspaces</a>
+            <a class="nav-item" onclick="document.getElementById('prefixAdd').focus()"><i class="fa-solid fa-plus-minus"></i> Add Prefix</a>
+            <a class="nav-item" onclick="document.getElementById('prefixRemove').focus()"><i class="fa-solid fa-eraser"></i> Remove Prefix</a>
             <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
             <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
-            <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</a>
+            <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
         </div>
 
-        <div class="upgrade-card">
-            <i class="fa-solid fa-bolt" style="font-size: 24px; color: var(--accent-purple); margin-bottom: 8px;"></i>
-            <div style="font-size: 13px; font-weight: 700;">Fast & Lite Engine</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Optimized for zero-lag performance</div>
+        <div class="upgrade-box">
+            <i class="fa-solid fa-gem" style="font-size: 20px; color: #8B5CF6; margin-bottom: 6px;"></i>
+            <div style="font-size: 12px; font-weight: 700;">Fast & Smooth Engine</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Zero lag optimized dashboard</div>
         </div>
     </div>
 
-    <!-- Main Content Area -->
+    <!-- Main View -->
     <div class="main-content">
 
         <!-- Top Header -->
         <div class="top-header">
-            <div class="search-header">
+            <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
             </div>
-            <div class="user-nav">
-                <i class="fa-regular fa-bell" style="color: var(--text-muted); cursor: pointer;"></i>
-                <div class="avatar">A</div>
-                <div style="font-size: 13px; font-weight: 600;">Admin User</div>
+            <div class="user-area">
+                <div class="icon-btn"><i class="fa-regular fa-bell"></i><span class="badge">3</span></div>
+                <div class="user-profile">
+                    <div class="avatar">A</div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 700;">Admin User</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Administrator</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Dashboard Body -->
+        <!-- Dashboard Content -->
         <div class="container">
 
             <!-- Welcome Banner -->
-            <div class="welcome-banner">
+            <div class="welcome-card">
                 <div>
-                    <h2 style="font-size: 18px; font-weight: 800;">👋 Welcome back, Admin!</h2>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Manage your numbers, tools, and workspaces effortlessly.</p>
+                    <h2 style="font-size: 16px; font-weight: 800;">👋 Welcome back, Admin!</h2>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">Manage your numbers, tools, and workflows in one place.</p>
                 </div>
             </div>
 
             <!-- Stats Bar -->
             <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-icon-box" style="background: rgba(139, 92, 246, 0.2); color: var(--accent-purple);"><i class="fa-solid fa-list-ol"></i></div>
-                    <div><div style="font-size: 18px; font-weight: 800;" id="cntTotal">0</div><div style="font-size: 10px; color: var(--text-muted);">TOTAL</div></div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #8B5CF6;"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div><div style="font-size: 16px; font-weight: 800;" id="cntTotal">0</div><div style="font-size: 9px; color: var(--text-muted);">TOTAL</div></div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-icon-box" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-green);"><i class="fa-solid fa-check"></i></div>
-                    <div><div style="font-size: 18px; font-weight: 800;" id="cntCopied">0</div><div style="font-size: 10px; color: var(--text-muted);">COPIED</div></div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
+                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCopied">0</div><div style="font-size: 9px; color: var(--text-muted);">COPIED</div></div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-icon-box" style="background: rgba(244, 63, 94, 0.2); color: var(--accent-rose);"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div><div style="font-size: 18px; font-weight: 800;" id="cntPending">0</div><div style="font-size: 10px; color: var(--text-muted);">PENDING</div></div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(225, 29, 72, 0.2); color: #F43F5E;"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div><div style="font-size: 16px; font-weight: 800;" id="cntPending">0</div><div style="font-size: 9px; color: var(--text-muted);">PENDING</div></div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-icon-box" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);"><i class="fa-solid fa-globe"></i></div>
-                    <div><div style="font-size: 18px; font-weight: 800;" id="cntCountries">0</div><div style="font-size: 10px; color: var(--text-muted);">COUNTRIES</div></div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
+                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCountries">0</div><div style="font-size: 9px; color: var(--text-muted);">COUNTRIES</div></div>
                 </div>
             </div>
 
-            <!-- Data Input Area -->
-            <div class="paste-container">
-                <div style="font-size: 13px; font-weight: 700;">Paste Your Data</div>
-                <div class="paste-area">
-                    <textarea id="rawInput" class="paste-textarea" placeholder="Paste numbers or text here..." oninput="parseData()"></textarea>
-                    <div class="paste-actions">
-                        <input type="text" id="projTitle" class="search-header" style="width:100%; border-radius:8px; padding:10px; background:#07090e; border:1px solid var(--card-border); color:#fff; font-size:12px;" placeholder="Workspace Name">
+            <!-- Paste Your Data -->
+            <div class="paste-card">
+                <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
+                <div class="paste-layout">
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste numbers or text below..." oninput="parseData()"></textarea>
+                    <div class="paste-side-actions">
+                        <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
                         <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Saved Workspaces Horizontal -->
-            <div class="workspaces-section">
-                <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);">SAVED WORKSPACES</div>
-                <div class="ws-cards" id="projList"></div>
+            <!-- Saved Workspaces -->
+            <div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
+                <div class="ws-list" id="projList"></div>
             </div>
 
-            <!-- Controls & Filter -->
-            <div class="filter-bar">
-                <div class="pills">
-                    <button class="pill active" onclick="setFilter('all', this)">All</button>
-                    <button class="pill" onclick="setFilter('pending', this)">Pending</button>
-                    <button class="pill" onclick="setFilter('copied', this)">Copied</button>
-                </div>
-                <button class="btn btn-green" onclick="exportTxt()"><i class="fa-solid fa-download"></i> Export TXT</button>
-            </div>
-
-            <!-- Data Table View -->
-            <div class="table-container">
+            <!-- Table View -->
+            <div class="table-card">
                 <table>
                     <thead>
                         <tr>
@@ -530,21 +504,21 @@ tr:hover {
                 </table>
             </div>
 
-            <!-- Prefix & Action Controls Grid -->
-            <div class="paste-container">
-                <div class="grid-actions">
-                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#07090e; border:1px solid var(--card-border); padding:10px; border-radius:8px; color:#fff; font-size:12px;">
-                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)" style="background:#07090e; border:1px solid var(--card-border); padding:10px; border-radius:8px; color:#fff; font-size:12px;">
+            <!-- Controls Panel -->
+            <div class="paste-card">
+                <div class="grid-2">
+                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
+                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
                 </div>
-                <div class="grid-btn-bar">
-                    <button class="btn btn-green" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                <div class="grid-4">
+                    <button class="btn btn-emerald" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
                     <button class="btn btn-cyan" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
                     <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
                     <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
                     <button class="btn btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
                     <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-copy"></i> Copy All Pending</button>
-                    <button class="btn btn-green" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
-                    <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</button>
+                    <button class="btn btn-emerald" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
+                    <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
                 </div>
             </div>
 
@@ -554,14 +528,13 @@ tr:hover {
 
 <script>
 let items = [];
-let projects = JSON.parse(localStorage.getItem('qyx_pro_projects')) || [];
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
-let currentFilter = 'all';
 
 const flags = {
     "Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸","Sri Lanka":"🇱🇰",
     "Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿","Myanmar":"🇲🇲",
-    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Tunisia":"🇹🇳"
+    "Tunisia":"🇹🇳"
 };
 
 function showToast(msg) {
@@ -603,26 +576,21 @@ function render() {
         countries.add(i.country);
     });
 
-    let filtered = items.filter(i => {
-        let match = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);
-        if(currentFilter === 'copied') return match && i.copied;
-        if(currentFilter === 'pending') return match && !i.copied;
-        return match;
-    });
+    let filtered = items.filter(i => i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q));
 
     filtered.forEach(i => {
         let flag = flags[i.country] || "🌍";
         let tr = document.createElement("tr");
         tr.innerHTML = `
-            <td><span style="font-size:14px; margin-right:6px;">${flag}</span> ${i.country}</td>
+            <td><span style="font-size:13px; margin-right:4px;">${flag}</span> ${i.country}</td>
             <td style="font-weight:700;">${i.number}</td>
             <td>
-                <span class="status-badge ${i.copied ? 'status-copied' : 'status-pending'}">
+                <span class="badge-status ${i.copied ? 'badge-copied' : 'badge-pending'}">
                     ${i.copied ? 'Copied ✓' : 'Pending'}
                 </span>
             </td>
             <td style="text-align: right;">
-                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:4px 10px; font-size:11px;" onclick="copySingle('${i.number}')">
+                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:3px 8px; font-size:10px;" onclick="copySingle('${i.number}')">
                     ${i.copied ? 'Copied' : 'Copy'}
                 </button>
             </td>
@@ -643,7 +611,7 @@ function copySingle(num) {
         itm.copied = true;
         syncWorkspace();
         render();
-        showToast("Copied to clipboard!");
+        showToast("Copied!");
     }
 }
 
@@ -654,7 +622,7 @@ function copyAllRemaining() {
     items.forEach(x => x.copied = true);
     syncWorkspace();
     render();
-    showToast("Copied All Pending!");
+    showToast("Copied All!");
 }
 
 function applyRemovePrefix() {
@@ -703,14 +671,7 @@ function clearWorkspace() {
     document.getElementById("rawInput").value = "";
     syncWorkspace();
     render();
-    showToast("Workspace Cleared!");
-}
-
-function setFilter(f, btn) {
-    currentFilter = f;
-    document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render();
+    showToast("Cleared!");
 }
 
 function saveProject() {
@@ -718,9 +679,9 @@ function saveProject() {
     if(items.length === 0) return showToast("No data to save!");
     projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
     activeProjIdx = projects.length - 1;
-    localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
     renderProjSidebar();
-    showToast("Workspace Saved!");
+    showToast("Saved Workspace!");
 }
 
 function deleteProject(e, idx) {
@@ -733,7 +694,7 @@ function deleteProject(e, idx) {
     } else if(activeProjIdx > idx) {
         activeProjIdx--;
     }
-    localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
     renderProjSidebar();
     render();
     showToast("Deleted!");
@@ -742,7 +703,7 @@ function deleteProject(e, idx) {
 function syncWorkspace() {
     if(activeProjIdx >= 0 && projects[activeProjIdx]) {
         projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
-        localStorage.setItem('qyx_pro_projects', JSON.stringify(projects));
+        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
         renderProjSidebar();
     }
 }
@@ -752,7 +713,7 @@ function renderProjSidebar() {
     box.innerHTML = "";
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
-        div.className = `ws-card ${idx === activeProjIdx ? 'active' : ''}`;
+        div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''}`;
         div.onclick = () => {
             activeProjIdx = idx;
             items = JSON.parse(JSON.stringify(p.items));
@@ -761,10 +722,10 @@ function renderProjSidebar() {
         };
         div.innerHTML = `
             <div>
-                <div style="font-size: 12px; font-weight: 700;">📁 ${p.name}</div>
-                <div style="font-size: 10px; color: var(--text-muted);">${p.items.length} Numbers</div>
+                <div style="font-size: 11px; font-weight: 700;">📁 ${p.name}</div>
+                <div style="font-size: 9px; color: var(--text-muted);">${p.items.length} Numbers</div>
             </div>
-            <i class="fa-solid fa-trash" style="color: var(--accent-rose); font-size: 12px;" onclick="deleteProject(event, ${idx})"></i>
+            <i class="fa-solid fa-trash" style="color: var(--accent-rose); font-size: 11px;" onclick="deleteProject(event, ${idx})"></i>
         `;
         box.appendChild(div);
     });

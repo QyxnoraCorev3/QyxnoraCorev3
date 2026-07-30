@@ -3,19 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Ultra - Cyber Glass 3D</title>
+<title>QyxnoraCore v3 Ultra - Fast & Lite</title>
 
 <style>
 :root {
-    --bg-main: #0b0f19;
-    --card-bg: rgba(20, 26, 43, 0.65);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --shadow-3d: 10px 10px 25px rgba(0, 0, 0, 0.5), -5px -5px 20px rgba(255, 255, 255, 0.02);
-    --shadow-pressed: inset 4px 4px 10px rgba(0, 0, 0, 0.6), inset -4px -4px 10px rgba(255, 255, 255, 0.03);
+    --bg-main: #0a0d14;
+    --card-bg: #121824;
+    --card-border: #1e293b;
     --accent-cyan: #00f2fe;
     --accent-purple: #9d4edd;
     --accent-rose: #ff2a6d;
-    --text-primary: #e2e8f0;
+    --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
 }
 
@@ -23,323 +21,277 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
     background: var(--bg-main);
     color: var(--text-primary);
     min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* Background Ambient Glows */
-.glow-orb-1 {
-    position: fixed;
-    top: -150px;
-    left: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-.glow-orb-2 {
-    position: fixed;
-    bottom: -150px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(157, 78, 221, 0.12) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
 }
 
 /* Toast Notifications */
 .toast-container {
     position: fixed;
-    top: 25px;
-    right: 25px;
+    top: 20px;
+    right: 20px;
     z-index: 100000;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .toast {
-    background: rgba(20, 26, 43, 0.9);
-    border: 1px solid var(--accent-cyan);
+    background: #1e293b;
+    border-left: 4px solid var(--accent-cyan);
     color: #fff;
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
+    padding: 10px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     font-size: 13px;
     font-weight: 600;
-    animation: slideIn 0.3s ease-out forwards;
+    animation: fadeIn 0.2s ease;
 }
 
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Login Overlay */
+/* Login Screen */
 .login-screen {
     position: fixed;
     inset: 0;
-    background: rgba(11, 15, 25, 0.95);
+    background: var(--bg-main);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    backdrop-filter: blur(20px);
 }
 
-.glass-card-3d {
+.card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 24px;
-    box-shadow: var(--shadow-3d);
-    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .login-box {
-    padding: 40px;
-    width: 380px;
+    padding: 30px;
+    width: 340px;
     text-align: center;
 }
 
 .brand-title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 900;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 5px;
 }
 
 .brand-sub {
     font-size: 12px;
     color: var(--text-secondary);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .input-field {
     width: 100%;
-    padding: 14px 18px;
-    background: rgba(11, 15, 25, 0.6);
+    padding: 12px 14px;
+    background: #0b0f17;
     border: 1px solid var(--card-border);
-    border-radius: 14px;
+    border-radius: 10px;
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
-    box-shadow: var(--shadow-pressed);
-    margin-bottom: 15px;
-    transition: 0.3s;
+    margin-bottom: 12px;
 }
 
 .input-field:focus {
     border-color: var(--accent-cyan);
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
 }
 
-/* 3D Interactive Buttons */
-.btn-3d {
-    padding: 14px 22px;
+/* Smooth Buttons */
+.btn {
+    padding: 10px 16px;
     border: none;
-    border-radius: 14px;
+    border-radius: 10px;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     color: #fff;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    box-shadow: var(--shadow-3d);
-    transition: all 0.2s ease;
+    background: var(--card-border);
+    transition: opacity 0.15s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
 }
 
-.btn-3d:active {
-    box-shadow: var(--shadow-pressed);
-    transform: translateY(2px);
-}
+.btn:active { opacity: 0.8; }
+.btn-cyan { background: #0284c7; }
+.btn-purple { background: #7c3aed; }
+.btn-rose { background: #e11d48; }
+.btn-emerald { background: #059669; }
 
-.btn-cyan { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-.btn-purple { background: linear-gradient(135deg, #7928ca, #b83280); }
-.btn-rose { background: linear-gradient(135deg, #ff2a6d, #9a0036); }
-.btn-emerald { background: linear-gradient(135deg, #059669, #10b981); }
-
-/* App Dashboard Layout */
+/* Dashboard Layout */
 .app-container {
     display: none;
     min-height: 100vh;
-    position: relative;
-    z-index: 1;
 }
 
 .sidebar {
-    width: 340px;
-    padding: 30px 20px;
+    width: 300px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
     border-right: 1px solid var(--card-border);
+    background: #0f1420;
 }
 
 .user-profile {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 12px 16px;
 }
 
 .main-view {
     flex: 1;
-    padding: 30px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
     overflow-y: auto;
 }
 
-/* Dashboard Stats Grid */
+/* Stats Grid */
 .stats-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 15px;
 }
 
-.stat-card-3d {
-    padding: 20px;
+.stat-card {
+    padding: 16px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .stat-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #1e293b;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow: var(--shadow-pressed);
+    font-size: 18px;
 }
 
-.stat-val { font-size: 26px; font-weight: 800; }
-.stat-lbl { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
+.stat-val { font-size: 22px; font-weight: 800; }
+.stat-lbl { font-size: 10px; color: var(--text-secondary); font-weight: 700; }
 
-/* Workspace Controls */
+/* Controls */
 .controls-bar {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
 }
 
-.search-box {
-    flex: 1;
-}
+.search-box { flex: 1; }
 
 .filter-pills {
     display: flex;
-    background: rgba(11, 15, 25, 0.6);
-    padding: 5px;
-    border-radius: 14px;
-    box-shadow: var(--shadow-pressed);
+    background: #0b0f17;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
 }
 
 .pill-btn {
-    padding: 8px 18px;
+    padding: 6px 14px;
     border: none;
     background: transparent;
     color: var(--text-secondary);
     font-weight: 600;
     font-size: 12px;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
 .pill-btn.active {
-    background: var(--card-bg);
+    background: var(--card-border);
     color: var(--accent-cyan);
-    box-shadow: var(--shadow-3d);
 }
 
-/* Data List Rows */
+/* Data List */
 .data-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-height: 380px;
+    gap: 8px;
+    max-height: 400px;
     overflow-y: auto;
 }
 
 .data-row {
-    padding: 16px 24px;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: 0.2s;
 }
 
 .data-row.copied-row {
-    border-color: rgba(255, 42, 109, 0.3);
-    background: rgba(255, 42, 109, 0.08);
+    border-color: rgba(225, 29, 72, 0.4);
+    background: rgba(225, 29, 72, 0.05);
 }
 
 .country-pill {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--accent-cyan);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
-.phone-val { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+.phone-val { font-size: 15px; font-weight: 700; }
 
-/* Action Grid */
-.actions-panel {
-    padding: 25px;
-}
+/* Actions Grid */
+.actions-panel { padding: 20px; }
 
 .input-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .button-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 10px;
 }
 
-/* Sidebar Text Area */
 .paste-box {
     width: 100%;
-    height: 140px;
+    height: 120px;
     resize: none;
 }
 
 .proj-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: 220px;
+    gap: 8px;
+    max-height: 200px;
     overflow-y: auto;
 }
 
 .proj-item {
-    padding: 12px 16px;
+    padding: 10px 14px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -348,7 +300,6 @@ body {
 
 .proj-item.active-proj {
     border-color: var(--accent-cyan);
-    background: rgba(0, 242, 254, 0.05);
 }
 
 @media(max-width: 1024px) {
@@ -362,20 +313,18 @@ body {
 
 <body>
 
-<div class="glow-orb-1"></div>
-<div class="glow-orb-2"></div>
 <div class="toast-container" id="toastBox"></div>
 
 <!-- Login Overlay -->
 <div class="login-screen" id="loginScreen">
-    <div class="glass-card-3d login-box">
+    <div class="card login-box">
         <div class="brand-title">QYXNORA CORE</div>
-        <div class="brand-sub">v3 Ultra Pro • Cyber Glass 3D</div>
+        <div class="brand-sub">v3 Ultra • Lite Edition</div>
 
         <input type="text" id="userInput" class="input-field" placeholder="Username">
         <input type="password" id="passInput" class="input-field" placeholder="Password" onkeypress="if(event.key==='Enter') login()">
 
-        <button class="btn-3d btn-cyan" style="width: 100%; margin-top: 10px;" onclick="login()">Access System ⚡</button>
+        <button class="btn btn-cyan" style="width: 100%; margin-top: 5px;" onclick="login()">Access System ⚡</button>
     </div>
 </div>
 
@@ -384,43 +333,41 @@ body {
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="glass-card-3d user-profile">
+        <div class="card user-profile">
             <span style="font-size: 13px; font-weight: 700; color: var(--accent-cyan);">👤 <span id="activeUser">User</span></span>
-            <button class="btn-3d btn-rose" style="padding: 6px 12px; font-size: 11px;" onclick="logout()">Lock 🔒</button>
+            <button class="btn btn-rose" style="padding: 4px 10px; font-size: 10px;" onclick="logout()">Lock 🔒</button>
         </div>
 
-        <div class="glass-card-3d" style="padding: 20px;">
-            <div style="font-size: 12px; font-weight: 700; color: var(--accent-purple); margin-bottom: 12px;">+ PASTE DATA</div>
-            <textarea id="rawInput" class="input-field paste-box" placeholder="Paste numbers or text data..." oninput="parseData()"></textarea>
-            <input type="text" id="projTitle" class="input-field" placeholder="Project Name (Optional)" style="margin-bottom: 12px;">
-            <button class="btn-3d btn-purple" style="width: 100%;" onclick="saveProject()">💾 Save Workspace</button>
+        <div class="card" style="padding: 16px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--accent-purple); margin-bottom: 10px;">+ PASTE DATA</div>
+            <textarea id="rawInput" class="input-field paste-box" placeholder="Paste numbers or text..." oninput="parseData()"></textarea>
+            <input type="text" id="projTitle" class="input-field" placeholder="Project Name" style="margin-bottom: 10px;">
+            <button class="btn btn-purple" style="width: 100%;" onclick="saveProject()">💾 Save Workspace</button>
         </div>
 
-        <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); letter-spacing: 1px;">SAVED WORKSPACES</div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">SAVED WORKSPACES</div>
         <div class="proj-list" id="projList"></div>
     </div>
 
     <!-- Main View -->
     <div class="main-view">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h1 style="font-size: 28px; font-weight: 900; background: linear-gradient(90deg, #fff, var(--text-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">QyxnoraCore v3</h1>
-        </div>
+        <h1 style="font-size: 22px; font-weight: 800;">QyxnoraCore v3</h1>
 
-        <!-- 3D Stats -->
+        <!-- Stats -->
         <div class="stats-container">
-            <div class="glass-card-3d stat-card-3d">
+            <div class="card stat-card">
                 <div class="stat-icon" style="color: var(--accent-cyan);">📊</div>
-                <div><div class="stat-val" id="cntTotal">0</div><div class="stat-lbl">TOTAL NUMBERS</div></div>
+                <div><div class="stat-val" id="cntTotal">0</div><div class="stat-lbl">TOTAL</div></div>
             </div>
-            <div class="glass-card-3d stat-card-3d">
+            <div class="card stat-card">
                 <div class="stat-icon" style="color: var(--accent-rose);">📋</div>
                 <div><div class="stat-val" id="cntCopied">0</div><div class="stat-lbl">COPIED</div></div>
             </div>
-            <div class="glass-card-3d stat-card-3d">
+            <div class="card stat-card">
                 <div class="stat-icon" style="color: var(--accent-purple);">⏳</div>
                 <div><div class="stat-val" id="cntPending">0</div><div class="stat-lbl">REMAINING</div></div>
             </div>
-            <div class="glass-card-3d stat-card-3d">
+            <div class="card stat-card">
                 <div class="stat-icon" style="color: #10b981;">🌐</div>
                 <div><div class="stat-val" id="cntCountries">0</div><div class="stat-lbl">COUNTRIES</div></div>
             </div>
@@ -436,34 +383,34 @@ body {
                 <button class="pill-btn" onclick="setFilter('pending', this)">Pending</button>
                 <button class="pill-btn" onclick="setFilter('copied', this)">Copied</button>
             </div>
-            <button class="btn-3d btn-emerald" onclick="exportTxt()">📥 Export TXT</button>
+            <button class="btn btn-emerald" onclick="exportTxt()">📥 Export TXT</button>
         </div>
 
         <!-- Data List -->
         <div class="data-list" id="dataList"></div>
 
-        <!-- Action Panel -->
-        <div class="glass-card-3d actions-panel">
+        <!-- Actions -->
+        <div class="card actions-panel">
             <div class="input-grid">
                 <input id="prefixRemove" class="input-field" placeholder="Remove Prefix (e.g. 216)" style="margin: 0;">
                 <input id="prefixAdd" class="input-field" placeholder="Add Prefix (e.g. 216)" style="margin: 0;">
             </div>
             <div class="button-grid">
-                <button class="btn-3d btn-emerald" onclick="applyRemovePrefix()">Remove Prefix</button>
-                <button class="btn-3d btn-cyan" onclick="applyAddPrefix()">Add Prefix</button>
-                <button class="btn-3d btn-cyan" onclick="applyPlus(true)">Add +</button>
-                <button class="btn-3d btn-rose" onclick="applyPlus(false)">Remove +</button>
-                <button class="btn-3d btn-purple" onclick="deduplicate()">Remove Duplicate</button>
-                <button class="btn-3d btn-purple" onclick="copyAllRemaining()">Copy All Pending</button>
-                <button class="btn-3d btn-emerald" onclick="exportTxt()">Download TXT</button>
-                <button class="btn-3d btn-rose" onclick="clearWorkspace()">Clear Workspace</button>
+                <button class="btn btn-emerald" onclick="applyRemovePrefix()">Remove Prefix</button>
+                <button class="btn btn-cyan" onclick="applyAddPrefix()">Add Prefix</button>
+                <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
+                <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
+                <button class="btn btn-purple" onclick="deduplicate()">Remove Duplicate</button>
+                <button class="btn btn-purple" onclick="copyAllRemaining()">Copy All Pending</button>
+                <button class="btn btn-emerald" onclick="exportTxt()">Download TXT</button>
+                <button class="btn btn-rose" onclick="clearWorkspace()">Clear Workspace</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// ================= USER DATABASE (15 USERS) =================
+// ================= USER DATABASE =================
 const USERS_DATABASE = [
     { username: "admin", password: "785" },
     { username: "rakib", password: "123" },
@@ -490,21 +437,19 @@ let currentFilter = 'all';
 const flags = {
     "Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸","Sri Lanka":"🇱🇰",
     "Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿","Myanmar":"🇲🇲",
-    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Armenia Karabakh":"🇦🇲",
-    "Armenia":"🇦🇲","Azerbaijan":"🇦🇿","Belarus":"🇧🇾","Benin":"🇧🇯",
-    "Bhutan":"🇧🇹","Bolivia":"🇧🇴","Bulgaria":"🇧🇬","Burkina":"🇧🇫",
-    "Cameroon":"🇨🇲","Ecuador":"🇪🇨","Egypt":"🇪🇬","Ethiopia":"🇪🇹",
-    "Gabon":"🇬🇦","Georgia":"🇬🇪","Germany":"🇩🇪","Guinea":"🇬🇳",
-    "Indonesia":"🇮🇩","Iraq":"🇮🇶","Ivory Coast":"🇨🇮","Jordan":"🇯🇴",
-    "Kazakhstan":"🇰🇿","Kenya":"🇰🇪","Kosovo":"🇽🇰","Kuwait":"🇰🇼",
-    "Kyrgyzstan":"🇰🇬","Lesotho":"🇱🇸","Libya":"🇱🇾","Madagascar":"🇲🇬",
-    "Mauritania":"🇲🇷","Moldova":"🇲🇩","Mongolia":"🇲🇳","Morocco":"🇲🇦",
-    "Mozambique":"🇲🇿","Nepal":"🇳🇵","Niger":"🇳🇪","Nigeria":"🇳🇬",
-    "Oman":"🇴🇲","Pakistan":"🇵🇰","Russia (Many Series)":"🇷🇺","Russia":"🇷🇺",
-    "Saudi Arabia":"🇸🇦","Senegal":"🇸🇳","Slovenia (K)":"🇸🇮","Slovenia":"🇸🇮",
-    "Sudan (Sudatel)":"🇸🇩","Sudan":"🇸🇩","Syria":"🇸🇾","Tajikistan":"🇹🇯",
-    "Tunisia":"🇹🇳","Uganda":"🇺🇬","Ukraine":"🇺🇦","United Arab Emirates":"🇦🇪",
-    "UAE":"🇦🇪","Uzbekistan":"🇺🇿","Vietnam (Mobifone)":"🇻🇳","Vietnam":"🇻🇳","Zimbabwe":"🇿🇼"
+    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Armenia":"🇦🇲",
+    "Azerbaijan":"🇦🇿","Belarus":"🇧🇾","Benin":"🇧🇯","Bhutan":"🇧🇹",
+    "Bolivia":"🇧🇴","Bulgaria":"🇧🇬","Burkina":"🇧🇫","Cameroon":"🇨🇲",
+    "Ecuador":"🇪🇨","Egypt":"🇪🇬","Ethiopia":"🇪🇹","Gabon":"🇬🇦",
+    "Georgia":"🇬🇪","Germany":"🇩🇪","Guinea":"🇬🇳","Indonesia":"🇮🇩",
+    "Iraq":"🇮🇶","Ivory Coast":"🇨🇮","Jordan":"🇯🇴","Kazakhstan":"🇰🇿",
+    "Kenya":"🇰🇪","Kosovo":"🇽🇰","Kuwait":"🇰🇼","Kyrgyzstan":"🇰🇬",
+    "Libya":"🇱🇾","Madagascar":"🇲🇬","Mauritania":"🇲🇷","Moldova":"🇲🇩",
+    "Morocco":"🇲🇦","Mozambique":"🇲🇿","Nepal":"🇳🇵","Niger":"🇳🇪",
+    "Nigeria":"🇳🇬","Oman":"🇴🇲","Pakistan":"🇵🇰","Russia":"🇷🇺",
+    "Saudi Arabia":"🇸🇦","Senegal":"🇸🇳","Sudan":"🇸🇩","Syria":"🇸🇾",
+    "Tajikistan":"🇹🇯","Tunisia":"🇹🇳","Uganda":"🇺🇬","Ukraine":"🇺🇦",
+    "UAE":"🇦🇪","Uzbekistan":"🇺🇿","Vietnam":"🇻🇳","Zimbabwe":"🇿🇼"
 };
 
 function showToast(msg) {
@@ -513,7 +458,7 @@ function showToast(msg) {
     t.className = "toast";
     t.innerText = msg;
     box.appendChild(t);
-    setTimeout(() => t.remove(), 2500);
+    setTimeout(() => t.remove(), 2000);
 }
 
 function login() {
@@ -526,9 +471,9 @@ function login() {
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("appContainer").style.display = "flex";
         document.getElementById("activeUser").innerText = found.username.toUpperCase();
-        showToast("Welcome Back, " + found.username.toUpperCase());
+        showToast("Logged in: " + found.username.toUpperCase());
     } else {
-        showToast("Invalid User Credentials!");
+        showToast("Invalid Credentials!");
     }
 }
 
@@ -583,13 +528,13 @@ function render() {
     filtered.forEach(i => {
         let flag = flags[i.country] || "🌍";
         let row = document.createElement("div");
-        row.className = `glass-card-3d data-row ${i.copied ? 'copied-row' : ''}`;
+        row.className = `card data-row ${i.copied ? 'copied-row' : ''}`;
         row.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="display: flex; align-items: center; gap: 15px;">
                 <div class="country-pill">${flag} ${i.country}</div>
                 <div class="phone-val">${i.number}</div>
             </div>
-            <button class="btn-3d ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding: 8px 16px; font-size: 11px;" onclick="copySingle('${i.number}')">
+            <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding: 6px 12px; font-size: 11px;" onclick="copySingle('${i.number}')">
                 ${i.copied ? 'Copied ✓' : '📋 Copy'}
             </button>
         `;
@@ -609,7 +554,7 @@ function copySingle(num) {
         itm.copied = true;
         syncWorkspace();
         render();
-        showToast("Copied: " + num);
+        showToast("Copied!");
     }
 }
 
@@ -620,7 +565,7 @@ function copyAllRemaining() {
     items.forEach(x => x.copied = true);
     syncWorkspace();
     render();
-    showToast("Copied All Pending Numbers!");
+    showToast("Copied All Pending!");
 }
 
 function applyRemovePrefix() {
@@ -648,7 +593,7 @@ function applyPlus(add) {
     });
     syncWorkspace();
     render();
-    showToast(add ? "Added '+' Prefix" : "Removed '+' Prefix");
+    showToast(add ? "Added '+'" : "Removed '+'");
 }
 
 function deduplicate() {
@@ -669,7 +614,7 @@ function clearWorkspace() {
     document.getElementById("rawInput").value = "";
     syncWorkspace();
     render();
-    showToast("Workspace Cleared");
+    showToast("Cleared!");
 }
 
 function setFilter(f, btn) {
@@ -681,12 +626,12 @@ function setFilter(f, btn) {
 
 function saveProject() {
     let title = document.getElementById("projTitle").value.trim() || "Workspace " + (projects.length + 1);
-    if(items.length === 0) return showToast("Paste data before saving!");
+    if(items.length === 0) return showToast("No data to save!");
     projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
     activeProjIdx = projects.length - 1;
     localStorage.setItem('qyx_v3_projects', JSON.stringify(projects));
     renderProjSidebar();
-    showToast("Workspace Saved!");
+    showToast("Saved!");
 }
 
 function syncWorkspace() {
@@ -702,7 +647,7 @@ function renderProjSidebar() {
     box.innerHTML = "";
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
-        div.className = `glass-card-3d proj-item ${idx === activeProjIdx ? 'active-proj' : ''}`;
+        div.className = `card proj-item ${idx === activeProjIdx ? 'active-proj' : ''}`;
         div.onclick = () => {
             activeProjIdx = idx;
             items = JSON.parse(JSON.stringify(p.items));
@@ -710,7 +655,7 @@ function renderProjSidebar() {
             render();
         };
         div.innerHTML = `
-            <span style="font-size: 12px; font-weight: 700;">📁 ${p.name}</span>
+            <span style="font-size: 11px; font-weight: 700;">📁 ${p.name}</span>
             <span style="font-size: 10px; color: var(--text-secondary);">${p.items.length} items</span>
         `;
         box.appendChild(div);
@@ -718,11 +663,11 @@ function renderProjSidebar() {
 }
 
 function exportTxt() {
-    if(items.length === 0) return showToast("No data to export!");
+    if(items.length === 0) return showToast("No data!");
     let blob = new Blob([items.map(x => x.number).join("\n")], {type: "text/plain"});
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `qyxnora_export.txt`;
+    a.download = `export.txt`;
     a.click();
 }
 

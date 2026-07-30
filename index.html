@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QyxnoraCore v3 Pro - Smart Number Manager</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+body {
+    background: #030712;
+    color: #f3f4f6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Glowing Effect */
+.bg-glow {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Cyberpunk Login Overlay */
+.login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 7, 18, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    backdrop-filter: blur(15px);
+}
+
+.login-card {
+    background: rgba(17, 24, 39, 0.7);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 40px 30px;
+    border-radius: 24px;
+    text-align: center;
+    width: 360px;
+    box-shadow: 0 0 50px rgba(168, 85, 247, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.login-title {
+    font-size: 24px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #a855f7, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.login-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 11px;
+    color: #a855f7;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px 15px;
+    background: #0b0f19;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.login-input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.error-txt {
+    color: #f43f5e;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+/* App Container */
+.app-container {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 330px;
+    background: rgba(17, 24, 39, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.user-badge {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 10px 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info {
+    font-size: 12px;
+    color: #d8b4fe;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: rgba(244, 63, 94, 0.2);
+    border: 1px solid rgba(244, 63, 94, 0.4);
+    color: #f43f5e;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.new-project-box {
+    background: rgba(31, 41, 55, 0.4);
+    border: 1px dashed rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.new-project-box h4 {
+    font-size: 13px;
+    color: #ec4899;
+    margin-bottom: 10px;
+}
+
+.new-project-box textarea, .new-project-box input {
+    width: 100%;
+    background: #090d16;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px;
+    color: white;
+    font-size: 12px;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.new-project-box textarea { height: 120px; resize: none; }
+
+.section-label {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-card.active {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.proj-header { font-size: 12px; font-weight: bold; color: #f3f4f6; }
+.proj-stats { font-size: 10px; color: #9ca3af; }
+
+/* Main Section */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+}
+
+.header-banner h1 {
+    font-size: 36px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+/* Glassmorphism Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-box {
+    background: rgba(17, 24, 39, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.stat-info .title { font-size: 11px; color: #9ca3af; font-weight: 600; }
+.stat-info .num { font-size: 24px; font-weight: bold; color: #ffffff; }
+
+/* Controls Bar */
+.search-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-input { flex: 1; }
+.search-input input {
+    width: 100%;
+    padding: 12px 18px;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+.filter-btns {
+    display: flex;
+    background: #0f172a;
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.filter-btn.active {
+    background: rgba(168, 85, 247, 0.3);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Number Rows */
+.number-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.number-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px;
+    background: rgba(17, 24, 39, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.number-row.is-copied {
+    background: rgba(244, 63, 94, 0.15) !important;
+    border-color: rgba(244, 63, 94, 0.4) !important;
+}
+
+.country-tag { font-size: 13px; color: #93c5fd; width: 180px; }
+.num-val { font-size: 16px; font-weight: 700; color: #ffffff; }
+
+/* Buttons Style */
+.act-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-cyber {
+    background: linear-gradient(135deg, #a855f7, #3b82f6);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.btn-emerald { background: #059669; }
+.btn-blue { background: #2563eb; }
+.btn-red { background: #e11d48; }
+
+.actions-container {
+    background: rgba(17, 24, 39, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.inputs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+.inputs-row input { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px; color: white; outline: none; }
+.action-buttons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+@media(max-width: 900px) {
+    .app-container { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .action-buttons-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- Cyberpunk Login Screen -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-card">
+        <div class="login-title">QYXNORA CORE</div>
+        <div class="login-sub">v3 Pro - Cyberpunk Edition</div>
+        
+        <div class="input-group">
+            <label>USERNAME</label>
+            <input type="text" id="usernameInput" class="login-input" placeholder="Enter username">
+        </div>
+
+        <div class="input-group">
+            <label>PASSWORD</label>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Enter password" onkeypress="if(event.key==='Enter') performLogin()">
+        </div>
+
+        <div class="error-txt" id="errorTxt">Invalid Username or Password!</div>
+        <button class="act-btn btn-cyber" style="width: 100%; margin-top: 10px;" onclick="performLogin()">⚡ System Login</button>
+    </div>
+</div>
+
+<!-- Main System Container -->
+<div class="app-container" id="appContainer">
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-badge">
+            <div class="user-info">👤 <span id="displayUser">Admin</span></div>
+            <button class="logout-btn" onclick="performLogout()">Logout 🔒</button>
+        </div>
+
+        <div class="new-project-box">
+            <h4>+ PASTE DATA HERE</h4>
+            <textarea id="numbers" placeholder="Paste data containing numbers here..." oninput="loadNumbersFromText()"></textarea>
+            <input type="text" id="projNameInput" placeholder="Project Name (Optional)">
+            <button class="act-btn btn-cyber" style="width: 100%;" onclick="saveProject()">💾 Save Project</button>
+        </div>
+
+        <div class="section-label">SAVED PROJECTS</div>
+        <div class="project-list" id="projectList"></div>
+    </div>
+
+    <!-- Main Section -->
+    <div class="main-content">
+        <div class="header-banner">
+            <h1>QyxnoraCore v3</h1>
+        </div>
+
+        <!-- Glass Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #3b82f6;">📊</div>
+                <div class="stat-info"><div class="title">Total</div><div class="num" id="total">0</div></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #ec4899;">📋</div>
+                <div class="stat-info"><div class="title">Copied</div><div class="num" id="copied">0</div></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #8b5cf6;">⏳</div>
+                <div class="stat-info"><div class="title">Remaining</div><div class="num" id="remaining">0</div></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #10b981;">🌐</div>
+                <div class="stat-info"><div class="title">Countries</div><div class="num" id="countries">0</div></div>
+            </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="search-controls">
+            <div class="search-input">
+                <input type="text" id="searchInput" placeholder="Search number or country..." oninput="render()">
+            </div>
+            <div class="filter-btns">
+                <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+                <button class="filter-btn" onclick="setFilter('pending', this)">Pending</button>
+                <button class="filter-btn" onclick="setFilter('copied', this)">Copied</button>
+            </div>
+            <button class="act-btn btn-emerald" onclick="downloadTxt()">📥 Export TXT</button>
+        </div>
+
+        <!-- Numbers List -->
+        <div class="number-list" id="result"></div>
+
+        <!-- Actions Container -->
+        <div class="actions-container">
+            <div class="inputs-row">
+                <input id="removePrefixVal" placeholder="Remove Prefix (e.g. 216)">
+                <input id="addPrefixVal" placeholder="Add Prefix (e.g. 216)">
+            </div>
+            <div class="action-buttons-grid">
+                <button class="act-btn btn-emerald" onclick="removePrefix()">Remove Prefix</button>
+                <button class="act-btn btn-blue" onclick="addPrefix()">Add Prefix</button>
+                <button class="act-btn btn-blue" onclick="addPlus()">Add +</button>
+                <button class="act-btn btn-red" onclick="removePlus()">Remove +</button>
+                <button class="act-btn btn-cyber" onclick="removeDuplicate()">Remove Duplicate</button>
+                <button class="act-btn btn-cyber" onclick="copyAll()">Copy All</button>
+                <button class="act-btn btn-emerald" onclick="downloadTxt()">Download TXT</button>
+                <button class="act-btn btn-red" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==================== MULTI-USER SYSTEM ====================
+const USERS_DATABASE = [
+    { username: "admin", password: "78583636" }, // আপনার মূল পিন
+    { username: "rakib", password: "12345" },
+    { username: "mizan", password: "67890" }
+];
+
+function performLogin(){
+    let userVal = document.getElementById("usernameInput").value.trim().toLowerCase();
+    let passVal = document.getElementById("passwordInput").value.trim();
+
+    let foundUser = USERS_DATABASE.find(u => u.username === userVal && u.password === passVal);
+
+    if(foundUser){
+        sessionStorage.setItem("qyx_auth_user", foundUser.username);
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("appContainer").style.display = "flex";
+        document.getElementById("displayUser").innerText = foundUser.username.toUpperCase();
+    } else {
+        document.getElementById("errorTxt").style.display = "block";
+    }
+}
+
+function performLogout(){
+    sessionStorage.removeItem("qyx_auth_user");
+    location.reload();
+}
+
+if(sessionStorage.getItem("qyx_auth_user")){
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("appContainer").style.display = "flex";
+    document.getElementById("displayUser").innerText = sessionStorage.getItem("qyx_auth_user").toUpperCase();
+}
+
+// ==================== MAIN DASHBOARD SYSTEM ====================
+let currentItems = [];
+let projects = JSON.parse(localStorage.getItem('qyxnora_projects')) || [];
+let activeProjIndex = -1;
+let currentFilter = 'all';
+
+const flags = {
+    "Comoros":"🇰🇲","Tanzania":"🇹🇿","Palestine":"🇵🇸","Sri Lanka":"🇱🇰",
+    "Cambodia":"🇰🇭","Malaysia":"🇲🇾","Algeria":"🇩🇿","Myanmar":"🇲🇲",
+    "Angola":"🇦🇴","Afghanistan":"🇦🇫","Argentina":"🇦🇷","Armenia Karabakh":"🇦🇲",
+    "Armenia":"🇦🇲","Azerbaijan":"🇦🇿","Belarus":"🇧🇾","Benin":"🇧🇯",
+    "Bhutan":"🇧🇹","Bolivia":"🇧🇴","Bulgaria":"🇧🇬","Burkina":"🇧🇫",
+    "Cameroon":"🇨🇲","Ecuador":"🇪🇨","Egypt":"🇪🇬","Ethiopia":"🇪🇹",
+    "Gabon":"🇬🇦","Georgia":"🇬🇪","Germany":"🇩🇪","Guinea":"🇬🇳",
+    "Indonesia":"🇮🇩","Iraq":"🇮🇶","Ivory Coast":"🇨🇮","Jordan":"🇯🇴",
+    "Kazakhstan":"🇰🇿","Kenya":"🇰🇪","Kosovo":"🇽🇰","Kuwait":"🇰🇼",
+    "Kyrgyzstan":"🇰🇬","Lesotho":"🇱🇸","Libya":"🇱🇾","Madagascar":"🇲🇬",
+    "Mauritania":"🇲🇷","Moldova":"🇲🇩","Mongolia":"🇲🇳","Morocco":"🇲🇦",
+    "Mozambique":"🇲🇿","Nepal":"🇳🇵","Niger":"🇳🇪","Nigeria":"🇳🇬",
+    "Oman":"🇴🇲","Pakistan":"🇵🇰","Russia (Many Series)":"🇷🇺","Russia":"🇷🇺",
+    "Saudi Arabia":"🇸🇦","Senegal":"🇸🇳","Slovenia (K)":"🇸🇮","Slovenia":"🇸🇮",
+    "Sudan (Sudatel)":"🇸🇩","Sudan":"🇸🇩","Syria":"🇸🇾","Tajikistan":"🇹🇯",
+    "Tunisia":"🇹🇳","Uganda":"🇺🇬","Ukraine":"🇺🇦","United Arab Emirates":"🇦🇪",
+    "UAE":"🇦🇪","Uzbekistan":"🇺🇿","Vietnam (Mobifone)":"🇻🇳","Vietnam":"🇻🇳","Zimbabwe":"🇿🇼"
+};
+
+function detectCountry(text){
+    for(let country in flags){
+        if(text.includes(country)){ return country; }
+    }
+    return "Unknown";
+}
+
+function loadNumbersFromText(){
+    activeProjIndex = -1;
+    let text = document.getElementById("numbers").value;
+    let lines = text.split("\n");
+    currentItems = [];
+
+    lines.forEach(line => {
+        let match = line.match(/\d{8,15}/);
+        if(match){
+            currentItems.push({ number: match[0], country: detectCountry(line), copied: false });
+        }
+    });
+    renderSidebar();
+    render();
+}
+
+function render(){
+    let result = document.getElementById("result");
+    result.innerHTML = "";
+    let searchVal = document.getElementById("searchInput").value.toLowerCase();
+    let countrySet = new Set();
+    let copiedCount = 0;
+
+    currentItems.forEach(item => {
+        if(item.copied) copiedCount++;
+        countrySet.add(item.country);
+    });
+
+    let filteredItems = currentItems.filter(item => {
+        let matchesSearch = item.number.toLowerCase().includes(searchVal) || item.country.toLowerCase().includes(searchVal);
+        if(currentFilter === 'copied') return matchesSearch && item.copied;
+        if(currentFilter === 'pending') return matchesSearch && !item.copied;
+        return matchesSearch;
+    });
+
+    filteredItems.forEach((item) => {
+        let flag = flags[item.country] || "🌍";
+        let row = document.createElement("div");
+        row.className = `number-row ${item.copied ? 'is-copied' : ''}`;
+        row.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="country-tag">${flag} ${item.country}</div>
+                <div class="num-val">${item.number}</div>
+            </div>
+            <button class="act-btn ${item.copied ? 'btn-red' : 'btn-emerald'}" onclick="copyNumber('${item.number}')">
+                ${item.copied ? 'Copied ✓' : '📋 Copy'}
+            </button>
+        `;
+        result.appendChild(row);
+    });
+
+    document.getElementById("total").innerText = currentItems.length;
+    document.getElementById("copied").innerText = copiedCount;
+    document.getElementById("remaining").innerText = currentItems.length - copiedCount;
+    document.getElementById("countries").innerText = countrySet.size;
+}
+
+function copyNumber(num){
+    navigator.clipboard.writeText(num);
+    let item = currentItems.find(x => x.number === num);
+    if(item){
+        item.copied = true;
+        updateActiveProject();
+        render();
+    }
+}
+
+function copyAll(){
+    if(currentItems.length === 0) return;
+    let uncopied = currentItems.filter(x => !x.copied).map(x => x.number).join("\n");
+    if(!uncopied) uncopied = currentItems.map(x => x.number).join("\n");
+    navigator.clipboard.writeText(uncopied);
+    currentItems.forEach(x => x.copied = true);
+    updateActiveProject();
+    render();
+    alert("Copied All Numbers!");
+}
+
+function removePrefix(){
+    let prefix = document.getElementById("removePrefixVal").value.trim();
+    if(!prefix || currentItems.length === 0) return;
+    currentItems.forEach(item => {
+        if(item.number.startsWith(prefix)) item.number = item.number.slice(prefix.length);
+    });
+    updateActiveProject();
+    render();
+}
+
+function addPrefix(){
+    let prefix = document.getElementById("addPrefixVal").value.trim();
+    if(!prefix || currentItems.length === 0) return;
+    currentItems.forEach(item => { item.number = prefix + item.number; });
+    updateActiveProject();
+    render();
+}
+
+function addPlus(){
+    if(currentItems.length === 0) return;
+    currentItems.forEach(item => { if(!item.number.startsWith("+")) item.number = "+" + item.number; });
+    updateActiveProject();
+    render();
+}
+
+function removePlus(){
+    if(currentItems.length === 0) return;
+    currentItems.forEach(item => { item.number = item.number.replace(/^\+/, ''); });
+    updateActiveProject();
+    render();
+}
+
+function removeDuplicate(){
+    let seen = new Set();
+    currentItems = currentItems.filter(item => {
+        if(seen.has(item.number)) return false;
+        seen.add(item.number);
+        return true;
+    });
+    updateActiveProject();
+    render();
+}
+
+function clearAll(){
+    currentItems = [];
+    document.getElementById("numbers").value = "";
+    updateActiveProject();
+    render();
+}
+
+function setFilter(type, btn){
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+}
+
+function saveProject(){
+    let projName = document.getElementById("projNameInput").value.trim() || "Untitled Project";
+    if(currentItems.length === 0) return alert("Please paste some data first!");
+    projects.push({ name: projName, items: JSON.parse(JSON.stringify(currentItems)) });
+    activeProjIndex = projects.length - 1;
+    saveToStorage();
+    renderSidebar();
+    alert("Project Saved Successfully!");
+}
+
+function updateActiveProject(){
+    if(activeProjIndex >= 0 && projects[activeProjIndex]){
+        projects[activeProjIndex].items = JSON.parse(JSON.stringify(currentItems));
+        saveToStorage();
+        renderSidebar();
+    }
+}
+
+function saveToStorage(){
+    localStorage.setItem('qyxnora_projects', JSON.stringify(projects));
+}
+
+function renderSidebar(){
+    let list = document.getElementById("projectList");
+    list.innerHTML = "";
+    projects.forEach((p, idx) => {
+        let card = document.createElement("div");
+        card.className = `project-card ${idx === activeProjIndex ? 'active' : ''}`;
+        card.onclick = () => { 
+            activeProjIndex = idx; 
+            currentItems = JSON.parse(JSON.stringify(p.items));
+            renderSidebar();
+            render();
+        };
+        card.innerHTML = `
+            <div>
+                <div class="proj-header">📖 ${p.name}</div>
+                <div class="proj-stats">${p.items.length} Numbers</div>
+            </div>
+        `;
+        list.appendChild(card);
+    });
+}
+
+function downloadTxt(){
+    if(currentItems.length === 0) return;
+    let text = currentItems.map(x => x.number).join("\n");
+    let blob = new Blob([text], {type: "text/plain"});
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `numbers.txt`;
+    a.click();
+}
+
+renderSidebar();
+render();
+</script>
+
+</body>
+</html>

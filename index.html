@@ -37,7 +37,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Toast Notification */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -58,7 +57,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-/* Lock / Login Screen */
 .login-overlay {
     position: fixed;
     top: 0;
@@ -82,11 +80,7 @@ body {
     gap: 16px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
-.login-card h2 {
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
-}
+.login-card h2 { font-size: 20px; text-align: center; color: #fff; }
 .login-card input {
     width: 100%;
     background: #070912;
@@ -98,7 +92,6 @@ body {
     outline: none;
 }
 
-/* App Layout */
 .app-layout {
     display: none;
     width: 100vw;
@@ -132,11 +125,7 @@ body {
     border-radius: 6px;
 }
 
-.nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+.nav-group { display: flex; flex-direction: column; gap: 2px; }
 .nav-title {
     font-size: 10px;
     font-weight: 800;
@@ -275,11 +264,7 @@ body {
 }
 .ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.1); }
 
-.filter-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-}
+.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; }
 .filter-btn {
     background: #090c15;
     border: 1px solid var(--card-border);
@@ -307,16 +292,8 @@ table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12p
 th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
 td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
-/* Country Flag Alignment */
-.country-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.fi {
-    border-radius: 2px;
-    font-size: 14px;
-}
+.country-cell { display: flex; align-items: center; gap: 8px; }
+.fi { border-radius: 2px; font-size: 14px; }
 
 .btn {
     padding: 8px 14px;
@@ -349,7 +326,6 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <div class="toast-container" id="toastBox"></div>
 
-<!-- Login Lock Overlay -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
         <h2><i class="fa-solid fa-lock" style="color:#8B5CF6;"></i> Username Unlock</h2>
@@ -388,7 +364,6 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
         </div>
 
         <div class="container">
-            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #8B5CF6;"><i class="fa-solid fa-chart-simple"></i></div>
@@ -408,11 +383,10 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </div>
             </div>
 
-            <!-- Data Paste Input -->
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
                 <div class="paste-layout">
-                    <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste text containing phone numbers here..." oninput="parseData()"></textarea>
                     <div style="width:180px; display:flex; flex-direction:column; gap:8px;">
                         <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
                         <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
@@ -420,13 +394,11 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </div>
             </div>
 
-            <!-- Saved Workspaces -->
             <div>
                 <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
                 <div class="ws-list" id="projList"></div>
             </div>
 
-            <!-- Main Data Table -->
             <div class="table-card">
                 <div class="filter-bar">
                     <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
@@ -447,7 +419,6 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                 </table>
             </div>
 
-            <!-- Operations Controller -->
             <div class="paste-card">
                 <div class="grid-2">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
@@ -470,22 +441,15 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <script>
 const validUsers = [
-    "QyxnoraCore",
-    "Rafin2332",
-    "Salma89340",
-    "Tanvir1234",
-    "MFaheem123",
-    "Mahmudsakib"
+    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", "Mahmudsakib"
 ];
 
-// 2 Hours Expiration Time in Milliseconds
 const UNLOCK_DURATION = 2 * 60 * 60 * 1000; 
 
 let activeUser = "";
 let db = [];
 let currentFilter = 'all';
 
-// Toast Notification Engine
 function showToast(msg) {
     const box = document.getElementById('toastBox');
     const t = document.createElement('div');
@@ -495,35 +459,30 @@ function showToast(msg) {
     setTimeout(() => t.remove(), 2500);
 }
 
-// Check 2-Hour Expiration on Page Load
 window.onload = function() {
     const savedUser = localStorage.getItem('activeUser');
     const unlockTime = localStorage.getItem('unlockTimestamp');
 
     if (savedUser && unlockTime) {
         const now = new Date().getTime();
-        const timePassed = now - parseInt(unlockTime);
-
-        if (timePassed < UNLOCK_DURATION) {
+        if ((now - parseInt(unlockTime)) < UNLOCK_DURATION) {
             loginSuccess(savedUser);
             return;
         } else {
             localStorage.removeItem('activeUser');
             localStorage.removeItem('unlockTimestamp');
-            showToast("Session expired (2 hours limit). Please unlock again.");
+            showToast("Session expired (2 hours limit).");
         }
     }
 }
 
-// User Authentication
 function handleLogin() {
     const val = document.getElementById('loginUser').value.trim();
     if (validUsers.includes(val)) {
-        const now = new Date().getTime();
         localStorage.setItem('activeUser', val);
-        localStorage.setItem('unlockTimestamp', now.toString());
+        localStorage.setItem('unlockTimestamp', new Date().getTime().toString());
         loginSuccess(val);
-        showToast("Unlocked! Session valid for 2 hours.");
+        showToast("Unlocked successfully!");
     } else {
         alert("Invalid Username!");
     }
@@ -543,41 +502,60 @@ function handleLogout() {
     location.reload();
 }
 
-// Country Detection Engine
+// 🌍 ALL MAJOR COUNTRY CODES LIST (Expanded)
 function detectCountry(num) {
     let clean = num.replace('+', '').trim();
+    
+    if (clean.startsWith('60'))  return { code: 'my', name: 'Malaysia' };
     if (clean.startsWith('216')) return { code: 'tn', name: 'Tunisia' };
     if (clean.startsWith('213')) return { code: 'dz', name: 'Algeria' };
     if (clean.startsWith('212')) return { code: 'ma', name: 'Morocco' };
     if (clean.startsWith('20'))  return { code: 'eg', name: 'Egypt' };
     if (clean.startsWith('880')) return { code: 'bd', name: 'Bangladesh' };
-    if (clean.startsWith('1'))   return { code: 'us', name: 'USA/Canada' };
+    if (clean.startsWith('91'))  return { code: 'in', name: 'India' };
+    if (clean.startsWith('92'))  return { code: 'pk', name: 'Pakistan' };
     if (clean.startsWith('966')) return { code: 'sa', name: 'Saudi Arabia' };
     if (clean.startsWith('971')) return { code: 'ae', name: 'UAE' };
+    if (clean.startsWith('1'))   return { code: 'us', name: 'USA/Canada' };
+    if (clean.startsWith('44'))  return { code: 'gb', name: 'UK' };
+    if (clean.startsWith('62'))  return { code: 'id', name: 'Indonesia' };
+    if (clean.startsWith('63'))  return { code: 'ph', name: 'Philippines' };
+    if (clean.startsWith('84'))  return { code: 'vn', name: 'Vietnam' };
+    if (clean.startsWith('66'))  return { code: 'th', name: 'Thailand' };
+    if (clean.startsWith('234')) return { code: 'ng', name: 'Nigeria' };
+    if (clean.startsWith('254')) return { code: 'ke', name: 'Kenya' };
+    if (clean.startsWith('27'))  return { code: 'za', name: 'South Africa' };
+    if (clean.startsWith('90'))  return { code: 'tr', name: 'Turkey' };
+    if (clean.startsWith('7'))   return { code: 'ru', name: 'Russia' };
+    
     return { code: 'un', name: 'Other' };
 }
 
-// Parse Raw Text Input
+// 🎯 ULTIMATE CLEAN PARSER: Extract ONLY valid phone numbers line by line
 function parseData() {
     const raw = document.getElementById('rawInput').value;
     const lines = raw.split('\n');
     db = [];
-    lines.forEach((line) => {
-        let trimmed = line.trim();
-        if (trimmed) {
-            let info = detectCountry(trimmed);
-            db.push({
-                number: trimmed,
-                country: info.name,
-                code: info.code,
-                copied: false
+
+    lines.forEach(line => {
+        // Line-by-line regex match to extract phone numbers accurately
+        let matches = line.match(/\+?\d{8,15}/g);
+        if (matches) {
+            matches.forEach(num => {
+                let trimmed = num.trim();
+                let info = detectCountry(trimmed);
+                db.push({
+                    number: trimmed,
+                    country: info.name,
+                    code: info.code,
+                    copied: false
+                });
             });
         }
     });
     render();
 }
 
-// Dynamic Country Re-calculation Function
 function updateCountryMeta() {
     db.forEach(x => {
         let info = detectCountry(x.number);
@@ -594,7 +572,6 @@ function setFilter(type) {
     render();
 }
 
-// Render Data & Dashboard Interface
 function render() {
     const tbody = document.getElementById('dataTable');
     tbody.innerHTML = '';
@@ -624,7 +601,7 @@ function render() {
                     <strong>${item.country}</strong>
                 </div>
             </td>
-            <td style="font-family: monospace; font-size:13px;">${item.number}</td>
+            <td style="font-family: monospace; font-size:13px; font-weight: 600; color: #38BDF8;">${item.number}</td>
             <td>
                 <span class="badge-status ${item.copied ? 'badge-copied' : 'badge-pending'}">
                     ${item.copied ? 'COPIED' : 'PENDING'}
@@ -639,7 +616,6 @@ function render() {
         tbody.appendChild(tr);
     });
 
-    // Statistics Tracker
     document.getElementById('cntTotal').innerText = db.length;
     let copiedCnt = db.filter(x => x.copied).length;
     document.getElementById('cntCopied').innerText = copiedCnt;
@@ -648,7 +624,6 @@ function render() {
     document.getElementById('cntCountries').innerText = countries.length;
 }
 
-// Action Handlers
 function copySingle(index) {
     navigator.clipboard.writeText(db[index].number);
     db[index].copied = true;
@@ -682,7 +657,7 @@ function deduplicate() {
 function applyPlus(add) {
     db.forEach(x => {
         if (add && !x.number.startsWith('+')) x.number = '+' + x.number;
-        if (!add && x.number.startsWith('+')) x.number = x.number.substring(1);
+        if (!add && x.number.startsWith('+')) x.number = x.number.replace('+', '');
     });
     updateCountryMeta();
     render();
@@ -725,7 +700,6 @@ function clearWorkspace() {
     showToast("Workspace Cleared");
 }
 
-// Workspace Data Persistence Engine
 function saveProject() {
     let name = document.getElementById('projTitle').value.trim();
     if (!name) return alert("Enter Workspace Name");
@@ -758,7 +732,7 @@ function openWorkspace(key) {
     let data = localStorage.getItem(key);
     if (data) {
         db = JSON.parse(data);
-        updateCountryMeta(); // Re-index flags and names correctly
+        updateCountryMeta();
         render();
         showToast("Workspace Loaded");
     }

@@ -164,20 +164,52 @@ body {
     box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
 }
 
+/* ANIMATED DIAMOND & FLOATING CUBES ART */
 .sidebar-diamond-art {
     margin-top: auto;
-    background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), rgba(124, 58, 237, 0.25));
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    border-radius: 16px;
-    padding: 24px 20px;
-    text-align: center;
+    height: 160px;
+    background: radial-gradient(circle at center, rgba(124, 58, 237, 0.25) 0%, rgba(5, 7, 17, 0) 70%);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 20px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
 }
-.sidebar-diamond-art i {
-    font-size: 52px;
-    color: #A855F7;
-    filter: drop-shadow(0 0 20px #A855F7);
+
+.diamond-icon {
+    font-size: 50px;
+    color: #C084FC;
+    filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.9));
+    animation: diamondPulse 3s ease-in-out infinite alternate;
+    z-index: 2;
+}
+
+.floating-cube {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, #7C3AED, #3B82F6);
+    border-radius: 3px;
+    opacity: 0.7;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.6);
+    animation: floatCube 4s ease-in-out infinite alternate;
+}
+
+.cube-1 { top: 20px; left: 25px; animation-delay: 0s; transform: rotate(15deg); }
+.cube-2 { top: 30px; right: 30px; animation-delay: 1s; transform: rotate(-20deg) scale(0.8); }
+.cube-3 { bottom: 25px; left: 35px; animation-delay: 2s; transform: rotate(45deg) scale(1.1); }
+.cube-4 { bottom: 20px; right: 25px; animation-delay: 1.5s; transform: rotate(-10deg) scale(0.7); }
+
+@keyframes diamondPulse {
+    0% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.7)); }
+    100% { transform: translateY(-8px) scale(1.08); filter: drop-shadow(0 0 30px rgba(168, 85, 247, 1)); }
+}
+
+@keyframes floatCube {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+    100% { transform: translateY(-12px) rotate(45deg); opacity: 0.9; }
 }
 
 /* Main Content Area */
@@ -579,8 +611,13 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
             <a class="nav-item"><i class="fa-solid fa-circle-question"></i> Help & Support</a>
         </div>
 
+        <!-- Animated Diamond Art -->
         <div class="sidebar-diamond-art">
-            <i class="fa-solid fa-gem"></i>
+            <i class="fa-solid fa-gem diamond-icon"></i>
+            <div class="floating-cube cube-1"></div>
+            <div class="floating-cube cube-2"></div>
+            <div class="floating-cube cube-3"></div>
+            <div class="floating-cube cube-4"></div>
         </div>
     </div>
 
@@ -766,7 +803,7 @@ let projects = JSON.parse(localStorage.getItem('qyx_exact_projects_v3')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
-// আপনার প্রোভাইড করা সম্পূর্ণ কান্ট্রি ডিকশনারি
+// সম্পূর্ণ কান্ট্রি ডিকশনারি
 const flags = {
     "Bangladesh": "🇧🇩", "India": "🇮🇳", "United States": "🇺🇸", "Pakistan": "🇵🇰",
     "United Kingdom": "🇬🇧", "Canada": "🇨🇦", "Australia": "🇦🇺", "Comoros": "🇰🇲",

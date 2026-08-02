@@ -10,7 +10,7 @@
 <style>
 :root {
     --bg-dark: #050507;
-    --sidebar-bg: rgba(9, 12, 21, 0.95);
+    --sidebar-bg: rgba(9, 12, 21, 0.98);
     --card-bg: rgba(13, 13, 18, 0.88);
     --card-border: rgba(220, 38, 38, 0.3);
     --accent-purple: #7C3AED;
@@ -43,7 +43,6 @@ body {
     transform: translateZ(0);
 }
 
-/* Toast Notifications */
 .toast-container {
     position: fixed;
     top: 15px;
@@ -70,7 +69,6 @@ body {
     to { opacity: 1; transform: translateX(0); }
 }
 
-/* Glass Confirmation Modal */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -127,7 +125,6 @@ body {
     margin-top: 4px;
 }
 
-/* Login Lock Screen */
 .login-overlay {
     position: fixed;
     top: 0;
@@ -171,26 +168,26 @@ body {
     position: relative;
 }
 
-/* Sidebar & Android Mobile Drawer */
+/* Sidebar Slide Drawer */
 .sidebar {
     position: fixed;
-    left: -280px;
+    left: -300px;
     top: 0;
-    width: 280px;
+    width: 300px;
     height: 100vh;
     background: var(--sidebar-bg);
     border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
-    padding: 18px 12px;
+    padding: 18px 14px;
     gap: 14px;
     z-index: 1000;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 10px 0 30px rgba(0,0,0,0.7);
+    box-shadow: 15px 0 35px rgba(0,0,0,0.8);
     will-change: transform;
 }
 .sidebar.mobile-open {
-    transform: translateX(280px);
+    transform: translateX(300px);
 }
 
 .brand {
@@ -200,7 +197,7 @@ body {
     font-size: 17px;
     font-weight: 800;
     color: #fff;
-    padding: 6px 8px;
+    padding: 6px 4px;
 }
 .brand-inner { display: flex; align-items: center; gap: 8px; }
 .brand-badge {
@@ -225,13 +222,15 @@ body {
     flex-direction: column;
     gap: 4px;
     overflow-y: auto;
+    flex: 1;
+    padding-right: 2px;
 }
 .nav-title {
     font-size: 10px;
     font-weight: 800;
     color: var(--text-muted);
     letter-spacing: 1px;
-    margin: 12px 0 4px 8px;
+    margin: 12px 0 4px 6px;
     text-transform: uppercase;
 }
 .nav-item {
@@ -253,6 +252,32 @@ body {
     color: #fff;
 }
 
+/* Sidebar Workspace List Items */
+.sidebar-ws-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+.sidebar-ws-item {
+    background: rgba(13, 13, 18, 0.7);
+    border: 1px solid var(--card-border);
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.15s ease;
+}
+.sidebar-ws-item.active {
+    background: rgba(220, 38, 38, 0.25);
+    border-color: var(--accent-rose);
+}
+.sidebar-ws-item.starred-project {
+    border-color: rgba(245, 158, 11, 0.5);
+}
+
 .main-content {
     flex: 1;
     width: 100vw;
@@ -261,7 +286,6 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
 .top-header {
     height: 60px;
     border-bottom: 1px solid var(--card-border);
@@ -331,7 +355,6 @@ body {
 
 .container { padding: 14px; display: flex; flex-direction: column; gap: 14px; width: 100%; }
 
-/* Dashboard Stat Cards Matching Screenshot */
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .stat-card {
     background: var(--card-bg);
@@ -372,7 +395,6 @@ body {
     border-radius: 2px;
 }
 
-/* Paste Section */
 .paste-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -396,49 +418,6 @@ body {
     resize: vertical;
 }
 
-/* Saved Workspaces Section */
-.ws-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-.ws-item {
-    min-width: 140px;
-    max-width: 150px;
-    background: rgba(13, 13, 18, 0.9);
-    border: 1px solid var(--card-border);
-    padding: 12px;
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-}
-.ws-item.starred-project {
-    border-color: rgba(245, 158, 11, 0.6);
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(13, 13, 18, 0.9) 100%);
-}
-.ws-item.active { 
-    border-color: var(--accent-rose); 
-    background: rgba(220, 38, 38, 0.2); 
-}
-.ws-item-top { display: flex; align-items: center; justify-content: space-between; }
-
-/* New Workspace Add Card */
-.ws-add-card {
-    min-width: 110px;
-    background: rgba(7, 9, 18, 0.6);
-    border: 1px dashed var(--card-border);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-    padding: 12px;
-    color: var(--text-muted);
-}
-.ws-add-card:active { background: rgba(220,38,38,0.1); }
-
-/* Dropdowns without display:none */
 .menu-container {
     position: relative;
     display: inline-block;
@@ -448,7 +427,7 @@ body {
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 6px;
+    padding: 4px 8px;
     border-radius: 6px;
 }
 .dropdown-menu {
@@ -490,7 +469,6 @@ body {
     background: rgba(220, 38, 38, 0.3);
 }
 
-/* Filter Tabs */
 .filter-bar { 
     display: flex; 
     gap: 6px; 
@@ -519,7 +497,6 @@ body {
     color: #fff;
 }
 
-/* Number Container Rows */
 .number-cards-container {
     display: flex;
     flex-direction: column;
@@ -557,7 +534,6 @@ body {
     padding-top: 8px;
 }
 
-/* Screenshot Exact Action Buttons Layout Styling */
 .action-grid-exact {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -579,7 +555,6 @@ body {
 }
 .btn-action-custom:active { transform: scale(0.97); }
 
-/* Custom color scheme matching screenshot buttons */
 .bg-btn-red { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
 .bg-btn-orange { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
 .bg-btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
@@ -613,12 +588,10 @@ input[type="text"], input[type="password"] {
     width: 100%;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: rgba(5, 5, 7, 0.4); }
 ::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.4); border-radius: 2px; }
 
-/* Sidebar Backdrop Overlay */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -639,7 +612,6 @@ input[type="text"], input[type="password"] {
 
 <div class="toast-container" id="toastBox"></div>
 
-<!-- Confirmation Modal -->
 <div class="modal-overlay" id="confirmModal">
     <div class="glass-modal">
         <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> Confirmation Required</h3>
@@ -651,10 +623,8 @@ input[type="text"], input[type="password"] {
     </div>
 </div>
 
-<!-- Mobile Sidebar Overlay -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
-<!-- Login Lock Overlay -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
         <h2><i class="fa-solid fa-lock" style="color:var(--accent-rose);"></i> Username Unlock</h2>
@@ -664,6 +634,7 @@ input[type="text"], input[type="password"] {
 </div>
 
 <div class="app-layout" id="appLayout">
+    <!-- Slide Drawer Sidebar -->
     <div class="sidebar" id="appSidebar">
         <div class="brand">
             <div class="brand-inner">
@@ -674,20 +645,27 @@ input[type="text"], input[type="password"] {
         </div>
         <div class="nav-group">
             <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-            <div class="nav-title">WORKSPACE</div>
+            
+            <div class="nav-title">SAVED WORKSPACES</div>
+            <div class="sidebar-ws-container" id="projList">
+                <!-- Project items will be injected here smoothly -->
+            </div>
+
+            <div class="nav-title">WORKSPACE ACTIONS</div>
             <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
             <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
+            
             <div class="nav-title">ACCOUNT</div>
             <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
         </div>
     </div>
 
     <div class="main-content">
-        <!-- Header -->
         <div class="top-header">
             <div class="header-left">
+                <!-- Hamburger menu button to trigger slide drawer -->
                 <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
                 <div class="header-welcome">
                     <h1 id="welcomeHeaderTitle">Welcome operator</h1>
@@ -704,7 +682,6 @@ input[type="text"], input[type="password"] {
         </div>
 
         <div class="container">
-            <!-- Stat Cards matching screenshot style -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-card-top">
@@ -740,7 +717,6 @@ input[type="text"], input[type="password"] {
                 </div>
             </div>
 
-            <!-- Paste Section -->
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-rose); margin-right:4px;"></i> Paste Your Data</div>
                 <div class="paste-layout">
@@ -752,33 +728,15 @@ input[type="text"], input[type="password"] {
                 </div>
             </div>
 
-            <!-- Workspace Section Matching Screenshot layout -->
-            <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
-                    <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px;">SAVED WORKSPACES</div>
-                    <span style="font-size: 10px; color: var(--accent-rose); font-weight: 700; cursor:pointer;" onclick="showToast('Showing all workspaces')">View All</span>
-                </div>
-                <div class="ws-list" id="projList">
-                    <div class="ws-add-card" onclick="document.getElementById('projTitle').focus()">
-                        <i class="fa-solid fa-plus" style="font-size: 16px;"></i>
-                        <span style="font-size: 10px; font-weight: 700;">New Workspace</span>
-                    </div>
-                </div>
-            </div>
-
             <div class="paste-card">
-                <!-- Filter Tabs -->
                 <div class="filter-bar">
                     <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
                     <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">Pending</button>
                     <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('Copied')">Copied</button>
                 </div>
-
-                <!-- Number Rows -->
                 <div class="number-cards-container" id="dataTable"></div>
             </div>
 
-            <!-- Action Buttons Section matching the exact screenshot design & arrangement -->
             <div class="paste-card">
                 <div class="grid-2" style="margin-bottom: 8px;">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)">
@@ -813,11 +771,18 @@ const validUsers = [
 const UNLOCK_DURATION = 2 * 60 * 60 * 1000;
 
 let items = [];
-let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [
+const defaultProjects = [
     { name: "My Workspace", starred: false, items: [] },
     { name: "Pakistan Data", starred: false, items: [] },
     { name: "Arab Numbers", starred: true, items: [] }
 ];
+
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects'));
+if (!projects || !Array.isArray(projects) || projects.length === 0) {
+    projects = defaultProjects;
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+}
+
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
@@ -1244,24 +1209,27 @@ function syncWorkspace() {
 
 function renderProjSidebar() {
     let box = document.getElementById("projList");
-    // Preserve the new workspace add card, clear rest of workspaces
-    let addCardHTML = `<div class="ws-add-card" onclick="document.getElementById('projTitle').focus()"><i class="fa-solid fa-plus" style="font-size: 16px;"></i><span style="font-size: 10px; font-weight: 700;">New Workspace</span></div>`;
-    box.innerHTML = addCardHTML;
+    box.innerHTML = "";
 
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
-        div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''} ${p.starred ? 'starred-project' : ''}`;
+        div.className = `sidebar-ws-item ${idx === activeProjIdx ? 'active' : ''} ${p.starred ? 'starred-project' : ''}`;
         div.onclick = () => {
             activeProjIdx = idx;
             items = JSON.parse(JSON.stringify(p.items));
             renderProjSidebar();
             render();
-            let sidebar = document.getElementById('appSidebar');
-            if(sidebar.classList.contains('mobile-open')) toggleMobileSidebar();
+            toggleMobileSidebar();
         };
         div.innerHTML = `
-            <div class="ws-item-top">
-                <i class="fa-solid fa-folder-open" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'}; font-size: 14px;"></i>
+            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                <i class="fa-solid ${p.starred ? 'fa-star' : 'fa-folder-open'}" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'}; font-size: 13px;"></i>
+                <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#fff;">
+                    ${p.name}
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="font-size: 9px; color: var(--text-muted);">${p.items.length}</span>
                 <div class="menu-container">
                     <button class="menu-btn" onclick="toggleWorkspaceMenu(event, ${idx})">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -1275,12 +1243,6 @@ function renderProjSidebar() {
                         </button>
                     </div>
                 </div>
-            </div>
-            <div style="overflow: hidden;">
-                <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#fff;">
-                    ${p.starred ? '<i class="fa-solid fa-star" style="color: #F59E0B; margin-right: 2px;"></i>' : ''}${p.name}
-                </div>
-                <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">${p.items.length} Numbers</div>
             </div>
         `;
         box.appendChild(div);

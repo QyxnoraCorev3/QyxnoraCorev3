@@ -3,19 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Exact Dashboard UI</title>
+<title>Cyberpunk QyxnoraCore v3 Dashboard - Production Edition</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg-dark: #05070e;
-    --sidebar-bg: #090c15;
-    --card-bg: #0f1422;
-    --card-border: #1a233a;
-    --accent-purple: #b91c1c;
+    --bg-dark: #050507;
+    --sidebar-bg: rgba(9, 12, 21, 0.88);
+    --card-bg: rgba(13, 13, 18, 0.78);
+    --card-border: rgba(220, 38, 38, 0.3);
+    --accent-purple: #7C3AED;
     --accent-cyan: #0284C7;
     --accent-emerald: #059669;
-    --accent-rose: #E11D48;
+    --accent-rose: #dc2626;
+    --crimson-glow: rgba(220, 38, 38, 0.45);
+    --orange-glow: rgba(249, 115, 22, 0.5);
     --text-primary: #F8FAFC;
     --text-muted: #64748B;
 }
@@ -24,29 +27,32 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-image: url('images/19479.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
     display: flex;
     overflow-x: hidden;
 }
 
+/* 1. Production Samurai Background & Ambient Depth */
 body::before {
-    content: '';
+    content: "";
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(3, 5, 10, 0.82);
-    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(5, 5, 7, 0.90) 0%, rgba(26, 3, 3, 0.85) 100%), 
+                url('19507.jpg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -999;
 }
 
+/* Toast Notifications */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -57,23 +63,95 @@ body::before {
     gap: 8px;
 }
 .toast {
-    background: #182238;
-    border-left: 4px solid var(--accent-purple);
+    background: rgba(13, 13, 18, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-left: 4px solid var(--accent-rose);
+    border-top: 1px solid var(--card-border);
+    border-right: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
     color: #fff;
     padding: 12px 18px;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px var(--crimson-glow);
+    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px) scale(0.95); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
+/* Custom Glass Confirmation Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 7, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+.glass-modal {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    padding: 28px;
+    border-radius: 20px;
+    width: 380px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 30px var(--crimson-glow);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.show .glass-modal {
+    transform: scale(1);
+}
+.glass-modal h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.glass-modal p {
+    font-size: 12px;
+    color: #94A3B8;
+    line-height: 1.5;
+}
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+/* Login Lock Screen */
 .login-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(3, 5, 10, 0.95);
+    background: rgba(5, 5, 7, 0.95);
+    backdrop-filter: blur(16px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,91 +159,126 @@ body::before {
 }
 .login-card {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    padding: 30px;
-    border-radius: 16px;
-    width: 340px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    padding: 35px;
+    border-radius: 20px;
+    width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    gap: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 25px var(--crimson-glow);
 }
-.login-card h2 { font-size: 20px; text-align: center; color: #fff; }
+.login-card h2 { font-size: 22px; font-weight: 800; text-align: center; color: #fff; }
 .login-card input {
     width: 100%;
-    background: #070912;
+    background: rgba(7, 9, 18, 0.6);
     border: 1px solid var(--card-border);
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
     color: #fff;
     font-size: 13px;
     outline: none;
+    transition: all 0.3s ease;
+}
+.login-card input:focus {
+    border-color: var(--accent-rose);
+    box-shadow: 0 0 15px var(--crimson-glow);
 }
 
 .app-layout {
-    display: none;
+    display: none; 
     width: 100vw;
     min-height: 100vh;
 }
 
+/* Glassmorphism Sidebar & Mobile Drawer */
 .sidebar {
-    width: 250px;
+    width: 260px;
     background: var(--sidebar-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
-    padding: 16px 12px;
-    gap: 15px;
+    padding: 20px 14px;
+    gap: 16px;
     flex-shrink: 0;
+    box-shadow: 5px 0 30px rgba(0,0,0,0.5);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
 }
 
 .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
     font-size: 18px;
     font-weight: 800;
     color: #fff;
     padding: 8px 10px;
 }
+.brand-inner { display: flex; align-items: center; gap: 10px; }
 .brand-badge {
-    background: #b91c1c;
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
     font-size: 10px;
-    padding: 2px 6px;
+    padding: 3px 8px;
     border-radius: 6px;
+    box-shadow: 0 0 10px var(--crimson-glow);
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px;
 }
 
 .nav-group {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
 .nav-title {
     font-size: 10px;
     font-weight: 800;
     color: var(--text-muted);
-    letter-spacing: 1px;
-    margin: 12px 0 6px 10px;
+    letter-spacing: 1.2px;
+    margin: 14px 0 6px 10px;
     text-transform: uppercase;
 }
 .nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 9px 12px;
-    border-radius: 8px;
+    padding: 11px 14px;
+    border-radius: 12px;
     color: #94A3B8;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.15s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
+    border: 1px solid transparent;
 }
-.nav-item:hover { background: rgba(255, 255, 255, 0.04); color: #fff; }
+.nav-item:hover { 
+    background: rgba(220, 38, 38, 0.12); 
+    color: #fff; 
+    border-color: rgba(220, 38, 38, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.15);
+}
 .nav-item.active {
-    background: linear-gradient(90deg, rgba(185, 28, 28, 0.25), rgba(185, 28, 28, 0.05));
-    border: 1px solid rgba(185, 28, 28, 0.4);
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.28) 0%, rgba(153, 27, 27, 0.18) 100%);
+    border: 1px solid rgba(220, 38, 38, 0.55);
     color: #fff;
+    box-shadow: 0 0 20px var(--crimson-glow);
 }
 
 .main-content {
@@ -176,30 +289,56 @@ body::before {
     overflow-y: auto;
 }
 
+/* Header */
 .top-header {
-    height: 60px;
+    height: 70px;
     border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
-    background: var(--sidebar-bg);
+    padding: 0 28px;
+    background: rgba(9, 12, 21, 0.8);
+    backdrop-filter: blur(16px);
+    z-index: 10;
 }
+
+.header-welcome {
+    display: flex;
+    flex-direction: column;
+}
+.header-welcome h1 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+.header-welcome p {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
 
 .search-box { position: relative; width: 340px; }
 .search-box input {
     width: 100%;
-    background: #080B13;
+    background: rgba(8, 11, 19, 0.75);
     border: 1px solid var(--card-border);
-    padding: 8px 12px 8px 36px;
-    border-radius: 8px;
+    padding: 10px 14px 10px 38px;
+    border-radius: 9999px;
     color: #fff;
     font-size: 12px;
     outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+.search-box input:focus { 
+    border-color: var(--accent-rose); 
+    box-shadow: 0 0 18px var(--crimson-glow), inset 0 2px 4px rgba(0,0,0,0.4);
 }
 .search-box i {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
@@ -208,128 +347,389 @@ body::before {
 
 .user-area { display: flex; align-items: center; gap: 16px; }
 .avatar {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 14px;
+    box-shadow: 0 0 15px var(--crimson-glow);
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
-.container { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+.container { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
 
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+/* Dashboard Stat Cards */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .stat-card {
     background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 16px;
+    padding: 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-rose);
+    box-shadow: 0 12px 30px var(--crimson-glow);
 }
 .stat-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 18px;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+}
+.stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    transition: transform 0.2s ease;
+}
+.stat-value.pulse {
+    transform: scale(1.1);
+    color: #F87171;
 }
 
+/* Paste Section */
 .paste-card {
     background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 16px;
+    border-radius: 18px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
-.paste-layout { display: flex; gap: 12px; }
+.paste-layout { display: flex; gap: 14px; }
 .paste-box {
     flex: 1;
-    background: #070912;
+    background: rgba(7, 9, 18, 0.65);
     border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 14px;
     color: #fff;
     font-size: 13px;
-    min-height: 120px;
+    min-height: 140px;
     outline: none;
     resize: vertical;
+    transition: all 0.3s ease;
 }
+.paste-box:focus { border-color: var(--accent-rose); box-shadow: 0 0 15px var(--crimson-glow); }
 
-.ws-list { display: flex; gap: 10px; overflow-x: auto; }
+/* Workspace Section Cards & Premium Highlighting */
+.ws-list { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; }
 .ws-item {
-    min-width: 180px;
+    min-width: 210px;
     background: var(--card-bg);
+    backdrop-filter: blur(14px);
     border: 1px solid var(--card-border);
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: 14px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
 }
-.ws-item.active { border-color: var(--accent-purple); background: rgba(185, 28, 28, 0.1); }
+.ws-item.starred-project {
+    border-color: rgba(245, 158, 11, 0.6);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(13, 13, 18, 0.8) 100%);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.25);
+}
+.ws-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-rose);
+    box-shadow: 0 8px 22px var(--crimson-glow);
+}
+.ws-item.active { 
+    border-color: var(--accent-rose); 
+    background: rgba(220, 38, 38, 0.18); 
+    box-shadow: 0 0 22px var(--crimson-glow);
+}
 
-.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; }
-.filter-btn {
-    background: #090c15;
-    border: 1px solid var(--card-border);
+/* Three Dot Dropdown Menus with Smooth Scale/Fade */
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+.menu-btn {
+    background: transparent;
+    border: none;
     color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: 6px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+.menu-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+}
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: rgba(13, 13, 18, 0.95);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    display: none;
+    flex-direction: column;
+    min-width: 140px;
+    z-index: 100;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dropdown-menu.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+.dropdown-item {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #cbd5e1;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+.dropdown-item:hover {
+    background: rgba(220, 38, 38, 0.22);
+    color: #fff;
+}
+
+/* Filter Tabs - Segmented Modern Toggle Buttons */
+.filter-bar { 
+    display: flex; 
+    gap: 8px; 
+    margin-bottom: 16px; 
+    background: rgba(7, 9, 18, 0.65);
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid var(--card-border);
+    width: fit-content;
+}
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 10px;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 .filter-btn.active {
-    background: var(--accent-purple);
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
     color: #fff;
-    border-color: var(--accent-purple);
+    box-shadow: 0 4px 15px var(--crimson-glow);
 }
 
-.table-card {
-    background: var(--card-bg);
+/* Number Container: True Card-Style Rows */
+.number-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.number-card-row {
+    background: rgba(7, 9, 18, 0.55);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--card-border);
     border-radius: 14px;
-    overflow: hidden;
-    padding: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
-th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
-td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
+.number-card-row:hover {
+    border-color: var(--accent-rose);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(220, 38, 38, 0.2);
+    background: rgba(13, 13, 18, 0.82);
+}
 
+.number-card-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.number-country-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+}
+.number-value-box {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+.number-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Capsule Buttons with Ripple & Press Animation */
 .btn {
-    padding: 8px 14px;
+    padding: 10px 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 9999px;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-.btn-purple { background: var(--accent-purple); }
-.btn-cyan { background: var(--accent-cyan); }
-.btn-emerald { background: var(--accent-emerald); }
-.btn-rose { background: var(--accent-rose); }
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+}
+.btn:active::after {
+    animation: ripple 0.4s ease-out;
+}
+@keyframes ripple {
+    0% { transform: scale(0, 0); opacity: 0.5; }
+    100% { transform: scale(35, 35); opacity: 0; }
+}
+.btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 22px var(--crimson-glow), 0 0 15px var(--orange-glow);
+}
+.btn:active { transform: scale(0.96); }
 
-.badge-status { padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; }
-.badge-copied { background: rgba(5, 150, 105, 0.15); color: #10B981; }
-.badge-pending { background: rgba(225, 29, 72, 0.15); color: #F43F5E; }
+.btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); }
+.btn-cyan { background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
+.btn-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4); }
+.btn-rose { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); box-shadow: 0 4px 15px var(--crimson-glow); }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.badge-status { padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 700; display: inline-block; }
+.badge-copied { background: rgba(5, 150, 105, 0.2); color: #10B981; border: 1px solid rgba(5, 150, 105, 0.4); }
+.badge-pending { background: rgba(225, 29, 72, 0.2); color: #F43F5E; border: 1px solid rgba(225, 29, 72, 0.4); }
+
+/* Animated Copy State Button */
+.btn-copy-success {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    animation: copyPulse 0.3s ease;
+}
+@keyframes copyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+
+/* Inputs */
+input[type="text"], input[type="password"] {
+    background: rgba(7, 9, 18, 0.65);
+    border: 1px solid var(--card-border);
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 11px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: var(--accent-rose);
+    box-shadow: 0 0 15px var(--crimson-glow);
+}
+
+/* Custom Cyberpunk Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(5, 5, 7, 0.6); }
+::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.5); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(220, 38, 38, 0.9); }
+
+/* Responsive Design & Mobile Drawer */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 7, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+}
+.sidebar-overlay.show { display: block; }
+
+@media(max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sidebar.mobile-open {
+        transform: translateX(280px);
+    }
+    .mobile-menu-toggle { display: block; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .paste-layout { flex-direction: column; }
+    .grid-2, .grid-4 { grid-template-columns: 1fr; }
+    .search-box { width: 200px; }
+    .number-card-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .number-card-actions { width: 100%; justify-content: space-between; }
+}
 </style>
 </head>
 
@@ -337,19 +737,38 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <div class="toast-container" id="toastBox"></div>
 
+<!-- Custom Glass Confirmation Modal -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="glass-modal">
+        <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> Confirmation Required</h3>
+        <p id="modalDesc">Are you sure you want to proceed with this action?</p>
+        <div class="modal-actions">
+            <button class="btn" style="background: rgba(255,255,255,0.08); font-size: 11px; padding: 8px 16px;" onclick="closeConfirmModal(false)">Cancel</button>
+            <button class="btn btn-rose" style="font-size: 11px; padding: 8px 16px;" id="modalConfirmBtn">Proceed</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+<!-- Login Lock Overlay -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-        <h2><i class="fa-solid fa-lock" style="color:#b91c1c;"></i> Username Unlock</h2>
+        <h2><i class="fa-solid fa-lock" style="color:var(--accent-rose);"></i> Username Unlock</h2>
         <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
-        <button class="btn btn-purple" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
+        <button class="btn btn-rose" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
     </div>
 </div>
 
 <div class="app-layout" id="appLayout">
-    <div class="sidebar">
+    <div class="sidebar" id="appSidebar">
         <div class="brand">
-            <i class="fa-solid fa-gem" style="color: #b91c1c;"></i>
-            QyxnoraCore <span class="brand-badge">v3</span>
+            <div class="brand-inner">
+                <i class="fa-solid fa-gem" style="color: var(--accent-rose);"></i>
+                QyxnoraCore <span class="brand-badge">v3</span>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="nav-group">
             <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
@@ -364,7 +783,15 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
     </div>
 
     <div class="main-content">
+        <!-- Header -->
         <div class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <div class="header-welcome">
+                    <h1 id="welcomeHeaderTitle">Welcome back, Operator</h1>
+                    <p>System operational &bull; Secure Connection</p>
+                </div>
+            </div>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
@@ -375,65 +802,61 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
         </div>
 
         <div class="container">
+            <!-- Dashboard Stat Cards with Animated Counters -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(185, 28, 28, 0.2); color: #ef4444;"><i class="fa-solid fa-chart-simple"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntTotal">0</div><div style="font-size: 9px; color: var(--text-muted);">TOTAL</div></div>
+                    <div class="stat-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div><div class="stat-value" id="cntTotal">0</div><div style="font-size: 9px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">TOTAL</div></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCopied">0</div><div style="font-size: 9px; color: var(--text-muted);">COPIED</div></div>
+                    <div><div class="stat-value" id="cntCopied">0</div><div style="font-size: 9px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">COPIED</div></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(225, 29, 72, 0.2); color: #F43F5E;"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntPending">0</div><div style="font-size: 9px; color: var(--text-muted);">PENDING</div></div>
+                    <div><div class="stat-value" id="cntPending">0</div><div style="font-size: 9px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">PENDING</div></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCountries">0</div><div style="font-size: 9px; color: var(--text-muted);">COUNTRIES</div></div>
+                    <div><div class="stat-value" id="cntCountries">0</div><div style="font-size: 9px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;">COUNTRIES</div></div>
                 </div>
             </div>
 
+            <!-- Paste Section -->
             <div class="paste-card">
-                <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
+                <div style="font-size: 13px; font-weight: 800; color: #fff;">Paste Your Data</div>
                 <div class="paste-layout">
                     <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
-                    <div style="width:180px; display:flex; flex-direction:column; gap:8px;">
-                        <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
-                        <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
+                    <div style="width:200px; display:flex; flex-direction:column; gap:10px;">
+                        <input type="text" id="projTitle" placeholder="Workspace Name">
+                        <button class="btn btn-rose" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Workspace Section -->
             <div>
-                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px;">SAVED WORKSPACES</div>
                 <div class="ws-list" id="projList"></div>
             </div>
 
-            <div class="table-card">
+            <div class="paste-card" style="padding: 16px;">
+                <!-- Filter Tabs -->
                 <div class="filter-bar">
                     <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
                     <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">All Pending (সিরিয়াল)</button>
                     <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">All Copied (সিরিয়াল)</button>
                 </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Country</th>
-                            <th>Number</th>
-                            <th>Status</th>
-                            <th style="text-align: right;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTable"></tbody>
-                </table>
+                <!-- True Card-Style Number Rows -->
+                <div class="number-cards-container" id="dataTable"></div>
             </div>
 
+            <!-- Capsule Buttons Section -->
             <div class="paste-card">
                 <div class="grid-2">
-                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
-                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
+                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)">
+                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)">
                 </div>
                 <div class="grid-4">
                     <button class="btn btn-emerald" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
@@ -452,10 +875,27 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 
 <script>
 const validUsers = [
-    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", 
-    "Mahmudsakib", "Husainy1", "QyxnoraCore02", "QyxnoraCore03", "QyxnoraCore04",
-    "QyxnoraCore05", "QyxnoraCore06", "QyxnoraCore07", "QyxnoraCore08", "QyxnoraCore09",
-    "QyxnoraCore10", "QyxnoraCore11", "QyxnoraCore12", "QyxnoraCore13", "QyxnoraCore14", "QyxnoraCore15"
+    "QyxnoraCore", 
+    "Rafin2332", 
+    "Salma89340", 
+    "Tanvir1234", 
+    "MFaheem123", 
+    "Mahmudsakib",
+    "Husainy1",
+    "QyxnoraCore02",
+    "QyxnoraCore03",
+    "QyxnoraCore04",
+    "QyxnoraCore05",
+    "QyxnoraCore06",
+    "QyxnoraCore07",
+    "QyxnoraCore08",
+    "QyxnoraCore09",
+    "QyxnoraCore10",
+    "QyxnoraCore11",
+    "QyxnoraCore12",
+    "QyxnoraCore13",
+    "QyxnoraCore14",
+    "QyxnoraCore15"
 ];
 
 const UNLOCK_DURATION = 2 * 60 * 60 * 1000;
@@ -464,6 +904,9 @@ let items = [];
 let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
+
+// Track previous values for animated counter updates
+let prevStats = { total: 0, copied: 0, pending: 0, countries: 0 };
 
 const flags = {
     "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
@@ -493,6 +936,28 @@ function showToast(msg) {
     setTimeout(() => t.remove(), 2000);
 }
 
+// Custom Glass Confirmation Modal Controller
+let confirmCallback = null;
+function showConfirmModal(title, desc, onConfirm) {
+    document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> ${title}`;
+    document.getElementById('modalDesc').innerText = desc;
+    confirmCallback = onConfirm;
+    document.getElementById('confirmModal').classList.add('show');
+}
+function closeConfirmModal(confirmed) {
+    document.getElementById('confirmModal').classList.remove('show');
+    if (confirmed && confirmCallback) {
+        confirmCallback();
+    }
+    confirmCallback = null;
+}
+document.getElementById('modalConfirmBtn').onclick = () => closeConfirmModal(true);
+
+function toggleMobileSidebar() {
+    document.getElementById('appSidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
 window.onload = function() {
     const savedUser = localStorage.getItem('activeUser');
     const unlockTime = localStorage.getItem('unlockTimestamp');
@@ -505,6 +970,7 @@ window.onload = function() {
         } else {
             localStorage.removeItem('activeUser');
             localStorage.removeItem('unlockTimestamp');
+            showToast("Session expired. Please unlock again.");
         }
     }
 }
@@ -523,6 +989,7 @@ function handleLogin() {
 
 function loginSuccess(user) {
     document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
+    document.getElementById('welcomeHeaderTitle').innerText = `Welcome back, ${user}`;
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appLayout').style.display = 'flex';
     renderProjSidebar();
@@ -580,9 +1047,20 @@ function setFilter(type) {
     render();
 }
 
+function updateStatCounter(elementId, newValue, prevKey) {
+    let el = document.getElementById(elementId);
+    if (!el) return;
+    el.innerText = newValue;
+    if (prevStats[prevKey] !== newValue) {
+        el.classList.add('pulse');
+        setTimeout(() => el.classList.remove('pulse'), 300);
+        prevStats[prevKey] = newValue;
+    }
+}
+
 function render() {
-    let tbody = document.getElementById("dataTable");
-    tbody.innerHTML = "";
+    let container = document.getElementById("dataTable");
+    container.innerHTML = "";
     let q = document.getElementById("searchKey").value.toLowerCase();
     let countries = new Set();
     let copiedCnt = 0;
@@ -601,41 +1079,88 @@ function render() {
         return true;
     });
 
-    filtered.forEach(i => {
+    filtered.forEach((i, index) => {
         let flag = flags[i.country] || "🌍";
-        let tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td><span style="font-size:13px; margin-right:4px;">${flag}</span> ${i.country}</td>
-            <td style="font-weight:700;">${i.number}</td>
-            <td>
+        let cardRow = document.createElement("div");
+        cardRow.className = "number-card-row";
+        cardRow.innerHTML = `
+            <div class="number-card-info">
+                <div class="number-country-box">
+                    <span style="font-size:16px;">${flag}</span> 
+                    <span style="font-weight:600; font-size:12px;">${i.country}</span>
+                </div>
+                <div class="number-value-box">${i.number}</div>
+            </div>
+            <div class="number-card-actions">
                 <span class="badge-status ${i.copied ? 'badge-copied' : 'badge-pending'}">
                     ${i.copied ? 'Copied ✓' : 'Pending'}
                 </span>
-            </td>
-            <td style="text-align: right;">
-                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:3px 8px; font-size:10px;" onclick="copySingle('${i.number}')">
+                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" id="copyBtn_${index}" style="padding:6px 14px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
                     ${i.copied ? 'Copied' : 'Copy'}
                 </button>
-            </td>
+                <div class="menu-container">
+                    <button class="menu-btn" onclick="toggleNumberMenu(event, '${i.number}')">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu" id="numMenu_${index}">
+                        <button class="dropdown-item" onclick="copySingle('${i.number}', ${index})"><i class="fa-solid fa-copy"></i> Copy</button>
+                        <button class="dropdown-item" onclick="deleteSingleNumber('${i.number}')" style="color: #F43F5E;"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </div>
+                </div>
+            </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(cardRow);
     });
 
-    document.getElementById("cntTotal").innerText = items.length;
-    document.getElementById("cntCopied").innerText = copiedCnt;
-    document.getElementById("cntPending").innerText = items.length - copiedCnt;
-    document.getElementById("cntCountries").innerText = countries.size;
+    updateStatCounter("cntTotal", items.length, 'total');
+    updateStatCounter("cntCopied", copiedCnt, 'copied');
+    updateStatCounter("cntPending", items.length - copiedCnt, 'pending');
+    updateStatCounter("cntCountries", countries.size, 'countries');
 }
 
-function copySingle(num) {
+window.onclick = function(event) {
+    if (!event.target.matches('.menu-btn') && !event.target.closest('.menu-btn')) {
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    }
+}
+
+function toggleNumberMenu(event, num) {
+    event.stopPropagation();
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    let btn = event.currentTarget;
+    let menu = btn.nextElementSibling;
+    if(menu) menu.classList.toggle('show');
+}
+
+function toggleWorkspaceMenu(event, idx) {
+    event.stopPropagation();
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    let menu = document.getElementById(`wsMenu_${idx}`);
+    if(menu) menu.classList.toggle('show');
+}
+
+function copySingle(num, index) {
     navigator.clipboard.writeText(num);
     let itm = items.find(x => x.number === num);
     if(itm) {
         itm.copied = true;
         syncWorkspace();
         render();
-        showToast("Copied!");
+        showToast("Copied to clipboard!");
+        
+        let btn = document.getElementById(`copyBtn_${index}`);
+        if(btn) {
+            btn.classList.add('btn-copy-success');
+            setTimeout(() => btn.classList.remove('btn-copy-success'), 400);
+        }
     }
+}
+
+function deleteSingleNumber(num) {
+    items = items.filter(x => x.number !== num);
+    syncWorkspace();
+    render();
+    showToast("Number deleted!");
 }
 
 function copyAllRemaining() {
@@ -645,7 +1170,7 @@ function copyAllRemaining() {
     items.forEach(x => x.copied = true);
     syncWorkspace();
     render();
-    showToast("Copied All!");
+    showToast("Copied All Pending!");
 }
 
 function applyRemovePrefix() {
@@ -690,37 +1215,58 @@ function deduplicate() {
 }
 
 function clearWorkspace() {
-    items = [];
-    document.getElementById("rawInput").value = "";
-    syncWorkspace();
-    render();
-    showToast("Cleared!");
+    showConfirmModal("Clear Workspace", "Are you sure you want to clear all numbers in this workspace?", () => {
+        items = [];
+        document.getElementById("rawInput").value = "";
+        syncWorkspace();
+        render();
+        showToast("Workspace cleared!");
+    });
 }
 
 function saveProject() {
     let title = document.getElementById("projTitle").value.trim() || "Workspace " + (projects.length + 1);
     if(items.length === 0) return showToast("No data to save!");
-    projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
+    projects.push({ name: title, starred: false, items: JSON.parse(JSON.stringify(items)) });
     activeProjIdx = projects.length - 1;
+    sortProjects();
     localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
     renderProjSidebar();
-    showToast("Saved Workspace!");
+    showToast("Workspace saved successfully!");
 }
 
-function deleteProject(e, idx) {
-    e.stopPropagation();
-    projects.splice(idx, 1);
-    if(activeProjIdx === idx) {
-        items = [];
-        activeProjIdx = -1;
-        document.getElementById("rawInput").value = "";
-    } else if(activeProjIdx > idx) {
-        activeProjIdx--;
-    }
+function sortProjects() {
+    projects.sort((a, b) => {
+        if (a.starred === b.starred) return 0;
+        return a.starred ? -1 : 1;
+    });
+}
+
+function toggleStarProject(event, idx) {
+    event.stopPropagation();
+    projects[idx].starred = !projects[idx].starred;
+    sortProjects();
     localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
     renderProjSidebar();
-    render();
-    showToast("Deleted!");
+    showToast(projects[idx].starred ? "Project Starred!" : "Project Unstarred!");
+}
+
+function deleteProject(event, idx) {
+    event.stopPropagation();
+    showConfirmModal("Delete Workspace", "Are you sure you want to delete this workspace permanently?", () => {
+        projects.splice(idx, 1);
+        if(activeProjIdx === idx) {
+            items = [];
+            activeProjIdx = -1;
+            document.getElementById("rawInput").value = "";
+        } else if(activeProjIdx > idx) {
+            activeProjIdx--;
+        }
+        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+        renderProjSidebar();
+        render();
+        showToast("Workspace Deleted!");
+    });
 }
 
 function syncWorkspace() {
@@ -736,26 +1282,44 @@ function renderProjSidebar() {
     box.innerHTML = "";
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
-        div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''}`;
+        div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''} ${p.starred ? 'starred-project' : ''}`;
         div.onclick = () => {
             activeProjIdx = idx;
             items = JSON.parse(JSON.stringify(p.items));
             renderProjSidebar();
             render();
+            if(window.innerWidth <= 768) toggleMobileSidebar();
         };
         div.innerHTML = `
-            <div>
-                <div style="font-size: 11px; font-weight: 700;">📁 ${p.name}</div>
-                <div style="font-size: 9px; color: var(--text-muted);">${p.items.length} Numbers</div>
+            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                <i class="fa-solid fa-folder-open" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'};"></i>
+                <div style="overflow: hidden;">
+                    <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${p.starred ? '<i class="fa-solid fa-star" style="color: #F59E0B; margin-right: 4px;"></i>' : ''}${p.name}
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted);">${p.items.length} Numbers</div>
+                </div>
             </div>
-            <i class="fa-solid fa-trash" style="color: var(--accent-rose); font-size: 11px;" onclick="deleteProject(event, ${idx})"></i>
+            <div class="menu-container">
+                <button class="menu-btn" onclick="toggleWorkspaceMenu(event, ${idx})">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <div class="dropdown-menu" id="wsMenu_${idx}">
+                    <button class="dropdown-item" onclick="toggleStarProject(event, ${idx})">
+                        <i class="fa-solid fa-star" style="color: #F59E0B;"></i> ${p.starred ? 'Unstar' : 'Star'}
+                    </button>
+                    <button class="dropdown-item" onclick="deleteProject(event, ${idx})" style="color: #F43F5E;">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
         `;
         box.appendChild(div);
     });
 }
 
 function exportTxt() {
-    if(items.length === 0) return showToast("No data!");
+    if(items.length === 0) return showToast("No data to export!");
     let blob = new Blob([items.map(x => x.number).join("\n")], {type: "text/plain"});
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);

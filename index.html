@@ -10,8 +10,8 @@
 <style>
 :root {
     --bg-dark: #050507;
-    --sidebar-bg: rgba(9, 12, 21, 0.98);
-    --card-bg: rgba(13, 13, 18, 0.88);
+    --sidebar-bg: rgba(9, 12, 21, 0.92);
+    --card-bg: rgba(13, 13, 18, 0.82);
     --card-border: rgba(220, 38, 38, 0.3);
     --accent-purple: #7C3AED;
     --accent-cyan: #0284C7;
@@ -32,8 +32,9 @@
 }
 
 body {
+    /* আপনার দেওয়া সামুরাই ছবিটি ওয়াটারমার্ক ব্যাকগ্রাউন্ড হিসেবে এখানে সেট করা হয়েছে */
     background: linear-gradient(135deg, rgba(5, 5, 7, 0.88) 0%, rgba(26, 3, 3, 0.82) 100%), 
-                url('images/bg.jpg') no-repeat center center fixed;
+                url('https://i.ibb.co/5W36z6z/samurai-bg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: var(--text-primary);
     min-height: 100vh;
@@ -252,7 +253,6 @@ body {
     color: #fff;
 }
 
-/* Sidebar Workspace List Items */
 .sidebar-ws-container {
     display: flex;
     flex-direction: column;
@@ -293,7 +293,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 14px;
-    background: rgba(9, 12, 21, 0.9);
+    background: rgba(9, 12, 21, 0.85);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -366,6 +366,7 @@ body {
     gap: 8px;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(4px);
 }
 .stat-card-top { display: flex; align-items: center; gap: 10px; }
 .stat-icon {
@@ -403,6 +404,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    backdrop-filter: blur(4px);
 }
 .paste-layout { display: flex; flex-direction: column; gap: 10px; }
 .paste-box {
@@ -634,7 +636,6 @@ input[type="text"], input[type="password"] {
 </div>
 
 <div class="app-layout" id="appLayout">
-    <!-- Slide Drawer Sidebar -->
     <div class="sidebar" id="appSidebar">
         <div class="brand">
             <div class="brand-inner">
@@ -647,9 +648,7 @@ input[type="text"], input[type="password"] {
             <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
             
             <div class="nav-title">SAVED WORKSPACES</div>
-            <div class="sidebar-ws-container" id="projList">
-                <!-- Project items inside slide drawer -->
-            </div>
+            <div class="sidebar-ws-container" id="projList"></div>
 
             <div class="nav-title">WORKSPACE ACTIONS</div>
             <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
@@ -657,7 +656,6 @@ input[type="text"], input[type="password"] {
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
             
-            <!-- Lock Screen একদম নিচে -->
             <div style="margin-top: auto; padding-top: 20px;">
                 <div class="nav-title" style="margin-top: 0;">ACCOUNT</div>
                 <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
@@ -719,7 +717,6 @@ input[type="text"], input[type="password"] {
                 </div>
             </div>
 
-            <!-- ড্যাশবোর্ডে সেভ করার অপশন -->
             <div class="paste-card">
                 <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-rose); margin-right:4px;"></i> Paste Your Data</div>
                 <div class="paste-layout">

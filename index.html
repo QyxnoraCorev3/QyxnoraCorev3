@@ -3,28 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore v3 Exact Dashboard UI</title>
+<title>QyxnoraCore v3.0 - Premium Dashboard UI</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg-dark: #05070e;
-    --sidebar-bg: #090c15;
-    --card-bg: #0f1422;
-    --card-border: #1a233a;
+    --bg-dark: #070913;
+    --sidebar-bg: #0b0f1d;
+    --card-bg: rgba(15, 20, 38, 0.7);
+    --card-border: #1a233d;
     --accent-purple: #7C3AED;
-    --accent-cyan: #0284C7;
-    --accent-emerald: #059669;
-    --accent-rose: #E11D48;
+    --accent-purple-glow: rgba(124, 58, 237, 0.4);
+    --accent-blue: #2563EB;
+    --accent-cyan: #06B6D4;
+    --accent-emerald: #10B981;
+    --accent-orange: #F59E0B;
+    --accent-rose: #EF4444;
     --text-primary: #F8FAFC;
     --text-muted: #64748B;
+    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 body {
@@ -35,6 +40,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Toast Notifications */
 .toast-container {
     position: fixed;
     top: 20px;
@@ -42,26 +48,24 @@ body {
     z-index: 999999;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 .toast {
-    background: #182238;
-    border-left: 4px solid var(--accent-purple);
+    background: #141c30;
+    border: 1px solid var(--accent-purple);
     color: #fff;
-    padding: 12px 18px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+    backdrop-filter: blur(10px);
 }
 
-/* Lock / Login Screen */
+/* Login Screen Overlay */
 .login-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     background: var(--bg-dark);
     display: flex;
     align-items: center;
@@ -69,96 +73,116 @@ body {
     z-index: 99999;
 }
 .login-card {
-    background: var(--card-bg);
+    background: var(--sidebar-bg);
     border: 1px solid var(--card-border);
-    padding: 30px;
-    border-radius: 16px;
-    width: 340px;
+    padding: 36px;
+    border-radius: 24px;
+    width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    gap: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(124, 58, 237, 0.15);
+    text-align: center;
 }
-.login-card h2 { font-size: 20px; text-align: center; color: #fff; }
+.login-card h2 { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .login-card input {
     width: 100%;
-    background: #070912;
+    background: #060810;
     border: 1px solid var(--card-border);
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
     color: #fff;
     font-size: 13px;
     outline: none;
+    transition: 0.2s;
 }
+.login-card input:focus { border-color: var(--accent-purple); box-shadow: 0 0 15px var(--accent-purple-glow); }
 
 .app-layout {
-    display: none; /* Login required to display */
+    display: none;
     width: 100vw;
     min-height: 100vh;
 }
 
-/* Sidebar & Mobile Drawer */
+/* Sidebar Styling */
 .sidebar {
-    width: 250px;
+    width: 260px;
     background: var(--sidebar-bg);
     border-right: 1px solid var(--card-border);
     display: flex;
     flex-direction: column;
-    padding: 16px 12px;
-    gap: 15px;
+    padding: 20px 16px;
+    gap: 20px;
     flex-shrink: 0;
-    transition: left 0.3s ease;
+    position: relative;
+    z-index: 100;
+    transition: transform 0.3s ease;
 }
 
 .brand {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
     color: #fff;
-    padding: 8px 10px;
+    padding: 4px 8px;
 }
 .brand-badge {
-    background: #8B5CF6;
+    background: linear-gradient(135deg, #3B82F6, #7C3AED);
     font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 6px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 700;
 }
 
-.nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+.nav-group { display: flex; flex-direction: column; gap: 4px; }
 .nav-title {
     font-size: 10px;
     font-weight: 800;
     color: var(--text-muted);
-    letter-spacing: 1px;
-    margin: 12px 0 6px 10px;
+    letter-spacing: 1.2px;
+    margin: 16px 0 6px 12px;
     text-transform: uppercase;
 }
 .nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 9px 12px;
-    border-radius: 8px;
+    padding: 11px 16px;
+    border-radius: 12px;
     color: #94A3B8;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.15s;
+    transition: all 0.2s;
     text-decoration: none;
 }
-.nav-item:hover { background: rgba(255, 255, 255, 0.04); color: #fff; }
+.nav-item:hover { background: rgba(255, 255, 255, 0.03); color: #fff; }
 .nav-item.active {
-    background: linear-gradient(90deg, rgba(124, 58, 237, 0.25), rgba(124, 58, 237, 0.05));
-    border: 1px solid rgba(124, 58, 237, 0.4);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.8), rgba(37, 99, 235, 0.8));
     color: #fff;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
 }
 
+.sidebar-diamond-art {
+    margin-top: auto;
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), rgba(124, 58, 237, 0.2));
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.sidebar-diamond-art i {
+    font-size: 48px;
+    color: #A855F7;
+    filter: drop-shadow(0 0 15px #A855F7);
+    margin-bottom: 8px;
+}
+
+/* Main Content Area */
 .main-content {
     flex: 1;
     display: flex;
@@ -167,14 +191,19 @@ body {
     overflow-y: auto;
 }
 
+/* Top Header */
 .top-header {
-    height: 60px;
+    height: 70px;
     border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
-    background: var(--sidebar-bg);
+    padding: 0 28px;
+    background: rgba(11, 15, 29, 0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 90;
 }
 
 .hamburger-btn {
@@ -182,187 +211,336 @@ body {
     background: none;
     border: none;
     color: #fff;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
-    margin-right: 12px;
+    margin-right: 15px;
 }
 
-.sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9998;
+.search-box {
+    position: relative;
+    width: 380px;
 }
-
-.search-box { position: relative; width: 340px; }
 .search-box input {
     width: 100%;
-    background: #080B13;
+    background: #060811;
     border: 1px solid var(--card-border);
-    padding: 8px 12px 8px 36px;
-    border-radius: 8px;
+    padding: 10px 16px 10px 42px;
+    border-radius: 12px;
     color: #fff;
-    font-size: 12px;
+    font-size: 13px;
     outline: none;
+    transition: 0.2s;
 }
+.search-box input:focus { border-color: var(--accent-purple); box-shadow: 0 0 15px var(--accent-purple-glow); }
 .search-box i {
     position: absolute;
-    left: 12px;
+    left: 14px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 14px;
 }
 
-.user-area { display: flex; align-items: center; gap: 16px; }
-.avatar {
-    width: 32px;
-    height: 32px;
+.top-right-tools { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #060811;
+    border: 1px solid var(--card-border);
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+}
+.icon-btn:hover { color: #fff; border-color: var(--accent-purple); }
+.badge-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 14px; height: 14px;
+    background: var(--accent-rose);
+    border-radius: 50%;
+    font-size: 8px;
+    font-weight: 800;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--card-border);
+}
+.user-avatar {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: linear-gradient(135deg, #7C3AED, #2563EB);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 13px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
 }
 
-.container { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+.container { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
 
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+/* Stats Cards (Exact 4 Gradient Cards) */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .stat-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 16px;
+    padding: 18px 20px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 35px;
+    background: var(--wave-gradient);
+    opacity: 0.25;
 }
 .stat-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 18px;
 }
 
+/* Specific Stat Card Colors */
+.stat-blue { --wave-gradient: linear-gradient(180deg, transparent, #2563EB); }
+.stat-blue .stat-icon { background: rgba(37, 99, 235, 0.2); color: #3B82F6; }
+.stat-blue { border-color: rgba(37, 99, 235, 0.4); }
+
+.stat-purple { --wave-gradient: linear-gradient(180deg, transparent, #7C3AED); }
+.stat-purple .stat-icon { background: rgba(124, 58, 237, 0.2); color: #A855F7; }
+.stat-purple { border-color: rgba(124, 58, 237, 0.4); }
+
+.stat-orange { --wave-gradient: linear-gradient(180deg, transparent, #F59E0B); }
+.stat-orange .stat-icon { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
+.stat-orange { border-color: rgba(245, 158, 11, 0.4); }
+
+.stat-cyan { --wave-gradient: linear-gradient(180deg, transparent, #06B6D4); }
+.stat-cyan .stat-icon { background: rgba(6, 182, 212, 0.2); color: #22D3EE; }
+.stat-cyan { border-color: rgba(6, 182, 212, 0.4); }
+
+/* Paste Data Section */
 .paste-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 16px;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.paste-layout { display: flex; gap: 20px; }
+.paste-box {
+    flex: 1;
+    background: #050711;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px;
+    color: #fff;
+    font-size: 13px;
+    min-height: 130px;
+    outline: none;
+    resize: vertical;
+    transition: 0.2s;
+}
+.paste-box:focus { border-color: var(--accent-purple); box-shadow: 0 0 15px var(--accent-purple-glow); }
+
+.workspace-side-inputs {
+    width: 280px;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
-.paste-layout { display: flex; gap: 12px; }
-.paste-box {
-    flex: 1;
-    background: #070912;
+.workspace-side-inputs input {
+    background: #050711;
     border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 10px 14px;
     color: #fff;
-    font-size: 13px;
-    min-height: 120px;
+    font-size: 12px;
     outline: none;
-    resize: vertical;
 }
 
-.ws-list { display: flex; gap: 10px; overflow-x: auto; }
+.ws-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
 .ws-item {
-    min-width: 180px;
-    background: var(--card-bg);
+    min-width: 200px;
+    background: #0a0e1c;
     border: 1px solid var(--card-border);
     padding: 10px 14px;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: 0.2s;
 }
-.ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.1); }
+.ws-item.active { border-color: var(--accent-purple); background: rgba(124, 58, 237, 0.15); }
 
-/* Filter Tabs */
-.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; }
-.filter-btn {
-    background: #090c15;
+/* Filter Tabs Area */
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #080a15;
+    padding: 6px;
+    border-radius: 14px;
     border: 1px solid var(--card-border);
+}
+.filter-btn {
+    background: transparent;
+    border: none;
     color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 11px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
 }
 .filter-btn.active {
-    background: var(--accent-purple);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(37, 99, 235, 0.9));
     color: #fff;
-    border-color: var(--accent-purple);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
 
+/* Table Section */
 .table-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 14px;
+    border-radius: 20px;
+    padding: 16px;
     overflow-x: auto;
-    padding: 12px;
 }
-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; min-width: 500px; }
-th { background: #090c15; padding: 10px 14px; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
-td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; min-width: 650px; }
+th { background: #080b18; padding: 12px 16px; color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--card-border); }
+td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #cbd5e1; }
+
+.status-indicator { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; }
+.status-copied { color: #10B981; }
+.status-pending { color: #F59E0B; }
+.dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.dot-copied { background: #10B981; box-shadow: 0 0 8px #10B981; }
+.dot-pending { background: #F59E0B; box-shadow: 0 0 8px #F59E0B; }
+
+.action-cell { display: flex; align-items: center; gap: 12px; }
+.action-icon { color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 14px; }
+.action-icon:hover { color: #fff; }
+
+/* Prefix Box Section */
+.prefix-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.prefix-box {
+    background: #050711;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.prefix-box input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    font-size: 12px;
+    width: 100%;
+}
+
+/* Action Buttons Grid */
+.buttons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
 .btn {
-    padding: 8px 14px;
+    padding: 12px 16px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     color: #fff;
+    transition: all 0.2s;
 }
-.btn-purple { background: var(--accent-purple); }
-.btn-cyan { background: var(--accent-cyan); }
-.btn-emerald { background: var(--accent-emerald); }
-.btn-rose { background: var(--accent-rose); }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-.badge-status { padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; }
-.badge-copied { background: rgba(5, 150, 105, 0.15); color: #10B981; }
-.badge-pending { background: rgba(225, 29, 72, 0.15); color: #F43F5E; }
+.btn-purple { background: linear-gradient(135deg, #7C3AED, #6D28D9); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3); }
+.btn-emerald { background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3); }
+.btn-blue { background: linear-gradient(135deg, #0284C7, #0369A1); box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3); }
+.btn-indigo { background: linear-gradient(135deg, #4F46E5, #4338CA); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.btn-orange { background: linear-gradient(135deg, #D97706, #B45309); box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3); }
+.btn-rose { background: linear-gradient(135deg, #E11D48, #BE123C); box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3); }
+.btn-pink { background: linear-gradient(135deg, #DB2777, #BE185D); box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3); }
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+/* Footer */
+.app-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.footer-badges { display: flex; gap: 20px; }
+.footer-badge { display: flex; align-items: center; gap: 6px; color: #94A3B8; }
 
-/* Mobile Responsiveness Rules */
-@media (max-width: 900px) {
+/* Responsive Mobile Rules */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 95;
+}
+
+@media (max-width: 1024px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .buttons-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
     .hamburger-btn { display: block; }
     .sidebar {
         position: fixed;
-        top: 0;
-        left: -260px;
+        top: 0; left: -270px;
         height: 100vh;
-        z-index: 9999;
     }
-    .sidebar.active { left: 0; }
+    .sidebar.active { transform: translateX(270px); }
     .sidebar-overlay.active { display: block; }
     
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .search-box { width: 180px; }
+    .search-box { width: 160px; }
     .paste-layout { flex-direction: column; }
-    .paste-layout > div { width: 100% !important; }
-    .grid-2 { grid-template-columns: 1fr; }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .container { padding: 12px; }
-    .top-header { padding: 0 12px; }
+    .workspace-side-inputs { width: 100%; }
+    .prefix-container { grid-template-columns: 1fr; }
+    .buttons-grid { grid-template-columns: 1fr; }
+    .filter-bar { grid-template-columns: 1fr; }
+    .container { padding: 16px; }
 }
 </style>
 </head>
@@ -374,8 +552,9 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 <!-- Login Lock Overlay -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-        <h2><i class="fa-solid fa-lock" style="color:#8B5CF6;"></i> Username Unlock</h2>
-        <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
+        <h2><i class="fa-solid fa-gem" style="color:#A855F7;"></i> QyxnoraCore</h2>
+        <p style="font-size:12px; color:var(--text-muted);">Enter username to access dashboard</p>
+        <input type="text" id="loginUser" placeholder="Username..." onkeypress="if(event.key==='Enter') handleLogin()">
         <button class="btn btn-purple" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
     </div>
 </div>
@@ -383,24 +562,40 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
 <div class="app-layout" id="appLayout">
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="brand">
-            <i class="fa-solid fa-gem" style="color: #8B5CF6;"></i>
-            QyxnoraCore <span class="brand-badge">v3</span>
+            <i class="fa-solid fa-gem" style="color: #A855F7;"></i>
+            QyxnoraCore <span class="brand-badge">v3.0</span>
         </div>
+
         <div class="nav-group">
             <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+            
             <div class="nav-title">WORKSPACE</div>
-            <a class="nav-item" onclick="deduplicate(); closeMobileMenu();"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
-            <a class="nav-item" onclick="copyAllRemaining(); closeMobileMenu();"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
-            <a class="nav-item" onclick="exportTxt(); closeMobileMenu();"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
-            <a class="nav-item" onclick="clearWorkspace(); closeMobileMenu();"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
+            <a class="nav-item" onclick="deduplicate(); closeMobile();"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
+            <a class="nav-item" onclick="copyAllRemaining(); closeMobile();"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
+            <a class="nav-item" onclick="exportTxt(); closeMobile();"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
+            <a class="nav-item" onclick="clearWorkspace(); closeMobile();"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
+
             <div class="nav-title">ACCOUNT</div>
-            <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
+            <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-lock"></i> Lock Screen</a>
+
+            <div class="nav-title">EXTRA</div>
+            <a class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a class="nav-item"><i class="fa-solid fa-database"></i> Backup & Restore</a>
+            <a class="nav-item"><i class="fa-solid fa-file-import"></i> Import / Export</a>
+            <a class="nav-item"><i class="fa-solid fa-circle-question"></i> Help & Support</a>
+        </div>
+
+        <div class="sidebar-diamond-art">
+            <i class="fa-solid fa-gem"></i>
         </div>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
+        <!-- Header -->
         <div class="top-header">
             <div style="display: flex; align-items: center;">
                 <button class="hamburger-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
@@ -409,140 +604,184 @@ td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); }
                     <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
                 </div>
             </div>
-            <div class="user-area">
-                <div class="avatar" id="userAvatar">A</div>
+
+            <div class="top-right-tools">
+                <div class="icon-btn"><i class="fa-solid fa-sun"></i></div>
+                <div class="icon-btn"><i class="fa-solid fa-gear"></i></div>
+                <div class="icon-btn">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="badge-dot">8</span>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">P</div>
+                    <div style="display:flex; flex-direction:column;">
+                        <span style="font-size:12px; font-weight:800;" id="userNameTxt">PALU YADAV</span>
+                        <span style="font-size:9px; color:var(--text-muted); font-weight:600;">Admin</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="container">
+            <!-- Stats Grid -->
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #8B5CF6;"><i class="fa-solid fa-chart-simple"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntTotal">0</div><div style="font-size: 9px; color: var(--text-muted);">TOTAL</div></div>
+                <div class="stat-card stat-blue">
+                    <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">TOTAL NUMBERS</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntTotal">0</div>
+                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">All numbers in workspace</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCopied">0</div><div style="font-size: 9px; color: var(--text-muted);">COPIED</div></div>
+
+                <div class="stat-card stat-purple">
+                    <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">COPIED</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCopied">0</div>
+                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Numbers copied</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-check"></i></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(225, 29, 72, 0.2); color: #F43F5E;"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntPending">0</div><div style="font-size: 9px; color: var(--text-muted);">PENDING</div></div>
+
+                <div class="stat-card stat-orange">
+                    <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">PENDING</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntPending">0</div>
+                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Numbers pending</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
-                    <div><div style="font-size: 16px; font-weight: 800;" id="cntCountries">0</div><div style="font-size: 9px; color: var(--text-muted);">COUNTRIES</div></div>
+
+                <div class="stat-card stat-cyan">
+                    <div>
+                        <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">COUNTRIES</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCountries">0</div>
+                        <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Countries included</div>
+                    </div>
+                    <div class="stat-icon"><i class="fa-solid fa-globe"></i></div>
                 </div>
             </div>
 
+            <!-- Paste Your Data -->
             <div class="paste-card">
-                <div style="font-size: 12px; font-weight: 700;">Paste Your Data</div>
+                <div style="font-size: 12px; font-weight: 800; color: #A855F7; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-paste"></i> PASTE YOUR DATA
+                </div>
                 <div class="paste-layout">
-                    <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
-                    <div style="width:180px; display:flex; flex-direction:column; gap:8px;">
-                        <input type="text" id="projTitle" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;" placeholder="Workspace Name">
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste your numbers or data here..." oninput="parseData()"></textarea>
+                    
+                    <div class="workspace-side-inputs">
+                        <div>
+                            <label style="font-size: 10px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 4px;">Workspace Name</label>
+                            <input type="text" id="projTitle" placeholder="Enter workspace name" style="width: 100%;">
+                        </div>
                         <button class="btn btn-purple" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Saved Workspaces List -->
             <div>
-                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
+                <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); margin-bottom: 8px;">SAVED WORKSPACES</div>
                 <div class="ws-list" id="projList"></div>
             </div>
 
-            <div class="table-card">
-                <!-- Copied / Pending Filter Tabs -->
-                <div class="filter-bar">
-                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
-                    <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">All Pending (সিরিয়াল)</button>
-                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">All Copied (সিরিয়াল)</button>
-                </div>
+            <!-- Filter Tabs -->
+            <div class="filter-bar">
+                <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">
+                    All Numbers <span id="tabCntAll" style="opacity: 0.7;">(0)</span>
+                </button>
+                <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">
+                    All Pending (সিরিয়াল) <span id="tabCntPending" style="opacity: 0.7;">(0)</span>
+                </button>
+                <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">
+                    All Copied (সিরিয়াল) <span id="tabCntCopied" style="opacity: 0.7;">(0)</span>
+                </button>
+            </div>
 
+            <!-- Data Table -->
+            <div class="table-card">
                 <table>
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Country</th>
                             <th>Number</th>
                             <th>Status</th>
-                            <th style="text-align: right;">Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="dataTable"></tbody>
                 </table>
             </div>
 
-            <div class="paste-card">
-                <div class="grid-2">
-                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
-                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)" style="background:#070912; border:1px solid var(--card-border); padding:8px 10px; border-radius:6px; color:#fff; font-size:11px;">
+            <!-- Prefix inputs -->
+            <div class="prefix-container">
+                <div>
+                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">Remove Prefix (e.g. 216)</label>
+                    <div class="prefix-box">
+                        <input type="text" id="prefixRemove" placeholder="Enter prefix to remove">
+                        <button class="btn btn-rose" style="padding: 4px 8px; font-size: 10px;" onclick="applyRemovePrefix()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
                 </div>
-                <div class="grid-4">
-                    <button class="btn btn-emerald" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
-                    <button class="btn btn-cyan" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
-                    <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
-                    <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
-                    <button class="btn btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
-                    <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-copy"></i> Copy All Pending</button>
-                    <button class="btn btn-emerald" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
-                    <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
+                <div>
+                    <label style="font-size: 11px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 6px;">Add Prefix (e.g. 216)</label>
+                    <div class="prefix-box">
+                        <input type="text" id="prefixAdd" placeholder="Enter prefix to add">
+                        <button class="btn btn-purple" style="padding: 4px 8px; font-size: 10px;" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i></button>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Action Buttons Grid -->
+            <div class="buttons-grid">
+                <button class="btn btn-emerald" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                <button class="btn btn-blue" onclick="applyAddPrefix()"><i class="fa-solid fa-circle-plus"></i> Add Prefix</button>
+                <button class="btn btn-indigo" onclick="applyPlus(true)"><i class="fa-solid fa-plus"></i> Add +</button>
+                <button class="btn btn-orange" onclick="applyPlus(false)"><i class="fa-solid fa-minus"></i> Remove +</button>
+                <button class="btn btn-pink" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
+                <button class="btn btn-blue" onclick="copyAllRemaining()"><i class="fa-solid fa-copy"></i> Copy All Pending</button>
+                <button class="btn btn-emerald" onclick="exportTxt()"><i class="fa-solid fa-download"></i> Download TXT</button>
+                <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="app-footer">
+            <div>© 2026 QyxnoraCore. All rights reserved.</div>
+            <div class="footer-badges">
+                <div class="footer-badge"><i class="fa-solid fa-shield-halved" style="color:#10B981;"></i> Secure</div>
+                <div class="footer-badge"><i class="fa-solid fa-ban" style="color:#06B6D4;"></i> No Server</div>
+                <div class="footer-badge"><i class="fa-solid fa-eye-slash" style="color:#A855F7;"></i> 100% Private</div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// ==========================================
-// 🔑 আগের ইউজার + QyxnoraCore (১৫ টি)
-// ==========================================
+// Authentication System (15 Users + QyxnoraCore)
 const validUsers = [
-    "QyxnoraCore", 
-    "Rafin2332", 
-    "Salma89340", 
-    "Tanvir1234", 
-    "MFaheem123", 
-    "Mahmudsakib",
-    "Husainy1",
-    "QyxnoraCore02",
-    "QyxnoraCore03",
-    "QyxnoraCore04",
-    "QyxnoraCore05",
-    "QyxnoraCore06",
-    "QyxnoraCore07",
-    "QyxnoraCore08",
-    "QyxnoraCore09",
-    "QyxnoraCore10",
-    "QyxnoraCore11",
-    "QyxnoraCore12",
-    "QyxnoraCore13",
-    "QyxnoraCore14",
-    "QyxnoraCore15"
+    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", "Mahmudsakib",
+    "Husainy1", "QyxnoraCore02", "QyxnoraCore03", "QyxnoraCore04", "QyxnoraCore05",
+    "QyxnoraCore06", "QyxnoraCore07", "QyxnoraCore08", "QyxnoraCore09", "QyxnoraCore10",
+    "QyxnoraCore11", "QyxnoraCore12", "QyxnoraCore13", "QyxnoraCore14", "QyxnoraCore15"
 ];
 
-const UNLOCK_DURATION = 2 * 60 * 60 * 1000; // 2 hours in ms
+const UNLOCK_DURATION = 2 * 60 * 60 * 1000; // 2 Hours Locking
 
 let items = [];
-let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects_v3')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
 const flags = {
+    "Bangladesh": "🇧🇩", "India": "🇮🇳", "United States": "🇺🇸", "Pakistan": "🇵🇰",
+    "United Kingdom": "🇬🇧", "Canada": "🇨🇦", "Australia": "🇦🇺", "Malaysia": "🇲🇾",
     "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
-    "Cambodia": "🇰🇭", "Malaysia": "🇲🇾", "Algeria": "🇩🇿", "Myanmar": "🇲🇲",
-    "Angola": "🇦🇴", "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Armenia Karabakh": "🇦🇲",
-    "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
-    "Bolivia": "🇧🇴", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Cameroon": "🇨🇲",
-    "Ecuador": "🇪🇨", "Egypt": "🇪🇬", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦",
-    "Georgia": "🇬🇪", "Germany": "🇩🇪", "Guinea": "🇬🇳", "Indonesia": "🇮🇩",
-    "Iraq": "🇮🇶", "Ivory Coast": "🇨🇮", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿",
-    "Kenya": "🇰🇪", "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬",
-    "Lesotho": "🇱🇸", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Mauritania": "🇲🇷",
-    "Moldova": "🇲🇩", "Mongolia": "🇲🇳", "Morocco": "🇲🇦", "Mozambique": "🇲🇿",
-    "Nepal": "🇳🇵", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Oman": "🇴🇲",
-    "Pakistan": "🇵🇰", "Russia": "🇷🇺", "Saudi Arabia": "🇸🇦", "Senegal": "🇸🇳",
-    "Slovenia": "🇸🇮", "Sudan": "🇸🇩", "Syria": "🇸🇾", "Tajikistan": "🇹🇯",
-    "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪",
-    "UAE": "🇦🇪", "Uzbekistan": "🇺🇿", "Vietnam": "🇻🇳", "Zimbabwe": "🇿🇼"
+    "Cambodia": "🇰🇭", "Algeria": "🇩🇿", "Myanmar": "🇲🇲", "Angola": "🇦🇴",
+    "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Egypt": "🇪🇬", "Germany": "🇩🇪",
+    "Indonesia": "🇮🇩", "Iraq": "🇮🇶", "Saudi Arabia": "🇸🇦", "UAE": "🇦🇪"
 };
 
 function toggleSidebar() {
@@ -550,7 +789,7 @@ function toggleSidebar() {
     document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 
-function closeMobileMenu() {
+function closeMobile() {
     document.getElementById("sidebar").classList.remove("active");
     document.getElementById("sidebarOverlay").classList.remove("active");
 }
@@ -561,10 +800,9 @@ function showToast(msg) {
     t.className = "toast";
     t.innerText = msg;
     box.appendChild(t);
-    setTimeout(() => t.remove(), 2000);
+    setTimeout(() => t.remove(), 2200);
 }
 
-// Lock / Login Logic
 window.onload = function() {
     const savedUser = localStorage.getItem('activeUser');
     const unlockTime = localStorage.getItem('unlockTimestamp');
@@ -577,7 +815,6 @@ window.onload = function() {
         } else {
             localStorage.removeItem('activeUser');
             localStorage.removeItem('unlockTimestamp');
-            showToast("Session expired. Please unlock again.");
         }
     }
 }
@@ -588,7 +825,7 @@ function handleLogin() {
         localStorage.setItem('activeUser', val);
         localStorage.setItem('unlockTimestamp', new Date().getTime().toString());
         loginSuccess(val);
-        showToast("Unlocked successfully!");
+        showToast("Dashboard Unlocked!");
     } else {
         alert("Invalid Username!");
     }
@@ -596,6 +833,7 @@ function handleLogin() {
 
 function loginSuccess(user) {
     document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
+    document.getElementById('userNameTxt').innerText = user.toUpperCase();
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appLayout').style.display = 'flex';
     renderProjSidebar();
@@ -632,7 +870,6 @@ function parseData() {
         
         if (matches && matches.length > 0) {
             let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
-
             items.push({
                 number: targetNumber,
                 country: countryName,
@@ -665,6 +902,17 @@ function render() {
         countries.add(i.country);
     });
 
+    let pendingCnt = items.length - copiedCnt;
+
+    document.getElementById("cntTotal").innerText = items.length.toLocaleString();
+    document.getElementById("cntCopied").innerText = copiedCnt.toLocaleString();
+    document.getElementById("cntPending").innerText = pendingCnt.toLocaleString();
+    document.getElementById("cntCountries").innerText = countries.size;
+
+    document.getElementById("tabCntAll").innerText = `(${items.length})`;
+    document.getElementById("tabCntPending").innerText = `(${pendingCnt})`;
+    document.getElementById("tabCntCopied").innerText = `(${copiedCnt})`;
+
     let filtered = items.filter(i => {
         let matchQuery = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);
         if (!matchQuery) return false;
@@ -674,30 +922,29 @@ function render() {
         return true;
     });
 
-    filtered.forEach(i => {
+    filtered.forEach((i, idx) => {
         let flag = flags[i.country] || "🌍";
         let tr = document.createElement("tr");
         tr.innerHTML = `
-            <td><span style="font-size:13px; margin-right:4px;">${flag}</span> ${i.country}</td>
-            <td style="font-weight:700;">${i.number}</td>
+            <td>${idx + 1}</td>
+            <td><span style="margin-right:6px;">${flag}</span> ${i.country}</td>
+            <td style="font-weight:700; color:#fff;">${i.number}</td>
             <td>
-                <span class="badge-status ${i.copied ? 'badge-copied' : 'badge-pending'}">
-                    ${i.copied ? 'Copied ✓' : 'Pending'}
+                <span class="status-indicator ${i.copied ? 'status-copied' : 'status-pending'}">
+                    <span class="dot ${i.copied ? 'dot-copied' : 'dot-pending'}"></span>
+                    ${i.copied ? 'Copied' : 'Pending'}
                 </span>
             </td>
-            <td style="text-align: right;">
-                <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" style="padding:3px 8px; font-size:10px;" onclick="copySingle('${i.number}')">
-                    ${i.copied ? 'Copied' : 'Copy'}
-                </button>
+            <td>
+                <div class="action-cell">
+                    <i class="fa-regular fa-copy action-icon" title="Copy Number" onclick="copySingle('${i.number}')"></i>
+                    <i class="fa-regular fa-star action-icon" title="Favorite"></i>
+                    <i class="fa-solid fa-ellipsis-vertical action-icon"></i>
+                </div>
             </td>
         `;
         tbody.appendChild(tr);
     });
-
-    document.getElementById("cntTotal").innerText = items.length;
-    document.getElementById("cntCopied").innerText = copiedCnt;
-    document.getElementById("cntPending").innerText = items.length - copiedCnt;
-    document.getElementById("cntCountries").innerText = countries.size;
 }
 
 function copySingle(num) {
@@ -707,7 +954,7 @@ function copySingle(num) {
         itm.copied = true;
         syncWorkspace();
         render();
-        showToast("Copied!");
+        showToast("Copied to Clipboard!");
     }
 }
 
@@ -718,7 +965,7 @@ function copyAllRemaining() {
     items.forEach(x => x.copied = true);
     syncWorkspace();
     render();
-    showToast("Copied All!");
+    showToast("Copied All Pending!");
 }
 
 function applyRemovePrefix() {
@@ -767,7 +1014,7 @@ function clearWorkspace() {
     document.getElementById("rawInput").value = "";
     syncWorkspace();
     render();
-    showToast("Cleared!");
+    showToast("Workspace Cleared!");
 }
 
 function saveProject() {
@@ -775,9 +1022,9 @@ function saveProject() {
     if(items.length === 0) return showToast("No data to save!");
     projects.push({ name: title, items: JSON.parse(JSON.stringify(items)) });
     activeProjIdx = projects.length - 1;
-    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_exact_projects_v3', JSON.stringify(projects));
     renderProjSidebar();
-    showToast("Saved Workspace!");
+    showToast("Workspace Saved!");
 }
 
 function deleteProject(e, idx) {
@@ -790,16 +1037,16 @@ function deleteProject(e, idx) {
     } else if(activeProjIdx > idx) {
         activeProjIdx--;
     }
-    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    localStorage.setItem('qyx_exact_projects_v3', JSON.stringify(projects));
     renderProjSidebar();
     render();
-    showToast("Deleted!");
+    showToast("Workspace Deleted!");
 }
 
 function syncWorkspace() {
     if(activeProjIdx >= 0 && projects[activeProjIdx]) {
         projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
-        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+        localStorage.setItem('qyx_exact_projects_v3', JSON.stringify(projects));
         renderProjSidebar();
     }
 }
@@ -815,7 +1062,7 @@ function renderProjSidebar() {
             items = JSON.parse(JSON.stringify(p.items));
             renderProjSidebar();
             render();
-            closeMobileMenu();
+            closeMobile();
         };
         div.innerHTML = `
             <div>

@@ -17,6 +17,7 @@
     --accent-cyan: #0284C7;
     --accent-emerald: #059669;
     --accent-rose: #dc2626;
+    --accent-orange: #d97706;
     --crimson-glow: rgba(220, 38, 38, 0.35);
     --text-primary: #F8FAFC;
     --text-muted: #64748B;
@@ -31,16 +32,14 @@
 }
 
 body {
-    background: var(--bg-dark);
+    background: linear-gradient(135deg, rgba(5, 5, 7, 0.88) 0%, rgba(26, 3, 3, 0.82) 100%), 
+                url('images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: var(--text-primary);
     min-height: 100vh;
     width: 100vw;
     display: flex;
     overflow-x: hidden;
-    /* Optimized Android Hardware Acceleration & Correct Samurai Image Path */
-    background: linear-gradient(135deg, rgba(5, 5, 7, 0.85) 0%, rgba(26, 3, 3, 0.8) 100%), 
-                url('19507.jpg') no-repeat center center fixed;
-    background-size: cover;
     transform: translateZ(0);
 }
 
@@ -332,7 +331,7 @@ body {
 
 .container { padding: 14px; display: flex; flex-direction: column; gap: 14px; width: 100%; }
 
-/* Dashboard Stat Cards */
+/* Dashboard Stat Cards Matching Screenshot */
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .stat-card {
     background: var(--card-bg);
@@ -340,21 +339,37 @@ body {
     border-radius: 12px;
     padding: 14px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
 }
+.stat-card-top { display: flex; align-items: center; gap: 10px; }
 .stat-icon {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
 }
 .stat-value {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 800;
+}
+.stat-progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 2px;
+}
+.stat-progress-fill {
+    height: 100%;
+    background: var(--accent-rose);
+    border-radius: 2px;
 }
 
 /* Paste Section */
@@ -381,27 +396,47 @@ body {
     resize: vertical;
 }
 
-/* Workspace Section */
+/* Saved Workspaces Section */
 .ws-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
 .ws-item {
-    min-width: 170px;
-    background: var(--card-bg);
+    min-width: 140px;
+    max-width: 150px;
+    background: rgba(13, 13, 18, 0.9);
     border: 1px solid var(--card-border);
-    padding: 10px 12px;
+    padding: 12px;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
 }
 .ws-item.starred-project {
     border-color: rgba(245, 158, 11, 0.6);
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(13, 13, 18, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(13, 13, 18, 0.9) 100%);
 }
 .ws-item.active { 
     border-color: var(--accent-rose); 
     background: rgba(220, 38, 38, 0.2); 
 }
+.ws-item-top { display: flex; align-items: center; justify-content: space-between; }
+
+/* New Workspace Add Card */
+.ws-add-card {
+    min-width: 110px;
+    background: rgba(7, 9, 18, 0.6);
+    border: 1px dashed var(--card-border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 12px;
+    color: var(--text-muted);
+}
+.ws-add-card:active { background: rgba(220,38,38,0.1); }
 
 /* Dropdowns without display:none */
 .menu-container {
@@ -413,7 +448,7 @@ body {
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 8px;
+    padding: 6px;
     border-radius: 6px;
 }
 .dropdown-menu {
@@ -522,27 +557,34 @@ body {
     padding-top: 8px;
 }
 
-/* Buttons */
-.btn {
-    padding: 9px 14px;
+/* Screenshot Exact Action Buttons Layout Styling */
+.action-grid-exact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+.btn-action-custom {
+    padding: 12px 14px;
     border: none;
-    border-radius: 9999px;
+    border-radius: 10px;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
+    gap: 8px;
     color: #fff;
     transition: transform 0.1s ease;
+    text-align: left;
 }
-.btn:active { transform: scale(0.95); }
+.btn-action-custom:active { transform: scale(0.97); }
 
-.btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
-.btn-cyan { background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); }
-.btn-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
-.btn-rose { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
+/* Custom color scheme matching screenshot buttons */
+.bg-btn-red { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
+.bg-btn-orange { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+.bg-btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
+.bg-btn-cyan { background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); }
+.bg-btn-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
 
 .badge-status { padding: 3px 10px; border-radius: 9999px; font-size: 9px; font-weight: 700; display: inline-block; }
 .badge-copied { background: rgba(5, 150, 105, 0.2); color: #10B981; border: 1px solid rgba(5, 150, 105, 0.4); }
@@ -559,7 +601,6 @@ body {
 }
 
 .grid-2 { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
 
 input[type="text"], input[type="password"] {
     background: rgba(7, 9, 18, 0.8);
@@ -604,8 +645,8 @@ input[type="text"], input[type="password"] {
         <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> Confirmation Required</h3>
         <p id="modalDesc">Are you sure you want to proceed with this action?</p>
         <div class="modal-actions">
-            <button class="btn" style="background: rgba(255,255,255,0.08); font-size: 11px; padding: 6px 12px;" onclick="closeConfirmModal(false)">Cancel</button>
-            <button class="btn btn-rose" style="font-size: 11px; padding: 6px 12px;" id="modalConfirmBtn">Proceed</button>
+            <button class="btn-action-custom" style="background: rgba(255,255,255,0.08); padding: 6px 12px;" onclick="closeConfirmModal(false)">Cancel</button>
+            <button class="btn-action-custom bg-btn-red" style="padding: 6px 12px;" id="modalConfirmBtn">Proceed</button>
         </div>
     </div>
 </div>
@@ -618,7 +659,7 @@ input[type="text"], input[type="password"] {
     <div class="login-card">
         <h2><i class="fa-solid fa-lock" style="color:var(--accent-rose);"></i> Username Unlock</h2>
         <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
-        <button class="btn btn-rose" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
+        <button class="btn-action-custom bg-btn-red" style="justify-content: center;" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
     </div>
 </div>
 
@@ -650,12 +691,12 @@ input[type="text"], input[type="password"] {
                 <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
                 <div class="header-welcome">
                     <h1 id="welcomeHeaderTitle">Welcome operator</h1>
-                    <p>Secure Android View</p>
+                    <p>Manage, organize and process numbers easily.</p>
                 </div>
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchKey" placeholder="Search..." oninput="handleSearchInput()">
+                <input type="text" id="searchKey" placeholder="Search number..." oninput="handleSearchInput()">
             </div>
             <div class="user-area">
                 <div class="avatar" id="userAvatar">A</div>
@@ -663,71 +704,98 @@ input[type="text"], input[type="password"] {
         </div>
 
         <div class="container">
-            <!-- Stat Cards -->
+            <!-- Stat Cards matching screenshot style -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;"><i class="fa-solid fa-chart-simple"></i></div>
-                    <div><div class="stat-value" id="cntTotal">0</div><div style="font-size: 8px; color: var(--text-muted); font-weight: 700;">TOTAL</div></div>
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;"><i class="fa-solid fa-chart-simple"></i></div>
+                        <div><div class="stat-value" id="cntTotal">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">TOTAL NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">All numbers in workspace</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 100%;"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
-                    <div><div class="stat-value" id="cntCopied">0</div><div style="font-size: 8px; color: var(--text-muted); font-weight: 700;">COPIED</div></div>
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
+                        <div><div class="stat-value" id="cntCopied">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COPIED NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">Successfully copied</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 61.4%; background: #10B981;"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(225, 29, 72, 0.2); color: #F43F5E;"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div><div class="stat-value" id="cntPending">0</div><div style="font-size: 8px; color: var(--text-muted); font-weight: 700;">PENDING</div></div>
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(217, 119, 6, 0.2); color: #d97706;"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div><div class="stat-value" id="cntPending">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">PENDING NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">Not yet copied</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 38.6%; background: #d97706;"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
-                    <div><div class="stat-value" id="cntCountries">0</div><div style="font-size: 8px; color: var(--text-muted); font-weight: 700;">COUNTRIES</div></div>
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
+                        <div><div class="stat-value" id="cntCountries">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COUNTRIES <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">From different regions</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 85%; background: #38BDF8;"></div></div>
                 </div>
             </div>
 
             <!-- Paste Section -->
             <div class="paste-card">
-                <div style="font-size: 12px; font-weight: 800; color: #fff;">Paste Data</div>
+                <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-rose); margin-right:4px;"></i> Paste Your Data</div>
                 <div class="paste-layout">
                     <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="projTitle" placeholder="Workspace Name" style="flex:1;">
-                        <button class="btn btn-rose" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <input type="text" id="projTitle" placeholder="My Workspace" style="flex:1;">
+                        <button class="btn-action-custom bg-btn-red" style="padding: 10px 14px;" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Workspace Section -->
+            <!-- Workspace Section Matching Screenshot layout -->
             <div>
-                <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.5px;">SAVED WORKSPACES</div>
-                <div class="ws-list" id="projList"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+                    <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px;">SAVED WORKSPACES</div>
+                    <span style="font-size: 10px; color: var(--accent-rose); font-weight: 700; cursor:pointer;" onclick="showToast('Showing all workspaces')">View All</span>
+                </div>
+                <div class="ws-list" id="projList">
+                    <div class="ws-add-card" onclick="document.getElementById('projTitle').focus()">
+                        <i class="fa-solid fa-plus" style="font-size: 16px;"></i>
+                        <span style="font-size: 10px; font-weight: 700;">New Workspace</span>
+                    </div>
+                </div>
             </div>
 
             <div class="paste-card">
                 <!-- Filter Tabs -->
                 <div class="filter-bar">
-                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All</button>
+                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
                     <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">Pending</button>
-                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">Copied</button>
+                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('Copied')">Copied</button>
                 </div>
 
                 <!-- Number Rows -->
                 <div class="number-cards-container" id="dataTable"></div>
             </div>
 
-            <!-- Action Buttons Section -->
+            <!-- Action Buttons Section matching the exact screenshot design & arrangement -->
             <div class="paste-card">
-                <div class="grid-2">
+                <div class="grid-2" style="margin-bottom: 8px;">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)">
                     <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)">
                 </div>
-                <div class="grid-4">
-                    <button class="btn btn-emerald" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Rem Pref</button>
-                    <button class="btn btn-cyan" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Pref</button>
-                    <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
-                    <button class="btn btn-rose" onclick="applyPlus(false)">Rem +</button>
-                    <button class="btn btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Deduplicate</button>
-                    <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy Pending</button>
-                    <button class="btn btn-emerald" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Export</button>
-                    <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear</button>
+                <div class="action-grid-exact">
+                    <button class="btn-action-custom bg-btn-red" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                    <button class="btn-action-custom bg-btn-red" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
+                    
+                    <button class="btn-action-custom bg-btn-orange" onclick="applyPlus(true)"><i class="fa-solid fa-plus"></i> Add +</button>
+                    <button class="btn-action-custom bg-btn-orange" onclick="applyPlus(false)"><i class="fa-solid fa-rotate-left"></i> Remove +</button>
+                    
+                    <button class="btn-action-custom bg-btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
+                    <button class="btn-action-custom bg-btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</button>
+                    
+                    <button class="btn-action-custom bg-btn-cyan" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
+                    <button class="btn-action-custom bg-btn-red" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
                 </div>
             </div>
         </div>
@@ -745,7 +813,11 @@ const validUsers = [
 const UNLOCK_DURATION = 2 * 60 * 60 * 1000;
 
 let items = [];
-let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [
+    { name: "My Workspace", starred: false, items: [] },
+    { name: "Pakistan Data", starred: false, items: [] },
+    { name: "Arab Numbers", starred: true, items: [] }
+];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
@@ -843,7 +915,7 @@ function handleLogin() {
 
 function loginSuccess(user) {
     document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
-    document.getElementById('welcomeHeaderTitle').innerText = `Hello, ${user}`;
+    document.getElementById('welcomeHeaderTitle').innerText = `Good Evening, ${user}`;
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appLayout').style.display = 'flex';
     renderProjSidebar();
@@ -894,7 +966,7 @@ function setFilter(type) {
     currentFilter = type;
     document.getElementById('filterAllBtn').classList.toggle('active', type === 'all');
     document.getElementById('filterPendingBtn').classList.toggle('active', type === 'pending');
-    document.getElementById('filterCopiedBtn').classList.toggle('active', type === 'copied');
+    document.getElementById('filterCopiedBtn').classList.toggle('active', type === 'Copied');
     render();
 }
 
@@ -905,7 +977,6 @@ function handleSearchInput() {
     }, 150);
 }
 
-// Optimized requestAnimationFrame Counter Animation with cleanup
 function animateCounter(elementId, targetValue) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -915,7 +986,7 @@ function animateCounter(elementId, targetValue) {
         return;
     }
     
-    const duration = 250; // Faster for mobile performance
+    const duration = 250;
     let startTime = null;
 
     if (activeCounterAnimationId) {
@@ -955,7 +1026,7 @@ function render() {
         let matchQuery = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);
         if (!matchQuery) return false;
         if (currentFilter === 'pending') return !i.copied;
-        if (currentFilter === 'copied') return i.copied;
+        if (currentFilter === 'Copied') return i.copied;
         return true;
     });
 
@@ -976,7 +1047,7 @@ function render() {
                     ${i.copied ? 'Copied ✓' : 'Pending'}
                 </span>
                 <div style="display: flex; gap: 6px; align-items: center;">
-                    <button class="btn ${i.copied ? 'btn-rose' : 'btn-cyan'}" id="copyBtn_${index}" style="padding:5px 10px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
+                    <button class="btn-action-custom ${i.copied ? 'bg-btn-red' : 'bg-btn-cyan'}" id="copyBtn_${index}" style="padding:5px 10px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
                         ${i.copied ? 'Copied' : 'Copy'}
                     </button>
                     <div class="menu-container">
@@ -1173,7 +1244,10 @@ function syncWorkspace() {
 
 function renderProjSidebar() {
     let box = document.getElementById("projList");
-    box.innerHTML = "";
+    // Preserve the new workspace add card, clear rest of workspaces
+    let addCardHTML = `<div class="ws-add-card" onclick="document.getElementById('projTitle').focus()"><i class="fa-solid fa-plus" style="font-size: 16px;"></i><span style="font-size: 10px; font-weight: 700;">New Workspace</span></div>`;
+    box.innerHTML = addCardHTML;
+
     projects.forEach((p, idx) => {
         let div = document.createElement("div");
         div.className = `ws-item ${idx === activeProjIdx ? 'active' : ''} ${p.starred ? 'starred-project' : ''}`;
@@ -1182,30 +1256,31 @@ function renderProjSidebar() {
             items = JSON.parse(JSON.stringify(p.items));
             renderProjSidebar();
             render();
-            toggleMobileSidebar();
+            let sidebar = document.getElementById('appSidebar');
+            if(sidebar.classList.contains('mobile-open')) toggleMobileSidebar();
         };
         div.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
-                <i class="fa-solid fa-folder-open" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'};"></i>
-                <div style="overflow: hidden;">
-                    <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        ${p.starred ? '<i class="fa-solid fa-star" style="color: #F59E0B; margin-right: 2px;"></i>' : ''}${p.name}
+            <div class="ws-item-top">
+                <i class="fa-solid fa-folder-open" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'}; font-size: 14px;"></i>
+                <div class="menu-container">
+                    <button class="menu-btn" onclick="toggleWorkspaceMenu(event, ${idx})">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu" id="wsMenu_${idx}">
+                        <button class="dropdown-item" onclick="toggleStarProject(event, ${idx})">
+                            <i class="fa-solid fa-star" style="color: #F59E0B;"></i> ${p.starred ? 'Unstar' : 'Star'}
+                        </button>
+                        <button class="dropdown-item" onclick="deleteProject(event, ${idx})" style="color: #F43F5E;">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
                     </div>
-                    <div style="font-size: 8px; color: var(--text-muted);">${p.items.length} Nos</div>
                 </div>
             </div>
-            <div class="menu-container">
-                <button class="menu-btn" onclick="toggleWorkspaceMenu(event, ${idx})">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <div class="dropdown-menu" id="wsMenu_${idx}">
-                    <button class="dropdown-item" onclick="toggleStarProject(event, ${idx})">
-                        <i class="fa-solid fa-star" style="color: #F59E0B;"></i> ${p.starred ? 'Unstar' : 'Star'}
-                    </button>
-                    <button class="dropdown-item" onclick="deleteProject(event, ${idx})" style="color: #F43F5E;">
-                        <i class="fa-solid fa-trash"></i> Delete
-                    </button>
+            <div style="overflow: hidden;">
+                <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#fff;">
+                    ${p.starred ? '<i class="fa-solid fa-star" style="color: #F59E0B; margin-right: 2px;"></i>' : ''}${p.name}
                 </div>
+                <div style="font-size: 8px; color: var(--text-muted); margin-top: 2px;">${p.items.length} Numbers</div>
             </div>
         `;
         box.appendChild(div);

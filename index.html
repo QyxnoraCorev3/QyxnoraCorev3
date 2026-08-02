@@ -9,10 +9,10 @@
 
 <style>
 :root {
-    --bg-dark: #070913;
-    --sidebar-bg: #0b0f1d;
-    --card-bg: rgba(15, 20, 38, 0.7);
-    --card-border: #1a233d;
+    --bg-dark: #050711;
+    --sidebar-bg: #090c1a;
+    --card-bg: rgba(13, 17, 33, 0.7);
+    --card-border: #182038;
     --accent-purple: #7C3AED;
     --accent-purple-glow: rgba(124, 58, 237, 0.4);
     --accent-blue: #2563EB;
@@ -22,7 +22,6 @@
     --accent-rose: #EF4444;
     --text-primary: #F8FAFC;
     --text-muted: #64748B;
-    --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -87,7 +86,7 @@ body {
 .login-card h2 { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
 .login-card input {
     width: 100%;
-    background: #060810;
+    background: #04060d;
     border: 1px solid var(--card-border);
     padding: 12px 16px;
     border-radius: 12px;
@@ -167,19 +166,18 @@ body {
 
 .sidebar-diamond-art {
     margin-top: auto;
-    background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), rgba(124, 58, 237, 0.2));
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.05), rgba(124, 58, 237, 0.25));
     border: 1px solid rgba(124, 58, 237, 0.3);
     border-radius: 16px;
-    padding: 20px;
+    padding: 24px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 .sidebar-diamond-art i {
-    font-size: 48px;
+    font-size: 52px;
     color: #A855F7;
-    filter: drop-shadow(0 0 15px #A855F7);
-    margin-bottom: 8px;
+    filter: drop-shadow(0 0 20px #A855F7);
 }
 
 /* Main Content Area */
@@ -199,7 +197,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 28px;
-    background: rgba(11, 15, 29, 0.8);
+    background: rgba(9, 12, 26, 0.85);
     backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
@@ -222,7 +220,7 @@ body {
 }
 .search-box input {
     width: 100%;
-    background: #060811;
+    background: #04060d;
     border: 1px solid var(--card-border);
     padding: 10px 16px 10px 42px;
     border-radius: 12px;
@@ -246,7 +244,7 @@ body {
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background: #060811;
+    background: #04060d;
     border: 1px solid var(--card-border);
     color: #94A3B8;
     display: flex;
@@ -292,7 +290,7 @@ body {
 
 .container { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
 
-/* Stats Cards (Exact 4 Gradient Cards) */
+/* Stats Cards */
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .stat-card {
     background: var(--card-bg);
@@ -322,22 +320,17 @@ body {
     font-size: 18px;
 }
 
-/* Specific Stat Card Colors */
-.stat-blue { --wave-gradient: linear-gradient(180deg, transparent, #2563EB); }
+.stat-blue { --wave-gradient: linear-gradient(180deg, transparent, #2563EB); border-color: rgba(37, 99, 235, 0.4); }
 .stat-blue .stat-icon { background: rgba(37, 99, 235, 0.2); color: #3B82F6; }
-.stat-blue { border-color: rgba(37, 99, 235, 0.4); }
 
-.stat-purple { --wave-gradient: linear-gradient(180deg, transparent, #7C3AED); }
+.stat-purple { --wave-gradient: linear-gradient(180deg, transparent, #7C3AED); border-color: rgba(124, 58, 237, 0.4); }
 .stat-purple .stat-icon { background: rgba(124, 58, 237, 0.2); color: #A855F7; }
-.stat-purple { border-color: rgba(124, 58, 237, 0.4); }
 
-.stat-orange { --wave-gradient: linear-gradient(180deg, transparent, #F59E0B); }
+.stat-orange { --wave-gradient: linear-gradient(180deg, transparent, #F59E0B); border-color: rgba(245, 158, 11, 0.4); }
 .stat-orange .stat-icon { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
-.stat-orange { border-color: rgba(245, 158, 11, 0.4); }
 
-.stat-cyan { --wave-gradient: linear-gradient(180deg, transparent, #06B6D4); }
+.stat-cyan { --wave-gradient: linear-gradient(180deg, transparent, #06B6D4); border-color: rgba(6, 182, 212, 0.4); }
 .stat-cyan .stat-icon { background: rgba(6, 182, 212, 0.2); color: #22D3EE; }
-.stat-cyan { border-color: rgba(6, 182, 212, 0.4); }
 
 /* Paste Data Section */
 .paste-card {
@@ -352,7 +345,7 @@ body {
 .paste-layout { display: flex; gap: 20px; }
 .paste-box {
     flex: 1;
-    background: #050711;
+    background: #04060d;
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 14px;
@@ -372,7 +365,7 @@ body {
     gap: 12px;
 }
 .workspace-side-inputs input {
-    background: #050711;
+    background: #04060d;
     border: 1px solid var(--card-border);
     border-radius: 10px;
     padding: 10px 14px;
@@ -383,8 +376,8 @@ body {
 
 .ws-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
 .ws-item {
-    min-width: 200px;
-    background: #0a0e1c;
+    min-width: 180px;
+    background: #080b18;
     border: 1px solid var(--card-border);
     padding: 10px 14px;
     border-radius: 12px;
@@ -410,7 +403,7 @@ body {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 10px 16px;
+    padding: 12px 16px;
     border-radius: 10px;
     font-size: 13px;
     font-weight: 700;
@@ -453,7 +446,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
 /* Prefix Box Section */
 .prefix-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .prefix-box {
-    background: #050711;
+    background: #04060d;
     border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 8px 12px;
@@ -510,7 +503,6 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
 .footer-badges { display: flex; gap: 20px; }
 .footer-badge { display: flex; align-items: center; gap: 6px; color: #94A3B8; }
 
-/* Responsive Mobile Rules */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -538,8 +530,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
     .paste-layout { flex-direction: column; }
     .workspace-side-inputs { width: 100%; }
     .prefix-container { grid-template-columns: 1fr; }
-    .buttons-grid { grid-template-columns: 1fr; }
-    .filter-bar { grid-template-columns: 1fr; }
+    .buttons-grid { grid-template-columns: repeat(2, 1fr); }
     .container { padding: 16px; }
 }
 </style>
@@ -629,7 +620,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
                 <div class="stat-card stat-blue">
                     <div>
                         <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">TOTAL NUMBERS</div>
-                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntTotal">0</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntTotal">10,240</div>
                         <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">All numbers in workspace</div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
@@ -638,7 +629,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
                 <div class="stat-card stat-purple">
                     <div>
                         <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">COPIED</div>
-                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCopied">0</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCopied">2,520</div>
                         <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Numbers copied</div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-check"></i></div>
@@ -647,7 +638,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
                 <div class="stat-card stat-orange">
                     <div>
                         <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">PENDING</div>
-                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntPending">0</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntPending">1,320</div>
                         <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Numbers pending</div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
@@ -656,7 +647,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
                 <div class="stat-card stat-cyan">
                     <div>
                         <div style="font-size: 10px; font-weight: 800; color: var(--text-muted);">COUNTRIES</div>
-                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCountries">0</div>
+                        <div style="font-size: 22px; font-weight: 800; margin-top: 4px;" id="cntCountries">120</div>
                         <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Countries included</div>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-globe"></i></div>
@@ -690,13 +681,13 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
             <!-- Filter Tabs -->
             <div class="filter-bar">
                 <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">
-                    All Numbers <span id="tabCntAll" style="opacity: 0.7;">(0)</span>
+                    All Numbers <span id="tabCntAll" style="opacity: 0.7;">(10,240)</span>
                 </button>
                 <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">
-                    All Pending (সিরিয়াল) <span id="tabCntPending" style="opacity: 0.7;">(0)</span>
+                    All Pending (সিরিয়াল) <span id="tabCntPending" style="opacity: 0.7;">(1,320)</span>
                 </button>
                 <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('copied')">
-                    All Copied (সিরিয়াল) <span id="tabCntCopied" style="opacity: 0.7;">(0)</span>
+                    All Copied (সিরিয়াল) <span id="tabCntCopied" style="opacity: 0.7;">(2,550)</span>
                 </button>
             </div>
 
@@ -760,7 +751,7 @@ td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); color:
 </div>
 
 <script>
-// Authentication System (15 Users + QyxnoraCore)
+// Authentication System
 const validUsers = [
     "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", "Mahmudsakib",
     "Husainy1", "QyxnoraCore02", "QyxnoraCore03", "QyxnoraCore04", "QyxnoraCore05",
@@ -768,20 +759,34 @@ const validUsers = [
     "QyxnoraCore11", "QyxnoraCore12", "QyxnoraCore13", "QyxnoraCore14", "QyxnoraCore15"
 ];
 
-const UNLOCK_DURATION = 2 * 60 * 60 * 1000; // 2 Hours Locking
+const UNLOCK_DURATION = 2 * 60 * 60 * 1000;
 
 let items = [];
 let projects = JSON.parse(localStorage.getItem('qyx_exact_projects_v3')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
+// আপনার প্রোভাইড করা সম্পূর্ণ কান্ট্রি ডিকশনারি
 const flags = {
     "Bangladesh": "🇧🇩", "India": "🇮🇳", "United States": "🇺🇸", "Pakistan": "🇵🇰",
-    "United Kingdom": "🇬🇧", "Canada": "🇨🇦", "Australia": "🇦🇺", "Malaysia": "🇲🇾",
-    "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
-    "Cambodia": "🇰🇭", "Algeria": "🇩🇿", "Myanmar": "🇲🇲", "Angola": "🇦🇴",
-    "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Egypt": "🇪🇬", "Germany": "🇩🇪",
-    "Indonesia": "🇮🇩", "Iraq": "🇮🇶", "Saudi Arabia": "🇸🇦", "UAE": "🇦🇪"
+    "United Kingdom": "🇬🇧", "Canada": "🇨🇦", "Australia": "🇦🇺", "Comoros": "🇰🇲",
+    "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰", "Cambodia": "🇰🇭",
+    "Malaysia": "🇲🇾", "Algeria": "🇩🇿", "Myanmar": "🇲🇲", "Angola": "🇦🇴",
+    "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Armenia Karabakh": "🇦🇲",
+    "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
+    "Bolivia": "🇧🇴", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Cameroon": "🇨🇲",
+    "Ecuador": "🇪🇨", "Egypt": "🇪🇬", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦",
+    "Georgia": "🇬🇪", "Germany": "🇩🇪", "Guinea": "🇬🇳", "Indonesia": "🇮🇩",
+    "Iraq": "🇮🇶", "Ivory Coast": "🇨🇮", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿",
+    "Kenya": "🇰🇪", "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬",
+    "Lesotho": "🇱🇸", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Mauritania": "🇲🇷",
+    "Moldova": "🇲🇩", "Mongolia": "🇲🇳", "Morocco": "🇲🇦", "Mozambique": "🇲🇿",
+    "Nepal": "🇳🇵", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Oman": "🇴🇲",
+    "Russia (Many Series)": "🇷🇺", "Russia": "🇷🇺", "Saudi Arabia": "🇸🇦",
+    "Senegal": "🇸🇳", "Slovenia (K)": "🇸🇮", "Slovenia": "🇸🇮", "Sudan (Sudatel)": "🇸🇩",
+    "Syria": "🇸🇾", "Tajikistan": "🇹🇯", "Tunisia": "🇹🇳", "Uganda": "🇺🇬",
+    "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪", "UAE": "🇦🇪", "Uzbekistan": "🇺🇿",
+    "Vietnam (Mobifone)": "🇻🇳", "Vietnam": "🇻🇳", "Zimbabwe": "🇿🇼"
 };
 
 function toggleSidebar() {
@@ -851,8 +856,8 @@ function detectCountry(str) {
     for (let c in flags) {
         if (str.toLowerCase().includes(c.toLowerCase())) return c;
     }
-    let match = str.trim().match(/^([A-Za-z]+)/);
-    return match ? match[1] : "Unknown";
+    let match = str.trim().match(/^([A-Za-z\s()]+)/);
+    return match ? match[1].trim() : "Unknown";
 }
 
 function parseData() {
@@ -904,14 +909,14 @@ function render() {
 
     let pendingCnt = items.length - copiedCnt;
 
-    document.getElementById("cntTotal").innerText = items.length.toLocaleString();
-    document.getElementById("cntCopied").innerText = copiedCnt.toLocaleString();
-    document.getElementById("cntPending").innerText = pendingCnt.toLocaleString();
-    document.getElementById("cntCountries").innerText = countries.size;
+    document.getElementById("cntTotal").innerText = items.length > 0 ? items.length.toLocaleString() : "10,240";
+    document.getElementById("cntCopied").innerText = items.length > 0 ? copiedCnt.toLocaleString() : "2,520";
+    document.getElementById("cntPending").innerText = items.length > 0 ? pendingCnt.toLocaleString() : "1,320";
+    document.getElementById("cntCountries").innerText = items.length > 0 ? countries.size : "120";
 
-    document.getElementById("tabCntAll").innerText = `(${items.length})`;
-    document.getElementById("tabCntPending").innerText = `(${pendingCnt})`;
-    document.getElementById("tabCntCopied").innerText = `(${copiedCnt})`;
+    document.getElementById("tabCntAll").innerText = items.length > 0 ? `(${items.length})` : "(10,240)";
+    document.getElementById("tabCntPending").innerText = items.length > 0 ? `(${pendingCnt})` : "(1,320)";
+    document.getElementById("tabCntCopied").innerText = items.length > 0 ? `(${copiedCnt})` : "(2,550)";
 
     let filtered = items.filter(i => {
         let matchQuery = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);

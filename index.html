@@ -93,16 +93,17 @@ body::before {
     background: rgba(5, 5, 7, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999999;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s ease;
 }
 .modal-overlay.show {
-    display: flex;
     opacity: 1;
+    pointer-events: auto;
 }
 .glass-modal {
     background: var(--card-bg);
@@ -397,11 +398,6 @@ body::before {
 .stat-value {
     font-size: 20px;
     font-weight: 800;
-    transition: transform 0.2s ease;
-}
-.stat-value.pulse {
-    transform: scale(1.1);
-    color: #F87171;
 }
 
 /* Paste Section */
@@ -467,7 +463,7 @@ body::before {
     box-shadow: 0 0 22px var(--crimson-glow);
 }
 
-/* Three Dot Dropdown Menus with Smooth Scale/Fade */
+/* Dropdowns without display:none using pointer-events & opacity */
 .menu-container {
     position: relative;
     display: inline-block;
@@ -494,18 +490,19 @@ body::before {
     border: 1px solid var(--card-border);
     border-radius: 12px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-    display: none;
+    display: flex;
     flex-direction: column;
     min-width: 140px;
     z-index: 100;
     overflow: hidden;
     opacity: 0;
+    pointer-events: none;
     transform: translateY(-8px) scale(0.95);
     transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .dropdown-menu.show {
-    display: flex;
     opacity: 1;
+    pointer-events: auto;
     transform: translateY(0) scale(1);
 }
 .dropdown-item {
@@ -656,14 +653,14 @@ body::before {
 .badge-copied { background: rgba(5, 150, 105, 0.2); color: #10B981; border: 1px solid rgba(5, 150, 105, 0.4); }
 .badge-pending { background: rgba(225, 29, 72, 0.2); color: #F43F5E; border: 1px solid rgba(225, 29, 72, 0.4); }
 
-/* Animated Copy State Button */
+/* Real Copy Success Animation Sequence */
 .btn-copy-success {
     background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-    animation: copyPulse 0.3s ease;
+    animation: copyPulse 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 @keyframes copyPulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    50% { transform: scale(1.12); box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
     100% { transform: scale(1); }
 }
 
@@ -702,9 +699,11 @@ input[type="text"]:focus, input[type="password"]:focus {
     background: rgba(5, 5, 7, 0.6);
     backdrop-filter: blur(4px);
     z-index: 999;
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
-.sidebar-overlay.show { display: block; }
+.sidebar-overlay.show { opacity: 1; pointer-events: auto; }
 
 @media(max-width: 1024px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -718,6 +717,7 @@ input[type="text"]:focus, input[type="password"]:focus {
         height: 100vh;
         z-index: 1000;
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(0);
     }
     .sidebar.mobile-open {
         transform: translateX(280px);
@@ -794,7 +794,7 @@ input[type="text"]:focus, input[type="password"]:focus {
             </div>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchKey" placeholder="Search number or country..." oninput="render()">
+                <input type="text" id="searchKey" placeholder="Search number or country..." oninput="handleSearchInput()">
             </div>
             <div class="user-area">
                 <div class="avatar" id="userAvatar">A</div>
@@ -802,7 +802,7 @@ input[type="text"]:focus, input[type="password"]:focus {
         </div>
 
         <div class="container">
-            <!-- Dashboard Stat Cards with Animated Counters -->
+            <!-- Dashboard Stat Cards with requestAnimationFrame Animated Counters -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;"><i class="fa-solid fa-chart-simple"></i></div>
@@ -864,7 +864,7 @@ input[type="text"]:focus, input[type="password"]:focus {
                     <button class="btn btn-cyan" onclick="applyPlus(true)">Add +</button>
                     <button class="btn btn-rose" onclick="applyPlus(false)">Remove +</button>
                     <button class="btn btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
-                    <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-copy"></i> Copy All Pending</button>
+                    <button class="btn btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</button>
                     <button class="btn btn-emerald" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
                     <button class="btn btn-rose" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
                 </div>
@@ -905,8 +905,9 @@ let projects = JSON.parse(localStorage.getItem('qyx_exact_projects')) || [];
 let activeProjIdx = -1;
 let currentFilter = 'all';
 
-// Track previous values for animated counter updates
-let prevStats = { total: 0, copied: 0, pending: 0, countries: 0 };
+// Track current numeric values for requestAnimationFrame animation
+let currentStatsValues = { cntTotal: 0, cntCopied: 0, cntPending: 0, cntCountries: 0 };
+let searchDebounceTimer = null;
 
 const flags = {
     "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
@@ -953,6 +954,18 @@ function closeConfirmModal(confirmed) {
 }
 document.getElementById('modalConfirmBtn').onclick = () => closeConfirmModal(true);
 
+// ESC key support for modals and dropdowns
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeConfirmModal(false);
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+        let sidebar = document.getElementById('appSidebar');
+        if (sidebar && sidebar.classList.contains('mobile-open')) {
+            toggleMobileSidebar();
+        }
+    }
+});
+
 function toggleMobileSidebar() {
     document.getElementById('appSidebar').classList.toggle('mobile-open');
     document.getElementById('sidebarOverlay').classList.toggle('show');
@@ -983,7 +996,7 @@ function handleLogin() {
         loginSuccess(val);
         showToast("Unlocked successfully!");
     } else {
-        alert("Invalid Username!");
+        showConfirmModal("Authentication Failed", "Invalid username entered. Please verify your operator credentials.", () => {});
     }
 }
 
@@ -997,9 +1010,11 @@ function loginSuccess(user) {
 }
 
 function handleLogout() {
-    localStorage.removeItem('activeUser');
-    localStorage.removeItem('unlockTimestamp');
-    location.reload();
+    showConfirmModal("Lock Screen", "Are you sure you want to lock the session?", () => {
+        localStorage.removeItem('activeUser');
+        localStorage.removeItem('unlockTimestamp');
+        location.reload();
+    });
 }
 
 function detectCountry(str) {
@@ -1047,15 +1062,41 @@ function setFilter(type) {
     render();
 }
 
-function updateStatCounter(elementId, newValue, prevKey) {
-    let el = document.getElementById(elementId);
+function handleSearchInput() {
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+        render();
+    }, 150);
+}
+
+// True requestAnimationFrame Animated Counter Implementation
+function animateCounter(elementId, targetValue) {
+    const el = document.getElementById(elementId);
     if (!el) return;
-    el.innerText = newValue;
-    if (prevStats[prevKey] !== newValue) {
-        el.classList.add('pulse');
-        setTimeout(() => el.classList.remove('pulse'), 300);
-        prevStats[prevKey] = newValue;
+    const startValue = currentStatsValues[elementId] || 0;
+    if (startValue === targetValue) {
+        el.innerText = targetValue;
+        return;
     }
+    
+    const duration = 400; // ms
+    let startTime = null;
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = Math.min((timestamp - startTime) / duration, 1);
+        let easeProgress = 1 - Math.pow(1 - progress, 3); // cubic ease out
+        let currentVal = Math.floor(startValue + (targetValue - startValue) * easeProgress);
+        el.innerText = currentVal;
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            el.innerText = targetValue;
+            currentStatsValues[elementId] = targetValue;
+        }
+    }
+    requestAnimationFrame(step);
 }
 
 function render() {
@@ -1104,7 +1145,7 @@ function render() {
                     </button>
                     <div class="dropdown-menu" id="numMenu_${index}">
                         <button class="dropdown-item" onclick="copySingle('${i.number}', ${index})"><i class="fa-solid fa-copy"></i> Copy</button>
-                        <button class="dropdown-item" onclick="deleteSingleNumber('${i.number}')" style="color: #F43F5E;"><i class="fa-solid fa-trash"></i> Delete</button>
+                        <button class="dropdown-item" onclick="confirmDeleteSingleNumber('${i.number}')" style="color: #F43F5E;"><i class="fa-solid fa-trash"></i> Delete</button>
                     </div>
                 </div>
             </div>
@@ -1112,10 +1153,10 @@ function render() {
         container.appendChild(cardRow);
     });
 
-    updateStatCounter("cntTotal", items.length, 'total');
-    updateStatCounter("cntCopied", copiedCnt, 'copied');
-    updateStatCounter("cntPending", items.length - copiedCnt, 'pending');
-    updateStatCounter("cntCountries", countries.size, 'countries');
+    animateCounter("cntTotal", items.length);
+    animateCounter("cntCopied", copiedCnt);
+    animateCounter("cntPending", items.length - copiedCnt);
+    animateCounter("cntCountries", countries.size);
 }
 
 window.onclick = function(event) {
@@ -1126,17 +1167,19 @@ window.onclick = function(event) {
 
 function toggleNumberMenu(event, num) {
     event.stopPropagation();
-    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
     let btn = event.currentTarget;
     let menu = btn.nextElementSibling;
-    if(menu) menu.classList.toggle('show');
+    let isOpen = menu.classList.contains('show');
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    if(!isOpen) menu.classList.add('show');
 }
 
 function toggleWorkspaceMenu(event, idx) {
     event.stopPropagation();
-    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
     let menu = document.getElementById(`wsMenu_${idx}`);
-    if(menu) menu.classList.toggle('show');
+    let isOpen = menu.classList.contains('show');
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    if(!isOpen) menu.classList.add('show');
 }
 
 function copySingle(num, index) {
@@ -1154,6 +1197,12 @@ function copySingle(num, index) {
             setTimeout(() => btn.classList.remove('btn-copy-success'), 400);
         }
     }
+}
+
+function confirmDeleteSingleNumber(num) {
+    showConfirmModal("Delete Number", `Are you sure you want to delete number ${num}?`, () => {
+        deleteSingleNumber(num);
+    });
 }
 
 function deleteSingleNumber(num) {
@@ -1236,10 +1285,17 @@ function saveProject() {
 }
 
 function sortProjects() {
+    // Preserve active project correctly by storing reference to active project name before sorting
+    let activeProjName = (activeProjIdx >= 0 && projects[activeProjIdx]) ? projects[activeProjIdx].name : null;
+
     projects.sort((a, b) => {
         if (a.starred === b.starred) return 0;
         return a.starred ? -1 : 1;
     });
+
+    if (activeProjName) {
+        activeProjIdx = projects.findIndex(p => p.name === activeProjName);
+    }
 }
 
 function toggleStarProject(event, idx) {

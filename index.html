@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Cyberpunk QyxnoraCore v3 Android Production Edition</title>
+<title>Cyberpunk QyxnoraCore v4 Android Production Edition</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -12,13 +12,13 @@
     --bg-dark: #050507;
     --sidebar-bg: rgba(9, 12, 21, 0.98);
     --card-bg: rgba(13, 13, 18, 0.88);
-    --card-border: rgba(220, 38, 38, 0.3);
+    --card-border: rgba(124, 58, 237, 0.25);
     --accent-purple: #7C3AED;
     --accent-cyan: #0284C7;
     --accent-emerald: #059669;
     --accent-rose: #dc2626;
     --accent-orange: #d97706;
-    --crimson-glow: rgba(220, 38, 38, 0.35);
+    --crimson-glow: rgba(124, 58, 237, 0.2);
     --text-primary: #F8FAFC;
     --text-muted: #64748B;
 }
@@ -32,7 +32,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, rgba(5, 5, 7, 0.88) 0%, rgba(26, 3, 3, 0.82) 100%), 
+    background: linear-gradient(135deg, rgba(5, 5, 7, 0.92) 0%, rgba(15, 5, 26, 0.88) 100%), 
                 url('images/bg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: var(--text-primary);
@@ -54,7 +54,7 @@ body {
 }
 .toast {
     background: rgba(13, 13, 18, 0.95);
-    border-left: 4px solid var(--accent-rose);
+    border-left: 4px solid var(--accent-purple);
     border: 1px solid var(--card-border);
     color: #fff;
     padding: 10px 16px;
@@ -90,7 +90,7 @@ body {
 }
 .glass-modal {
     background: rgba(13, 13, 18, 0.95);
-    border: 1px solid rgba(220, 38, 38, 0.5);
+    border: 1px solid rgba(124, 58, 237, 0.4);
     padding: 24px;
     border-radius: 16px;
     width: 90%;
@@ -139,7 +139,7 @@ body {
 }
 .login-card {
     background: rgba(13, 13, 18, 0.95);
-    border: 1px solid rgba(220, 38, 38, 0.5);
+    border: 1px solid rgba(124, 58, 237, 0.4);
     padding: 28px 22px;
     border-radius: 16px;
     width: 90%;
@@ -201,7 +201,7 @@ body {
 }
 .brand-inner { display: flex; align-items: center; gap: 8px; }
 .brand-badge {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    background: linear-gradient(135deg, #7C3AED 0%, #0284C7 100%);
     font-size: 10px;
     padding: 2px 6px;
     border-radius: 4px;
@@ -247,8 +247,8 @@ body {
     border: 1px solid transparent;
 }
 .nav-item.active {
-    background: rgba(220, 38, 38, 0.25);
-    border: 1px solid rgba(220, 38, 38, 0.5);
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.4);
     color: #fff;
 }
 
@@ -271,8 +271,8 @@ body {
     transition: background 0.15s ease;
 }
 .sidebar-ws-item.active {
-    background: rgba(220, 38, 38, 0.25);
-    border-color: var(--accent-rose);
+    background: rgba(124, 58, 237, 0.2);
+    border-color: var(--accent-purple);
 }
 .sidebar-ws-item.starred-project {
     border-color: rgba(245, 158, 11, 0.5);
@@ -319,20 +319,21 @@ body {
 
 .header-left { display: flex; align-items: center; gap: 10px; }
 
-.search-box { position: relative; width: 140px; }
+.search-box { position: relative; width: 160px; }
 .search-box input {
     width: 100%;
     background: rgba(7, 9, 18, 0.8);
     border: 1px solid var(--card-border);
-    padding: 8px 10px 8px 30px;
+    padding: 9px 10px 9px 32px;
     border-radius: 9999px;
     color: #fff;
     font-size: 11px;
     outline: none;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
 }
 .search-box i {
     position: absolute;
-    left: 10px;
+    left: 11px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
@@ -344,7 +345,7 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    background: linear-gradient(135deg, #7C3AED 0%, #0284C7 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -355,18 +356,25 @@ body {
 
 .container { padding: 14px; display: flex; flex-direction: column; gap: 14px; width: 100%; }
 
+/* Stats Grid with Glowing Cyan, Purple, Orange, Emerald Borders */
 .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .stat-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 14px;
     display: flex;
     flex-direction: column;
     gap: 8px;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
+.stat-card:nth-child(1) { border-color: rgba(2, 132, 199, 0.35); }
+.stat-card:nth-child(2) { border-color: rgba(124, 58, 237, 0.35); }
+.stat-card:nth-child(3) { border-color: rgba(217, 119, 6, 0.35); }
+.stat-card:nth-child(4) { border-color: rgba(5, 150, 105, 0.35); }
+
 .stat-card-top { display: flex; align-items: center; gap: 10px; }
 .stat-icon {
     width: 34px;
@@ -378,7 +386,7 @@ body {
     font-size: 14px;
 }
 .stat-value {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
 }
 .stat-progress-bar {
@@ -391,7 +399,6 @@ body {
 }
 .stat-progress-fill {
     height: 100%;
-    background: var(--accent-rose);
     border-radius: 2px;
 }
 
@@ -403,6 +410,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 .paste-layout { display: flex; flex-direction: column; gap: 10px; }
 .paste-box {
@@ -466,7 +474,7 @@ body {
     gap: 8px;
 }
 .dropdown-item:active {
-    background: rgba(220, 38, 38, 0.3);
+    background: rgba(124, 58, 237, 0.3);
 }
 
 .filter-bar { 
@@ -493,8 +501,9 @@ body {
     text-align: center;
 }
 .filter-btn.active {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
     color: #fff;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
 }
 
 .number-cards-container {
@@ -525,6 +534,7 @@ body {
     font-size: 13px;
     font-weight: 700;
     color: #fff;
+    letter-spacing: 0.5px;
 }
 .number-card-actions {
     display: flex;
@@ -555,6 +565,7 @@ body {
 }
 .btn-action-custom:active { transform: scale(0.97); }
 
+/* Sci-fi Gradient Button Colors matching the Screenshot */
 .bg-btn-red { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
 .bg-btn-orange { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
 .bg-btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); }
@@ -563,7 +574,7 @@ body {
 
 .badge-status { padding: 3px 10px; border-radius: 9999px; font-size: 9px; font-weight: 700; display: inline-block; }
 .badge-copied { background: rgba(5, 150, 105, 0.2); color: #10B981; border: 1px solid rgba(5, 150, 105, 0.4); }
-.badge-pending { background: rgba(225, 29, 72, 0.2); color: #F43F5E; border: 1px solid rgba(225, 29, 72, 0.4); }
+.badge-pending { background: rgba(217, 119, 6, 0.2); color: #F59E0B; border: 1px solid rgba(217, 119, 6, 0.4); }
 
 .btn-copy-success {
     background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
@@ -590,7 +601,7 @@ input[type="text"], input[type="password"] {
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: rgba(5, 5, 7, 0.4); }
-::-webkit-scrollbar-thumb { background: rgba(220, 38, 38, 0.4); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.4); border-radius: 2px; }
 
 .sidebar-overlay {
     position: fixed;
@@ -614,11 +625,11 @@ input[type="text"], input[type="password"] {
 
 <div class="modal-overlay" id="confirmModal">
     <div class="glass-modal">
-        <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> Confirmation Required</h3>
+        <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-purple);"></i> Confirmation Required</h3>
         <p id="modalDesc">Are you sure you want to proceed with this action?</p>
         <div class="modal-actions">
             <button class="btn-action-custom" style="background: rgba(255,255,255,0.08); padding: 6px 12px;" onclick="closeConfirmModal(false)">Cancel</button>
-            <button class="btn-action-custom bg-btn-red" style="padding: 6px 12px;" id="modalConfirmBtn">Proceed</button>
+            <button class="btn-action-custom bg-btn-purple" style="padding: 6px 12px;" id="modalConfirmBtn">Proceed</button>
         </div>
     </div>
 </div>
@@ -627,9 +638,9 @@ input[type="text"], input[type="password"] {
 
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-        <h2><i class="fa-solid fa-lock" style="color:var(--accent-rose);"></i> Username Unlock</h2>
+        <h2><i class="fa-solid fa-lock" style="color:var(--accent-purple);"></i> Username Unlock</h2>
         <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
-        <button class="btn-action-custom bg-btn-red" style="justify-content: center;" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
+        <button class="btn-action-custom bg-btn-purple" style="justify-content: center;" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
     </div>
 </div>
 
@@ -638,8 +649,8 @@ input[type="text"], input[type="password"] {
     <div class="sidebar" id="appSidebar">
         <div class="brand">
             <div class="brand-inner">
-                <i class="fa-solid fa-gem" style="color: var(--accent-rose);"></i>
-                QyxnoraCore <span class="brand-badge">v3</span>
+                <i class="fa-solid fa-gem" style="color: var(--accent-purple);"></i>
+                QyxnoraCore <span class="brand-badge">v4</span>
             </div>
             <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-xmark"></i></button>
         </div>
@@ -657,7 +668,7 @@ input[type="text"], input[type="password"] {
             <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
             <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
             
-            <!-- Lock Screen একদম নিচে -->
+            <!-- Lock Screen -->
             <div style="margin-top: auto; padding-top: 20px;">
                 <div class="nav-title" style="margin-top: 0;">ACCOUNT</div>
                 <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
@@ -687,19 +698,19 @@ input[type="text"], input[type="password"] {
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-card-top">
-                        <div class="stat-icon" style="background: rgba(220, 38, 38, 0.2); color: #dc2626;"><i class="fa-solid fa-chart-simple"></i></div>
+                        <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #0284C7;"><i class="fa-solid fa-chart-simple"></i></div>
                         <div><div class="stat-value" id="cntTotal">0</div></div>
                     </div>
                     <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">TOTAL NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">All numbers in workspace</span></div>
-                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 100%;"></div></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 100%; background: #0284C7;"></div></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-card-top">
-                        <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #10B981;"><i class="fa-solid fa-check"></i></div>
+                        <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #7C3AED;"><i class="fa-solid fa-clipboard-check"></i></div>
                         <div><div class="stat-value" id="cntCopied">0</div></div>
                     </div>
                     <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COPIED NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">Successfully copied</span></div>
-                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 61.4%; background: #10B981;"></div></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 61.4%; background: #7C3AED;"></div></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-card-top">
@@ -711,22 +722,22 @@ input[type="text"], input[type="password"] {
                 </div>
                 <div class="stat-card">
                     <div class="stat-card-top">
-                        <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #38BDF8;"><i class="fa-solid fa-globe"></i></div>
+                        <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #059669;"><i class="fa-solid fa-globe"></i></div>
                         <div><div class="stat-value" id="cntCountries">0</div></div>
                     </div>
                     <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COUNTRIES <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">From different regions</span></div>
-                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 85%; background: #38BDF8;"></div></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 85%; background: #059669;"></div></div>
                 </div>
             </div>
 
-            <!-- ড্যাশবোর্ডে সেভ করার অপশন -->
+            <!-- পেস্ট ডাটা সেকশন -->
             <div class="paste-card">
-                <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-rose); margin-right:4px;"></i> Paste Your Data</div>
+                <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-purple); margin-right:4px;"></i> Paste data here...</div>
                 <div class="paste-layout">
                     <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
                     <div style="display:flex; gap:8px; align-items:center;">
-                        <input type="text" id="projTitle" placeholder="TXT" style="flex:1;">
-                        <button class="btn-action-custom bg-btn-red" style="padding: 10px 14px;" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
+                        <input type="text" id="projTitle" placeholder="Workspace Name" style="flex:1;">
+                        <button class="btn-action-custom bg-btn-purple" style="padding: 10px 14px;" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
                     </div>
                 </div>
             </div>
@@ -741,18 +752,19 @@ input[type="text"], input[type="password"] {
             </div>
 
             <div class="paste-card">
+                <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 2px;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--accent-purple); margin-right:4px;"></i> Prefix & Symbols Tools</div>
                 <div class="grid-2" style="margin-bottom: 8px;">
                     <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)">
                     <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)">
                 </div>
                 <div class="action-grid-exact">
-                    <button class="btn-action-custom bg-btn-red" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
-                    <button class="btn-action-custom bg-btn-red" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
+                    <button class="btn-action-custom bg-btn-purple" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                    <button class="btn-action-custom bg-btn-emerald" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
                     
-                    <button class="btn-action-custom bg-btn-orange" onclick="applyPlus(true)"><i class="fa-solid fa-plus"></i> Add +</button>
-                    <button class="btn-action-custom bg-btn-orange" onclick="applyPlus(false)"><i class="fa-solid fa-rotate-left"></i> Remove +</button>
+                    <button class="btn-action-custom bg-btn-emerald" onclick="applyPlus(true)"><i class="fa-solid fa-circle-plus"></i> Add + Symbol</button>
+                    <button class="btn-action-custom bg-btn-red" onclick="applyPlus(false)"><i class="fa-solid fa-circle-xmark"></i> Remove +</button>
                     
-                    <button class="btn-action-custom bg-btn-purple" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
+                    <button class="btn-action-custom bg-btn-cyan" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
                     <button class="btn-action-custom bg-btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</button>
                     
                     <button class="btn-action-custom bg-btn-cyan" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
@@ -821,7 +833,7 @@ function showToast(msg) {
 
 let confirmCallback = null;
 function showConfirmModal(title, desc, onConfirm) {
-    document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-rose);"></i> ${title}`;
+    document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-purple);"></i> ${title}`;
     document.getElementById('modalDesc').innerText = desc;
     confirmCallback = onConfirm;
     document.getElementById('confirmModal').classList.add('show');
@@ -1013,8 +1025,8 @@ function render() {
                     ${i.copied ? 'Copied ✓' : 'Pending'}
                 </span>
                 <div style="display: flex; gap: 6px; align-items: center;">
-                    <button class="btn-action-custom ${i.copied ? 'bg-btn-red' : 'bg-btn-cyan'}" id="copyBtn_${index}" style="padding:5px 10px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
-                        ${i.copied ? 'Copied' : 'Copy'}
+                    <button class="btn-action-custom ${i.copied ? 'bg-btn-emerald' : 'bg-btn-cyan'}" id="copyBtn_${index}" style="padding:6px 12px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
+                        ${i.copied ? 'Copied ✓' : 'Copy'}
                     </button>
                     <div class="menu-container">
                         <button class="menu-btn" onclick="toggleNumberMenu(event, '${i.number}')">
@@ -1224,7 +1236,7 @@ function renderProjSidebar() {
         };
         div.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
-                <i class="fa-solid ${p.starred ? 'fa-star' : 'fa-folder-open'}" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-rose)'}; font-size: 13px;"></i>
+                <i class="fa-solid ${p.starred ? 'fa-star' : 'fa-folder-open'}" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-purple)'}; font-size: 13px;"></i>
                 <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#fff;">
                     ${p.name}
                 </div>

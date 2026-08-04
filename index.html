@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>QYXCORA LAMIX AGENT v4.0.01</title>
+<title>Cyberpunk QyxnoraCore v4 Android Production Edition</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
     --bg-dark: #050507;
-    --card-bg: rgba(13, 13, 18, 0.92);
+    --sidebar-bg: rgba(9, 12, 21, 0.98);
+    --card-bg: rgba(13, 13, 18, 0.88);
     --card-border: rgba(124, 58, 237, 0.35);
     --accent-purple: #7C3AED;
     --accent-cyan: #0284C7;
@@ -30,22 +31,15 @@
 }
 
 body {
-    background: linear-gradient(135deg, rgba(5, 5, 7, 0.95) 0%, rgba(15, 5, 26, 0.92) 100%);
+    background: linear-gradient(135deg, rgba(5, 5, 7, 0.92) 0%, rgba(15, 5, 26, 0.88) 100%), 
+                url('images/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: var(--text-primary);
     min-height: 100vh;
     width: 100vw;
     display: flex;
-    justify-content: center;
     overflow-x: hidden;
-}
-
-.app-container {
-    width: 100%;
-    max-width: 900px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    transform: translateZ(0);
 }
 
 .toast-container {
@@ -59,8 +53,8 @@ body {
 }
 .toast {
     background: rgba(13, 13, 18, 0.95);
-    border: 1px solid var(--card-border);
     border-left: 4px solid var(--accent-purple);
+    border: 1px solid var(--card-border);
     color: #fff;
     padding: 10px 16px;
     border-radius: 10px;
@@ -89,7 +83,10 @@ body {
     pointer-events: none;
     transition: opacity 0.2s ease;
 }
-.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
 .glass-modal {
     background: rgba(13, 13, 18, 0.95);
     border: 1px solid rgba(124, 58, 237, 0.5);
@@ -101,78 +98,327 @@ body {
     flex-direction: column;
     gap: 14px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 15px rgba(124, 58, 237, 0.25);
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
 }
-.glass-modal h3 { font-size: 15px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
-.glass-modal p { font-size: 12px; color: #94A3B8; line-height: 1.4; white-space: pre-line; }
-.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
-
-/* Top Header */
-.top-header {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 14px 18px;
+.modal-overlay.show .glass-modal {
+    transform: scale(1);
+}
+.glass-modal h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(124, 58, 237, 0.15);
+    gap: 8px;
 }
+.glass-modal p {
+    font-size: 12px;
+    color: #94A3B8;
+    line-height: 1.4;
+}
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 7, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+.login-card {
+    background: rgba(13, 13, 18, 0.95);
+    border: 1px solid rgba(124, 58, 237, 0.5);
+    padding: 28px 22px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 330px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 20px rgba(124, 58, 237, 0.3);
+}
+.login-card h2 { font-size: 20px; font-weight: 800; text-align: center; color: #fff; }
+.login-card input {
+    width: 100%;
+    background: rgba(7, 9, 18, 0.8);
+    border: 1px solid var(--card-border);
+    padding: 12px 14px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.app-layout {
+    display: none; 
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Sidebar Slide Drawer */
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    padding: 18px 14px;
+    gap: 14px;
+    z-index: 1000;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 15px 0 35px rgba(0,0,0,0.8), 0 0 15px rgba(124, 58, 237, 0.15);
+    will-change: transform;
+}
+.sidebar.mobile-open {
+    transform: translateX(300px);
+}
+
 .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
+    justify-content: space-between;
+    font-size: 17px;
     font-weight: 800;
     color: #fff;
+    padding: 6px 4px;
 }
-.listener-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(5, 150, 105, 0.15);
-    border: 1px solid rgba(5, 150, 105, 0.4);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #10B981;
+.brand-inner { display: flex; align-items: center; gap: 8px; }
+.brand-badge {
+    background: linear-gradient(135deg, #7C3AED 0%, #0284C7 100%);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
 }
-.listener-dot { width: 7px; height: 7px; background: #10B981; border-radius: 50%; box-shadow: 0 0 6px #10B981; }
 
-/* Quick Stats */
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 12px 14px;
+.mobile-menu-toggle {
+    display: block;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.nav-group {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 2px;
 }
-.stat-title { font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-.stat-value { font-size: 13px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin: 12px 0 4px 6px;
+    text-transform: uppercase;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #94A3B8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+.nav-item.active {
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+}
 
-/* Panel Card */
-.panel-card {
+/* Sidebar Workspace List Items */
+.sidebar-ws-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+.sidebar-ws-item {
+    background: rgba(13, 13, 18, 0.7);
+    border: 1px solid var(--card-border);
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.08), inset 0 0 6px rgba(124, 58, 237, 0.04);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.sidebar-ws-item.active {
+    background: rgba(124, 58, 237, 0.2);
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.25);
+}
+.sidebar-ws-item.starred-project {
+    border-color: rgba(245, 158, 11, 0.5);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+}
+
+.main-content {
+    flex: 1;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-header {
+    height: 60px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    background: rgba(9, 12, 21, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.header-welcome {
+    display: flex;
+    flex-direction: column;
+}
+.header-welcome h1 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+.header-welcome p {
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.search-box { position: relative; width: 160px; }
+.search-box input {
+    width: 100%;
+    background: rgba(7, 9, 18, 0.8);
+    border: 1px solid var(--card-border);
+    padding: 9px 10px 9px 32px;
+    border-radius: 9999px;
+    color: #fff;
+    font-size: 11px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 8px rgba(124, 58, 237, 0.1);
+}
+.search-box i {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.user-area { display: flex; align-items: center; gap: 10px; }
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C3AED 0%, #0284C7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+.container { padding: 14px; display: flex; flex-direction: column; gap: 14px; width: 100%; }
+
+/* Stats Grid with Glowing Borders */
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.stat-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 14px;
     padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(124, 58, 237, 0.12), inset 0 0 8px rgba(124, 58, 237, 0.04);
 }
-.panel-title {
-    font-size: 12px;
-    font-weight: 800;
-    color: #fff;
+.stat-card:nth-child(1) { border-color: rgba(2, 132, 199, 0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(2, 132, 199, 0.18), inset 0 0 8px rgba(2, 132, 199, 0.05); }
+.stat-card:nth-child(2) { border-color: rgba(124, 58, 237, 0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(124, 58, 237, 0.18), inset 0 0 8px rgba(124, 58, 237, 0.05); }
+.stat-card:nth-child(3) { border-color: rgba(217, 119, 6, 0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(217, 119, 6, 0.18), inset 0 0 8px rgba(217, 119, 6, 0.05); }
+.stat-card:nth-child(4) { border-color: rgba(5, 150, 105, 0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 12px rgba(5, 150, 105, 0.18), inset 0 0 8px rgba(5, 150, 105, 0.05); }
+
+.stat-card-top { display: flex; align-items: center; gap: 10px; }
+.stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    font-size: 14px;
 }
+.stat-value {
+    font-size: 20px;
+    font-weight: 800;
+}
+.stat-progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 2px;
+}
+.stat-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+}
+
+.paste-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 15px rgba(124, 58, 237, 0.12), inset 0 0 8px rgba(124, 58, 237, 0.04);
+}
+.paste-layout { display: flex; flex-direction: column; gap: 10px; }
 .paste-box {
     width: 100%;
     background: rgba(7, 9, 18, 0.8);
@@ -181,103 +427,177 @@ body {
     padding: 12px;
     color: #fff;
     font-size: 12px;
-    min-height: 80px;
+    min-height: 110px;
     outline: none;
     resize: vertical;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 8px rgba(124, 58, 237, 0.08);
 }
 
-/* Toolbar & Smart Auto-Action Bar */
-.table-toolbar {
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: rgba(13, 13, 18, 0.98);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 12px rgba(124, 58, 237, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background: rgba(7, 9, 18, 0.6);
+    min-width: 130px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px) scale(0.95);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.dropdown-menu.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+.dropdown-item {
     padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #cbd5e1;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dropdown-item:active {
+    background: rgba(124, 58, 237, 0.3);
+}
+
+.filter-bar { 
+    display: flex; 
+    gap: 6px; 
+    background: rgba(7, 9, 18, 0.8);
+    padding: 4px;
     border-radius: 10px;
     border: 1px solid var(--card-border);
+    width: 100%;
+    overflow-x: auto;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
-.filter-group { display: flex; gap: 4px; flex-wrap: wrap; }
 .filter-btn {
     background: transparent;
     border: none;
     color: var(--text-muted);
-    padding: 5px 10px;
-    border-radius: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
     font-size: 10px;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
+    flex: 1;
+    text-align: center;
 }
 .filter-btn.active {
-    background: rgba(124, 58, 237, 0.3);
-    border: 1px solid rgba(124, 58, 237, 0.5);
+    background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
     color: #fff;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.5), 0 0 10px rgba(124, 58, 237, 0.3);
 }
 
-/* Smart Auto-Detected Control Row */
-.smart-actions-row {
+.number-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.number-card-row {
+    background: rgba(7, 9, 18, 0.7);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.08), inset 0 0 6px rgba(124, 58, 237, 0.03);
+}
+.number-card-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 8px;
 }
-.action-group-box {
+.number-country-box {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
 }
-.tag-badge {
-    background: rgba(124, 58, 237, 0.2);
-    border: 1px solid rgba(124, 58, 237, 0.4);
-    padding: 3px 8px;
-    border-radius: 6px;
+.number-value-box {
+    font-size: 13px;
     font-weight: 700;
-    color: #C084FC;
-}
-.mini-btn {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid var(--card-border);
     color: #fff;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+.number-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 8px;
+}
+
+.action-grid-exact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+.btn-action-custom {
+    padding: 12px 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
+    color: #fff;
+    transition: transform 0.1s ease;
+    text-align: left;
 }
-.mini-btn:active { transform: scale(0.96); }
+.btn-action-custom:active { transform: scale(0.97); }
 
-/* Table */
-.table-responsive { width: 100%; overflow-x: auto; max-height: 280px; overflow-y: auto; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
-.data-table th {
-    background: rgba(9, 12, 21, 0.95);
-    color: var(--text-muted);
-    font-weight: 700;
-    padding: 10px 8px;
-    border-bottom: 1px solid var(--card-border);
-    white-space: nowrap;
-}
-.data-table td {
-    padding: 10px 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    white-space: nowrap;
-    color: #E2E8F0;
-}
-.data-table tr:hover { background: rgba(124, 58, 237, 0.05); }
+/* Sci-fi Gradient Buttons with Glowing Neon Shading */
+.bg-btn-red { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); box-shadow: 0 0 10px rgba(220, 38, 38, 0.3); }
+.bg-btn-orange { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 0 10px rgba(217, 119, 6, 0.3); }
+.bg-btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); box-shadow: 0 0 10px rgba(124, 58, 237, 0.4); }
+.bg-btn-cyan { background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); box-shadow: 0 0 10px rgba(2, 132, 199, 0.4); }
+.bg-btn-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 0 10px rgba(5, 150, 105, 0.4); }
 
-/* Save Project Section */
-.save-project-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; }
-@media(max-width: 600px) {
-    .save-project-grid { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr; }
+.badge-status { padding: 3px 10px; border-radius: 9999px; font-size: 9px; font-weight: 700; display: inline-block; }
+.badge-copied { background: rgba(5, 150, 105, 0.2); color: #10B981; border: 1px solid rgba(5, 150, 105, 0.4); box-shadow: 0 0 6px rgba(5, 150, 105, 0.2); }
+.badge-pending { background: rgba(217, 119, 6, 0.2); color: #F59E0B; border: 1px solid rgba(217, 119, 6, 0.4); box-shadow: 0 0 6px rgba(217, 119, 6, 0.2); }
+
+.btn-copy-success {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    animation: copyPulse 0.25s ease;
 }
-input[type="text"] {
+@keyframes copyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 8px; }
+
+input[type="text"], input[type="password"] {
     background: rgba(7, 9, 18, 0.8);
     border: 1px solid var(--card-border);
     padding: 10px 12px;
@@ -286,31 +606,26 @@ input[type="text"] {
     font-size: 11px;
     outline: none;
     width: 100%;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 6px rgba(124, 58, 237, 0.08);
 }
-
-/* Custom Buttons */
-.btn-action-custom {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: #fff;
-}
-.btn-action-custom:active { transform: scale(0.97); }
-.bg-btn-purple { background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%); box-shadow: 0 0 10px rgba(124, 58, 237, 0.4); }
-.bg-btn-cyan { background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); box-shadow: 0 0 10px rgba(2, 132, 199, 0.4); }
-.bg-btn-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 0 10px rgba(5, 150, 105, 0.4); }
-.bg-btn-orange { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 0 10px rgba(217, 119, 6, 0.3); }
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: rgba(5, 5, 7, 0.4); }
 ::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.4); border-radius: 2px; }
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 7, 0.7);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+.sidebar-overlay.show { opacity: 1; pointer-events: auto; }
 </style>
 </head>
 
@@ -320,136 +635,201 @@ input[type="text"] {
 
 <div class="modal-overlay" id="confirmModal">
     <div class="glass-modal">
-        <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-purple);"></i> Notification</h3>
-        <p id="modalDesc">Message details...</p>
+        <h3 id="modalTitle"><i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-purple);"></i> Confirmation Required</h3>
+        <p id="modalDesc">Are you sure you want to proceed with this action?</p>
         <div class="modal-actions">
-            <button class="btn-action-custom" style="background: rgba(255,255,255,0.08); padding: 6px 12px;" onclick="closeConfirmModal()">OK</button>
+            <button class="btn-action-custom" style="background: rgba(255,255,255,0.08); padding: 6px 12px;" onclick="closeConfirmModal(false)">Cancel</button>
+            <button class="btn-action-custom bg-btn-purple" style="padding: 6px 12px;" id="modalConfirmBtn">Proceed</button>
         </div>
     </div>
 </div>
 
-<div class="app-container">
-    <!-- Top Header -->
-    <div class="top-header">
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+        <h2><i class="fa-solid fa-lock" style="color:var(--accent-purple);"></i> Username Unlock</h2>
+        <input type="text" id="loginUser" placeholder="Enter Username..." onkeypress="if(event.key==='Enter') handleLogin()">
+        <button class="btn-action-custom bg-btn-purple" style="justify-content: center;" onclick="handleLogin()"><i class="fa-solid fa-key"></i> Unlock Dashboard</button>
+    </div>
+</div>
+
+<div class="app-layout" id="appLayout">
+    <!-- Slide Drawer Sidebar -->
+    <div class="sidebar" id="appSidebar">
         <div class="brand">
-            <i class="fa-solid fa-globe" style="color: var(--accent-cyan);"></i> QYXCORA LAMIX AGENT v4.0.01
+            <div class="brand-inner">
+                <i class="fa-solid fa-gem" style="color: var(--accent-purple);"></i>
+                QyxnoraCore <span class="brand-badge">v4</span>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="listener-badge">
-            <div class="listener-dot"></div> Auto-Listener: ON
-        </div>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-title">Total Numbers</span>
-            <span class="stat-value" id="cntTotal">0</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-title">Country Price</span>
-            <span class="stat-value" id="cntPrice">$0.013</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-title">Active Country</span>
-            <span class="stat-value" id="cntCountry">Not Detected</span>
-        </div>
-    </div>
-
-    <!-- Smart Data Ingestion Box -->
-    <div class="panel-card">
-        <div class="panel-title"><i class="fa-solid fa-file-arrow-down" style="color: var(--accent-purple);"></i> Smart Data Ingestion Box</div>
-        <textarea id="rawInput" class="paste-box" placeholder="Paste entire Lamix table here... (Auto-strips headers & extracts)" oninput="parseLamixData()"></textarea>
-    </div>
-
-    <!-- Filter & Live Table View -->
-    <div class="panel-card">
-        <div class="table-toolbar">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                <div class="filter-group">
-                    <button class="filter-btn active" id="fAll" onclick="setFilter('all')">All (0)</button>
-                    <button class="filter-btn" id="fPending" onclick="setFilter('pending')">Pending (0)</button>
-                    <button class="filter-btn" id="fCopied" onclick="setFilter('copied')">Copied (0)</button>
-                </div>
-                <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;" id="rangeLabel">Range: Auto-Detect</div>
+        <div class="nav-group">
+            <a class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+            
+            <div class="nav-title">SAVED WORKSPACES</div>
+            <div class="sidebar-ws-container" id="projList">
+                <!-- Project items inside slide drawer -->
             </div>
 
-            <!-- Smart Auto-Detected Country Code & Plus Symbol Controls -->
-            <div class="smart-actions-row">
-                <div class="action-group-box">
-                    <span style="color:var(--text-muted); font-size:10px;">Country Code:</span>
-                    <span class="tag-badge" id="detectedPrefixTag">--</span>
-                    <button class="mini-btn" style="color:#34D399;" onclick="applyAddPrefix()"><i class="fa-solid fa-circle-plus"></i> Add</button>
-                    <button class="mini-btn" style="color:#F87171;" onclick="applyRemovePrefix()"><i class="fa-solid fa-circle-minus"></i> Remove</button>
+            <div class="nav-title">WORKSPACE ACTIONS</div>
+            <a class="nav-item" onclick="deduplicate()"><i class="fa-solid fa-copy"></i> Remove Duplicate</a>
+            <a class="nav-item" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</a>
+            <a class="nav-item" onclick="exportTxt()"><i class="fa-solid fa-file-arrow-down"></i> Download TXT</a>
+            <a class="nav-item" onclick="clearWorkspace()"><i class="fa-solid fa-trash-can"></i> Clear Workspace</a>
+            
+            <!-- Lock Screen -->
+            <div style="margin-top: auto; padding-top: 20px;">
+                <div class="nav-title" style="margin-top: 0;">ACCOUNT</div>
+                <a class="nav-item" onclick="handleLogout()"><i class="fa-solid fa-power-off" style="color: var(--accent-rose);"></i> Lock Screen</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-header">
+            <div class="header-left">
+                <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <div class="header-welcome">
+                    <h1 id="welcomeHeaderTitle">Welcome operator</h1>
+                    <p>Manage, organize and process numbers easily.</p>
                 </div>
-                <div class="action-group-box">
-                    <span style="color:var(--text-muted); font-size:10px;">Symbol (+):</span>
-                    <button class="mini-btn" style="color:#34D399;" onclick="applyPlus(true)"><i class="fa-solid fa-circle-plus"></i> Add (+)</button>
-                    <button class="mini-btn" style="color:#F87171;" onclick="applyPlus(false)"><i class="fa-solid fa-circle-xmark"></i> Remove (+)</button>
-                </div>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchKey" placeholder="Search number..." oninput="handleSearchInput()">
+            </div>
+            <div class="user-area">
+                <div class="avatar" id="userAvatar">A</div>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>COUNTRY</th>
-                        <th>NUMBER</th>
-                        <th>FREQUENCY</th>
-                        <th>PRICE</th>
-                        <th>SD</th>
-                        <th style="text-align: right;">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody id="dataTableBody">
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">No data loaded. Paste Lamix table above.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(2, 132, 199, 0.2); color: #0284C7;"><i class="fa-solid fa-chart-simple"></i></div>
+                        <div><div class="stat-value" id="cntTotal">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">TOTAL NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">All numbers in workspace</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 100%; background: #0284C7; box-shadow: 0 0 6px #0284C7;"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(124, 58, 237, 0.2); color: #7C3AED;"><i class="fa-solid fa-clipboard-check"></i></div>
+                        <div><div class="stat-value" id="cntCopied">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COPIED NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">Successfully copied</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 61.4%; background: #7C3AED; box-shadow: 0 0 6px #7C3AED;"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(217, 119, 6, 0.2); color: #d97706;"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div><div class="stat-value" id="cntPending">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">PENDING NUMBERS <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">Not yet copied</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 38.6%; background: #d97706; box-shadow: 0 0 6px #d97706;"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <div class="stat-icon" style="background: rgba(5, 150, 105, 0.2); color: #059669;"><i class="fa-solid fa-globe"></i></div>
+                        <div><div class="stat-value" id="cntCountries">0</div></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); font-weight: 700;">COUNTRIES <span style="font-size: 8px; font-weight: 400; display:block; color:#475569;">From different regions</span></div>
+                    <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 85%; background: #059669; box-shadow: 0 0 6px #059669;"></div></div>
+                </div>
+            </div>
 
-    <!-- Save Project Section -->
-    <div class="panel-card">
-        <div class="panel-title"><i class="fa-solid fa-floppy-disk" style="color: var(--accent-purple);"></i> Save Project Workspace</div>
-        <div class="save-project-grid">
-            <input type="text" id="projName" placeholder="Project Name">
-            <input type="text" id="projNumberName" placeholder="Project Number Name">
-            <button class="btn-action-custom bg-btn-purple" onclick="saveProject()"><i class="fa-solid fa-bookmark"></i> Save</button>
-        </div>
-    </div>
+            <!-- পেস্ট ডাটা সেকশন -->
+            <div class="paste-card">
+                <div style="font-size: 12px; font-weight: 800; color: #fff;"><i class="fa-solid fa-paste" style="color:var(--accent-purple); margin-right:4px;"></i> Paste data here...</div>
+                <div class="paste-layout">
+                    <textarea id="rawInput" class="paste-box" placeholder="Paste data here..." oninput="parseData()"></textarea>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <input type="text" id="projTitle" placeholder="Workspace Name" style="flex:1;">
+                        <button class="btn-action-custom bg-btn-purple" style="padding: 10px 14px;" onclick="saveProject()"><i class="fa-solid fa-floppy-disk"></i> Save Workspace</button>
+                    </div>
+                </div>
+            </div>
 
-    <!-- One-Click Automation Actions -->
-    <div class="panel-card">
-        <div class="panel-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--accent-purple);"></i> One-Click Automation Actions</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
-            <button class="btn-action-custom bg-btn-cyan" onclick="autoCycleCopy()"><i class="fa-solid fa-bolt"></i> Auto-Cycle</button>
-            <button class="btn-action-custom bg-btn-emerald" onclick="calculatePayoutSummary()"><i class="fa-solid fa-calculator"></i> Payout</button>
-            <button class="btn-action-custom bg-btn-orange" onclick="exportCleanTxt()"><i class="fa-solid fa-file-arrow-down"></i> Export TXT</button>
+            <div class="paste-card">
+                <div class="filter-bar">
+                    <button class="filter-btn active" id="filterAllBtn" onclick="setFilter('all')">All Numbers</button>
+                    <button class="filter-btn" id="filterPendingBtn" onclick="setFilter('pending')">Pending</button>
+                    <button class="filter-btn" id="filterCopiedBtn" onclick="setFilter('Copied')">Copied</button>
+                </div>
+                <div class="number-cards-container" id="dataTable"></div>
+            </div>
+
+            <div class="paste-card">
+                <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 2px;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--accent-purple); margin-right:4px;"></i> Prefix & Symbols Tools</div>
+                <div class="grid-2" style="margin-bottom: 8px;">
+                    <input type="text" id="prefixRemove" placeholder="Remove Prefix (e.g. 216)">
+                    <input type="text" id="prefixAdd" placeholder="Add Prefix (e.g. 216)">
+                </div>
+                <div class="action-grid-exact">
+                    <button class="btn-action-custom bg-btn-purple" onclick="applyRemovePrefix()"><i class="fa-solid fa-eraser"></i> Remove Prefix</button>
+                    <button class="btn-action-custom bg-btn-emerald" onclick="applyAddPrefix()"><i class="fa-solid fa-plus"></i> Add Prefix</button>
+                    
+                    <button class="btn-action-custom bg-btn-emerald" onclick="applyPlus(true)"><i class="fa-solid fa-circle-plus"></i> Add + Symbol</button>
+                    <button class="btn-action-custom bg-btn-red" onclick="applyPlus(false)"><i class="fa-solid fa-circle-xmark"></i> Remove +</button>
+                    
+                    <button class="btn-action-custom bg-btn-cyan" onclick="deduplicate()"><i class="fa-solid fa-clone"></i> Remove Duplicate</button>
+                    <button class="btn-action-custom bg-btn-purple" onclick="copyAllRemaining()"><i class="fa-solid fa-clipboard-check"></i> Copy All Pending</button>
+                    
+                    <button class="btn-action-custom bg-btn-cyan" onclick="exportTxt()"><i class="fa-solid fa-file-export"></i> Download TXT</button>
+                    <button class="btn-action-custom bg-btn-red" onclick="clearWorkspace()"><i class="fa-solid fa-trash"></i> Clear Workspace</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-let items = [];
-let currentFilter = 'all';
-let detectedPrefix = '';
-let activeCountryName = 'Not Detected';
+const validUsers = [
+    "QyxnoraCore", "Rafin2332", "Salma89340", "Tanvir1234", "MFaheem123", 
+    "Mahmudsakib", "Husainy1", "QyxnoraCore02", "QyxnoraCore03", "QyxnoraCore04",
+    "QyxnoraCore05", "QyxnoraCore06", "QyxnoraCore07", "QyxnoraCore08", "QyxnoraCore09",
+    "QyxnoraCore10", "QyxnoraCore11", "QyxnoraCore12", "QyxnoraCore13", "QyxnoraCore14", "QyxnoraCore15"
+];
 
-// বড় এবং সমৃদ্ধ ফ্লাগ এবং কান্ট্রি লিস্ট
+const UNLOCK_DURATION = 2 * 60 * 60 * 1000;
+
+let items = [];
+const defaultProjects = [
+    { name: "TXT", starred: false, items: [] }
+];
+
+let projects = JSON.parse(localStorage.getItem('qyx_exact_projects'));
+if (!projects || !Array.isArray(projects) || projects.length === 0) {
+    projects = defaultProjects;
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+}
+
+let activeProjIdx = -1;
+let currentFilter = 'all';
+
+let currentStatsValues = { cntTotal: 0, cntCopied: 0, cntPending: 0, cntCountries: 0 };
+let searchDebounceTimer = null;
+let activeCounterAnimationId = null;
+
 const flags = {
-    "Tunisia": "🇹🇳", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
+    "Comoros": "🇰🇲", "Tanzania": "🇹🇿", "Palestine": "🇵🇸", "Sri Lanka": "🇱🇰",
     "Cambodia": "🇰🇭", "Malaysia": "🇲🇾", "Algeria": "🇩🇿", "Myanmar": "🇲🇲",
-    "Pakistan": "🇵🇰", "Afghanistan": "🇦🇫", "Vietnam": "🇻🇳", "Morocco": "🇲🇦",
-    "Bangladesh": "🇧🇩", "India": "🇮🇳", "Indonesia": "🇮🇩", "Nigeria": "🇳🇬",
-    "Egypt": "🇪🇬", "Turkey": "🇹🇷", "Iraq": "🇮🇶", "Saudi Arabia": "🇸🇦",
-    "Sudan": "🇸🇩", "Yemen": "🇾🇪", "Syria": "🇸🇾", "Jordan": "🇯🇴",
-    "UAE": "🇦🇪", "United Arab Emirates": "🇦🇪", "Libya": "🇱🇾", "Lebanon": "🇱🇧",
-    "Oman": "🇴🇲", "Kuwait": "🇰🇼", "Qatar": "🇶🇦", "Bahrain": "🇧🇭",
-    "Somalia": "🇸🇴", "Kenya": "🇰🇪", "Uganda": "🇺🇬", "Ghana": "🇬🇭",
-    "Ethiopia": "🇪🇹", "South Africa": "🇿🇦", "Nepal": "🇳🇵", "Philippines": "🇵🇭"
+    "Angola": "🇦🇴", "Afghanistan": "🇦🇫", "Argentina": "🇦🇷", "Armenia Karabakh": "🇦🇲",
+    "Azerbaijan": "🇦🇿", "Belarus": "🇧🇾", "Benin": "🇧🇯", "Bhutan": "🇧🇹",
+    "Bolivia": "🇧🇴", "Bulgaria": "🇧🇬", "Burkina Faso": "🇧🇫", "Cameroon": "🇨🇲",
+    "Ecuador": "🇪🇨", "Egypt": "🇪🇬", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦",
+    "Georgia": "🇬🇪", "Germany": "🇩🇪", "Guinea": "🇬🇳", "Indonesia": "🇮🇩",
+    "Iraq": "🇮🇶", "Ivory Coast": "🇨🇮", "Jordan": "🇯🇴", "Kazakhstan": "🇰🇿",
+    "Kenya": "🇰🇪", "Kosovo": "🇽🇰", "Kuwait": "🇰🇼", "Kyrgyzstan": "🇰🇬",
+    "Lesotho": "🇱🇸", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Mauritania": "🇲🇷",
+    "Moldova": "🇲🇩", "Mongolia": "🇲🇳", "Morocco": "🇲🇦", "Mozambique": "🇲🇿",
+    "Nepal": "🇳🇵", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Oman": "🇴🇲",
+    "Pakistan": "🇵🇰", "Russia": "🇷🇺", "Saudi Arabia": "🇸🇦", "Senegal": "🇸🇳",
+    "Slovenia": "🇸🇮", "Sudan": "🇸🇩", "Syria": "🇸🇾", "Tajikistan": "🇹🇯",
+    "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Ukraine": "🇺🇦", "United Arab Emirates": "🇦🇪",
+    "UAE": "🇦🇪", "Uzbekistan": "🇺🇿", "Vietnam": "🇻🇳", "Zimbabwe": "🇿🇼"
 };
 
 function showToast(msg) {
@@ -458,196 +838,447 @@ function showToast(msg) {
     t.className = "toast";
     t.innerText = msg;
     box.appendChild(t);
-    setTimeout(() => t.remove(), 2000);
+    setTimeout(() => t.remove(), 1800);
 }
 
-function showModal(title, desc) {
-    document.getElementById('modalTitle').innerText = title;
+let confirmCallback = null;
+function showConfirmModal(title, desc, onConfirm) {
+    document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: var(--accent-purple);"></i> ${title}`;
     document.getElementById('modalDesc').innerText = desc;
+    confirmCallback = onConfirm;
     document.getElementById('confirmModal').classList.add('show');
 }
-function closeConfirmModal() {
+function closeConfirmModal(confirmed) {
     document.getElementById('confirmModal').classList.remove('show');
+    if (confirmed && confirmCallback) {
+        confirmCallback();
+    }
+    confirmCallback = null;
+}
+document.getElementById('modalConfirmBtn').onclick = () => closeConfirmModal(true);
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeConfirmModal(false);
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+        let sidebar = document.getElementById('appSidebar');
+        if (sidebar && sidebar.classList.contains('mobile-open')) {
+            toggleMobileSidebar();
+        }
+    }
+});
+
+function toggleMobileSidebar() {
+    document.getElementById('appSidebar').classList.toggle('mobile-open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
 }
 
-function parseLamixData() {
-    let raw = document.getElementById("rawInput").value;
-    let lines = raw.split("\n");
+window.onload = function() {
+    const savedUser = localStorage.getItem('activeUser');
+    const unlockTime = localStorage.getItem('unlockTimestamp');
+
+    if (savedUser && unlockTime) {
+        const now = new Date().getTime();
+        if ((now - parseInt(unlockTime)) < UNLOCK_DURATION) {
+            loginSuccess(savedUser);
+            return;
+        } else {
+            localStorage.removeItem('activeUser');
+            localStorage.removeItem('unlockTimestamp');
+        }
+    }
+}
+
+function handleLogin() {
+    const val = document.getElementById('loginUser').value.trim();
+    if (validUsers.includes(val)) {
+        localStorage.setItem('activeUser', val);
+        localStorage.setItem('unlockTimestamp', new Date().getTime().toString());
+        loginSuccess(val);
+        showToast("Unlocked successfully!");
+    } else {
+        showConfirmModal("Authentication Failed", "Invalid operator username entered.", () => {});
+    }
+}
+
+function loginSuccess(user) {
+    document.getElementById('userAvatar').innerText = user.charAt(0).toUpperCase();
+    document.getElementById('welcomeHeaderTitle').innerText = `Good Evening, ${user}`;
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('appLayout').style.display = 'flex';
+    renderProjSidebar();
+    render();
+}
+
+function handleLogout() {
+    showConfirmModal("Lock Screen", "Lock session now?", () => {
+        localStorage.removeItem('activeUser');
+        localStorage.removeItem('unlockTimestamp');
+        location.reload();
+    });
+}
+
+function detectCountry(str) {
+    if (!str) return "Unknown";
+    for (let c in flags) {
+        if (str.toLowerCase().includes(c.toLowerCase())) return c;
+    }
+    let match = str.trim().match(/^([A-Za-z]+)/);
+    return match ? match[1] : "Unknown";
+}
+
+function parseData() {
+    activeProjIdx = -1;
+    let txt = document.getElementById("rawInput").value;
+    let lines = txt.split("\n");
     items = [];
-    let foundPrefixes = {};
-    let foundCountries = {};
 
-    lines.forEach(line => {
-        let trimmed = line.trim();
-        if(!trimmed) return;
+    lines.forEach(l => {
+        let trimmed = l.trim();
+        if (!trimmed) return;
 
-        let numberMatch = trimmed.match(/\b\d{8,15}\b/);
-        if(numberMatch) {
-            let num = numberMatch[0];
-            let pref = num.substring(0, 3);
-            foundPrefixes[pref] = (foundPrefixes[pref] || 0) + 1;
-
-            let country = "Unknown";
-            for(let k in flags) {
-                if(trimmed.toLowerCase().includes(k.toLowerCase())) {
-                    country = k;
-                    foundCountries[k] = (foundCountries[k] || 0) + 1;
-                    break;
-                }
-            }
-
-            items.push({
-                country: country,
-                prefix: pref,
-                number: num,
-                frequency: trimmed.toLowerCase().includes("weekly") ? "Weekly" : "Daily",
-                price: "$0.013",
-                sd: "SD:15",
-                copied: false
-            });
+        let countryName = detectCountry(trimmed);
+        let matches = trimmed.match(/\d{8,15}/g);
+        
+        if (matches && matches.length > 0) {
+            let targetNumber = matches.reduce((a, b) => a.length >= b.length ? a : b);
+            items.push({ number: targetNumber, country: countryName, copied: false });
         }
     });
 
-    if(Object.keys(foundPrefixes).length > 0) {
-        detectedPrefix = Object.keys(foundPrefixes).reduce((a, b) => foundPrefixes[a] > foundPrefixes[b] ? a : b);
-        document.getElementById('detectedPrefixTag').innerText = "+" + detectedPrefix;
-    }
-
-    if(Object.keys(foundCountries).length > 0) {
-        activeCountryName = Object.keys(foundCountries).reduce((a, b) => foundCountries[a] > foundCountries[b] ? a : b);
-        document.getElementById('cntCountry').innerText = `${activeCountryName} (${detectedPrefix})`;
-    }
-
-    let pendingCount = items.filter(x => !x.copied).length;
-    let copiedCount = items.filter(x => x.copied).length;
-
-    document.getElementById("cntTotal").innerText = items.length;
-    document.getElementById("fAll").innerText = `All (${items.length})`;
-    document.getElementById("fPending").innerText = `Pending (${pendingCount})`;
-    document.getElementById("fCopied").innerText = `Copied (${copiedCount})`;
-
-    renderTable();
+    renderProjSidebar();
+    render();
 }
 
 function setFilter(type) {
     currentFilter = type;
-    document.getElementById('fAll').classList.toggle('active', type === 'all');
-    document.getElementById('fPending').classList.toggle('active', type === 'pending');
-    document.getElementById('fCopied').classList.toggle('active', type === 'copied');
-    renderTable();
+    document.getElementById('filterAllBtn').classList.toggle('active', type === 'all');
+    document.getElementById('filterPendingBtn').classList.toggle('active', type === 'pending');
+    document.getElementById('filterCopiedBtn').classList.toggle('active', type === 'Copied');
+    render();
 }
 
-function renderTable() {
-    let tbody = document.getElementById("dataTableBody");
-    tbody.innerHTML = "";
+function handleSearchInput() {
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+        render();
+    }, 150);
+}
+
+function animateCounter(elementId, targetValue) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const startValue = currentStatsValues[elementId] || 0;
+    if (startValue === targetValue) {
+        el.innerText = targetValue;
+        return;
+    }
+    
+    const duration = 250;
+    let startTime = null;
+
+    if (activeCounterAnimationId) {
+        cancelAnimationFrame(activeCounterAnimationId);
+    }
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let progress = Math.min((timestamp - startTime) / duration, 1);
+        let currentVal = Math.floor(startValue + (targetValue - startValue) * progress);
+        el.innerText = currentVal;
+
+        if (progress < 1) {
+            activeCounterAnimationId = requestAnimationFrame(step);
+        } else {
+            el.innerText = targetValue;
+            currentStatsValues[elementId] = targetValue;
+            activeCounterAnimationId = null;
+        }
+    }
+    activeCounterAnimationId = requestAnimationFrame(step);
+}
+
+function render() {
+    let container = document.getElementById("dataTable");
+    container.innerHTML = "";
+    let q = document.getElementById("searchKey").value.toLowerCase();
+    let countries = new Set();
+    let copiedCnt = 0;
+
+    items.forEach(i => {
+        if(i.copied) copiedCnt++;
+        countries.add(i.country);
+    });
 
     let filtered = items.filter(i => {
-        if(currentFilter === 'pending') return !i.copied;
-        if(currentFilter === 'copied') return i.copied;
+        let matchQuery = i.number.toLowerCase().includes(q) || i.country.toLowerCase().includes(q);
+        if (!matchQuery) return false;
+        if (currentFilter === 'pending') return !i.copied;
+        if (currentFilter === 'Copied') return i.copied;
         return true;
     });
 
-    if(filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">No numbers found.</td></tr>`;
-        return;
-    }
-
-    filtered.forEach((i, idx) => {
-        let flagIcon = flags[i.country] || "🌍";
-        let tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${idx + 1}</td>
-            <td><span style="font-size:13px; margin-right:4px;">${flagIcon}</span> ${i.country}</td>
-            <td style="font-weight: 700; color: #38BDF8; letter-spacing:0.5px;">${i.number}</td>
-            <td>${i.frequency}</td>
-            <td style="color: #34D399; font-weight: 600;">${i.price}</td>
-            <td><span style="background: rgba(124,58,237,0.15); padding: 2px 6px; border-radius: 4px; font-size:9px; color:#C084FC;">${i.sd}</span></td>
-            <td style="text-align: right;">
-                <button class="btn-action-custom ${i.copied ? 'bg-btn-emerald' : 'bg-btn-cyan'}" style="display:inline-flex; padding: 5px 10px; font-size:10px;" onclick="copyNumber('${i.number}')">
-                    ${i.copied ? '✓ Copied' : '📋 Copy Next'}
-                </button>
-            </td>
+    filtered.forEach((i, index) => {
+        let flag = flags[i.country] || "🌍";
+        let cardRow = document.createElement("div");
+        cardRow.className = "number-card-row";
+        cardRow.innerHTML = `
+            <div class="number-card-info">
+                <div class="number-country-box">
+                    <span style="font-size:14px;">${flag}</span> 
+                    <span style="font-weight:600; font-size:11px;">${i.country}</span>
+                </div>
+                <div class="number-value-box">${i.number}</div>
+            </div>
+            <div class="number-card-actions">
+                <span class="badge-status ${i.copied ? 'badge-copied' : 'badge-pending'}">
+                    ${i.copied ? 'Copied ✓' : 'Pending'}
+                </span>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                    <button class="btn-action-custom ${i.copied ? 'bg-btn-emerald' : 'bg-btn-cyan'}" id="copyBtn_${index}" style="padding:6px 12px; font-size:10px;" onclick="copySingle('${i.number}', ${index})">
+                        ${i.copied ? 'Copied ✓' : 'Copy'}
+                    </button>
+                    <div class="menu-container">
+                        <button class="menu-btn" onclick="toggleNumberMenu(event, '${i.number}')">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu" id="numMenu_${index}">
+                            <button class="dropdown-item" onclick="copySingle('${i.number}', ${index})"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button class="dropdown-item" onclick="confirmDeleteSingleNumber('${i.number}')" style="color: #F43F5E;"><i class="fa-solid fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(cardRow);
     });
+
+    animateCounter("cntTotal", items.length);
+    animateCounter("cntCopied", copiedCnt);
+    animateCounter("cntPending", items.length - copiedCnt);
+    animateCounter("cntCountries", countries.size);
 }
 
-function copyNumber(num) {
+window.onclick = function(event) {
+    if (!event.target.matches('.menu-btn') && !event.target.closest('.menu-btn')) {
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    }
+}
+
+function toggleNumberMenu(event, num) {
+    event.stopPropagation();
+    let btn = event.currentTarget;
+    let menu = btn.nextElementSibling;
+    let isOpen = menu.classList.contains('show');
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    if(!isOpen) menu.classList.add('show');
+}
+
+function toggleWorkspaceMenu(event, idx) {
+    event.stopPropagation();
+    let menu = document.getElementById(`wsMenu_${idx}`);
+    let isOpen = menu.classList.contains('show');
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    if(!isOpen) menu.classList.add('show');
+}
+
+function copySingle(num, index) {
     navigator.clipboard.writeText(num);
-    let target = items.find(x => x.number === num);
-    if(target) target.copied = true;
-    parseLamixData();
-    showToast("Copied: " + num);
+    let itm = items.find(x => x.number === num);
+    if(itm) {
+        itm.copied = true;
+        syncWorkspace();
+        render();
+        showToast("Copied!");
+        
+        let btn = document.getElementById(`copyBtn_${index}`);
+        if(btn) {
+            btn.classList.add('btn-copy-success');
+            setTimeout(() => btn.classList.remove('btn-copy-success'), 250);
+        }
+    }
 }
 
-function applyAddPrefix() {
-    if(!detectedPrefix) return showToast("No prefix detected!");
-    items.forEach(i => {
-        let cleanNum = i.number.replace(/^\+/, '');
-        if(!cleanNum.startsWith(detectedPrefix)) {
-            i.number = detectedPrefix + cleanNum;
-        }
+function confirmDeleteSingleNumber(num) {
+    showConfirmModal("Delete Number", `Delete number ${num}?`, () => {
+        deleteSingleNumber(num);
     });
-    renderTable();
-    showToast("Added prefix +" + detectedPrefix);
+}
+
+function deleteSingleNumber(num) {
+    items = items.filter(x => x.number !== num);
+    syncWorkspace();
+    render();
+    showToast("Deleted!");
+}
+
+function copyAllRemaining() {
+    let list = items.filter(x => !x.copied).map(x => x.number);
+    if(list.length === 0) return showToast("No pending numbers!");
+    navigator.clipboard.writeText(list.join("\n"));
+    items.forEach(x => x.copied = true);
+    syncWorkspace();
+    render();
+    showToast("Copied All Pending!");
 }
 
 function applyRemovePrefix() {
-    if(!detectedPrefix) return showToast("No prefix detected!");
-    items.forEach(i => {
-        let cleanNum = i.number.replace(/^\+/, '');
-        if(cleanNum.startsWith(detectedPrefix)) {
-            i.number = cleanNum.slice(detectedPrefix.length);
-        }
-    });
-    renderTable();
-    showToast("Removed prefix " + detectedPrefix);
+    let p = document.getElementById("prefixRemove").value.trim();
+    if(!p) return;
+    items.forEach(i => { if(i.number.startsWith(p)) i.number = i.number.slice(p.length); });
+    syncWorkspace();
+    render();
+    showToast("Prefix Removed!");
+}
+
+function applyAddPrefix() {
+    let p = document.getElementById("prefixAdd").value.trim();
+    if(!p) return;
+    items.forEach(i => { i.number = p + i.number; });
+    syncWorkspace();
+    render();
+    showToast("Prefix Added!");
 }
 
 function applyPlus(add) {
     items.forEach(i => {
-        let cleanNum = i.number.replace(/^\+/, '');
-        if(add) {
-            i.number = "+" + cleanNum;
-        } else {
-            i.number = cleanNum;
-        }
+        if(add && !i.number.startsWith("+")) i.number = "+" + i.number;
+        if(!add) i.number = i.number.replace(/^\+/, '');
     });
-    renderTable();
-    showToast(add ? "Added '+' symbol" : "Removed '+' symbol");
+    syncWorkspace();
+    render();
+    showToast(add ? "Added '+'" : "Removed '+'");
 }
 
-function autoCycleCopy() {
-    let pending = items.filter(x => !x.copied);
-    if(pending.length === 0) return showToast("All numbers copied!");
-    let nextNum = pending[0].number;
-    navigator.clipboard.writeText(nextNum);
-    pending[0].copied = true;
-    parseLamixData();
-    showToast("Auto-copied: " + nextNum);
+function deduplicate() {
+    let before = items.length;
+    let seen = new Set();
+    items = items.filter(i => {
+        if(seen.has(i.number)) return false;
+        seen.add(i.number);
+        return true;
+    });
+    syncWorkspace();
+    render();
+    showToast(`Removed ${before - items.length} duplicates`);
 }
 
-function calculatePayoutSummary() {
-    let totalCopied = items.filter(x => x.copied).length;
-    let totalEarned = (totalCopied * 0.013).toFixed(3);
-    showModal("Payout Analytics", `Total Copied: ${totalCopied}\nEstimated Earnings: $${totalEarned}`);
+function clearWorkspace() {
+    showConfirmModal("Clear Workspace", "Clear all numbers?", () => {
+        items = [];
+        document.getElementById("rawInput").value = "";
+        syncWorkspace();
+        render();
+        showToast("Cleared!");
+    });
 }
 
 function saveProject() {
-    let name = document.getElementById("projName").value.trim();
-    if(!name) return showToast("Please enter a project name!");
-    localStorage.setItem('lamix_project', JSON.stringify({ name, items }));
-    showToast("Project workspace saved!");
+    let title = document.getElementById("projTitle").value.trim() || "Workspace " + (projects.length + 1);
+    if(items.length === 0) return showToast("No data to save!");
+    projects.push({ name: title, starred: false, items: JSON.parse(JSON.stringify(items)) });
+    activeProjIdx = projects.length - 1;
+    sortProjects();
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    renderProjSidebar();
+    showToast("Workspace saved!");
 }
 
-function exportCleanTxt() {
+function sortProjects() {
+    let activeProjName = (activeProjIdx >= 0 && projects[activeProjIdx]) ? projects[activeProjIdx].name : null;
+    projects.sort((a, b) => {
+        if (a.starred === b.starred) return 0;
+        return a.starred ? -1 : 1;
+    });
+    if (activeProjName) {
+        activeProjIdx = projects.findIndex(p => p.name === activeProjName);
+    }
+}
+
+function toggleStarProject(event, idx) {
+    event.stopPropagation();
+    projects[idx].starred = !projects[idx].starred;
+    sortProjects();
+    localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+    renderProjSidebar();
+    showToast(projects[idx].starred ? "Starred!" : "Unstarred!");
+}
+
+function deleteProject(event, idx) {
+    event.stopPropagation();
+    showConfirmModal("Delete Workspace", "Delete workspace permanently?", () => {
+        projects.splice(idx, 1);
+        if(activeProjIdx === idx) {
+            items = [];
+            activeProjIdx = -1;
+            document.getElementById("rawInput").value = "";
+        } else if(activeProjIdx > idx) {
+            activeProjIdx--;
+        }
+        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+        renderProjSidebar();
+        render();
+        showToast("Deleted!");
+    });
+}
+
+function syncWorkspace() {
+    if(activeProjIdx >= 0 && projects[activeProjIdx]) {
+        projects[activeProjIdx].items = JSON.parse(JSON.stringify(items));
+        localStorage.setItem('qyx_exact_projects', JSON.stringify(projects));
+        renderProjSidebar();
+    }
+}
+
+function renderProjSidebar() {
+    let box = document.getElementById("projList");
+    box.innerHTML = "";
+
+    projects.forEach((p, idx) => {
+        let div = document.createElement("div");
+        div.className = `sidebar-ws-item ${idx === activeProjIdx ? 'active' : ''} ${p.starred ? 'starred-project' : ''}`;
+        div.onclick = () => {
+            activeProjIdx = idx;
+            items = JSON.parse(JSON.stringify(p.items));
+            renderProjSidebar();
+            render();
+            toggleMobileSidebar();
+        };
+        div.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                <i class="fa-solid ${p.starred ? 'fa-star' : 'fa-folder-open'}" style="color: ${p.starred ? '#F59E0B' : 'var(--accent-purple)'}; font-size: 13px;"></i>
+                <div style="font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:#fff;">
+                    ${p.name}
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="font-size: 9px; color: var(--text-muted);">${p.items.length}</span>
+                <div class="menu-container">
+                    <button class="menu-btn" onclick="toggleWorkspaceMenu(event, ${idx})">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div class="dropdown-menu" id="wsMenu_${idx}">
+                        <button class="dropdown-item" onclick="toggleStarProject(event, ${idx})">
+                            <i class="fa-solid fa-star" style="color: #F59E0B;"></i> ${p.starred ? 'Unstar' : 'Star'}
+                        </button>
+                        <button class="dropdown-item" onclick="deleteProject(event, ${idx})" style="color: #F43F5E;">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        box.appendChild(div);
+    });
+}
+
+function exportTxt() {
     if(items.length === 0) return showToast("No data to export!");
     let blob = new Blob([items.map(x => x.number).join("\n")], {type: "text/plain"});
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "lamix_clean_numbers.txt";
+    a.download = `export.txt`;
     a.click();
-    showToast("TXT File Downloaded!");
 }
 </script>
 
